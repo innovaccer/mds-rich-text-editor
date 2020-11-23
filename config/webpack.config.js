@@ -16,7 +16,7 @@ module.exports = {
     path: path.join(__dirname, '../dist'),
     filename: 'rich-text-editor.js',
     library: 'richText',
-    libraryTarget: 'umd',
+    libraryTarget: 'commonjs-module',
   },
   externals: {
     react: 'React',
