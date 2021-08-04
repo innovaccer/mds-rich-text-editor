@@ -3,11 +3,7 @@
   "version": "1.1.0-0",
   "description": "A rich text on top of DraftJS.",
   "main": "dist/rich-text-editor.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jpuri/react-draft-wysiwyg.git"
-  },
-  "author": "Jyoti Puri",
+  "author": "Innovaccer",
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
