@@ -501,26 +501,28 @@ class Editor extends Component {
         onClick={this.modalHandler.onEditorClick}
         onBlur={this.onWrapperBlur}
       >
-        <div
-          className={ToolbarClass}
-          onMouseDown={this.preventDefault}
-          aria-label="Editor-toolbar"
-          onFocus={this.onToolbarFocus}
-        >
-          {toolbar.options.map((opt, index) => {
-            const Control = Controls[opt];
-            const config = toolbar[opt];
-            return (
-              <Control
-                key={index}
-                {...controlProps}
-                config={config}
-                mention={mention}
-                className="Editor-toolbar-options"
-              />
-            );
-          })}
-        </div>
+        {this.props.showToolbar &&
+          <div
+            className={ToolbarClass}
+            onMouseDown={this.preventDefault}
+            aria-label="Editor-toolbar"
+            onFocus={this.onToolbarFocus}
+          >
+            {toolbar.options.map((opt, index) => {
+              const Control = Controls[opt];
+              const config = toolbar[opt];
+              return (
+                <Control
+                  key={index}
+                  {...controlProps}
+                  config={config}
+                  mention={mention}
+                  className="Editor-toolbar-options"
+                />
+              );
+            })}
+          </div> 
+        }
         <div
           ref={this.setWrapperReference}
           className={EditorClass}
@@ -675,6 +677,10 @@ Editor.propTypes = {
    */
   toolbar: toolbarShape,
   /**
+   * Determines whether to show Toolbar option or not
+   */
+   showToolbar: PropTypes.bool,
+  /**
    * Class applied around the editor
    */
   editorClassName: PropTypes.string,
@@ -751,6 +757,7 @@ Editor.propTypes = {
 
 Editor.defaultProps = {
   autoFocus: true,
+  showToolbar: true
   // stripPastedStyles: false,
   //customDecorators: [],
 };
