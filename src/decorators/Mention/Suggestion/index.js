@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import addMention from '../addMention';
 import KeyDownHandler from '../../../event-handler/keyDown';
 import SuggestionHandler from '../../../event-handler/suggestions';
-import { Icon, Text } from '@innovaccer/design-system'
+import { Icon, Text, Popover } from '@innovaccer/design-system'
 
 class Suggestion {
   constructor(config) {
@@ -108,31 +108,13 @@ function getSuggestionComponent() {
     };
 
     componentDidMount() {
-      const editorRect = config.getWrapperRef().getBoundingClientRect();
-      const suggestionRect = this.suggestion.getBoundingClientRect();
-      const dropdownRect = this.dropdown.getBoundingClientRect();
-      let left;
-      let right;
-      let bottom;
-      if (
-        editorRect.width <
-        suggestionRect.left - editorRect.left + dropdownRect.width
-      ) {
-        right = 15;
-      } else {
-        left = 15;
-      }
-      if (editorRect.bottom < dropdownRect.bottom) {
-        bottom = 0;
-      }
-      this.setState({
-        // eslint-disable-line react/no-did-mount-set-state
-        style: { left, right, bottom },
-      });
       KeyDownHandler.registerCallBack(this.onEditorKeyDown);
       SuggestionHandler.open();
       config.modalHandler.setSuggestionCallback(this.closeSuggestionDropdown);
       this.filterSuggestions(this.props);
+      this.setState({
+        showSuggestions: true
+      });
     }
 
     componentDidUpdate(props) {
@@ -301,18 +283,20 @@ function getSuggestionComponent() {
           aria-haspopup="true"
         >
           <span>{children}</span>
-          {showSuggestions && (
-            <span
+          { showSuggestions && (
+            <Popover
+              position="bottom-start"
+              open={true}
+              appendToBody={true}
               className={DropdownClass}
               contentEditable="false"
               suppressContentEditableWarning
-              style={this.state.style}
               ref={this.setDropdownReference}
             >
               {this.filteredSuggestions.map((suggestion, index) =>
                 this.renderOption(suggestion, index)
               )}
-            </span>
+            </Popover>
           )}
         </span>
       );
