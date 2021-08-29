@@ -1,8 +1,9 @@
 {
   "name": "@innovaccer/rich-text-editor",
-  "version": "1.1.0-0",
+  "version": "1.2.0",
   "description": "A rich text on top of DraftJS.",
   "main": "dist/rich-text-editor.js",
+  "module": "dist/rich-text-editor.js",
   "author": "Innovaccer",
   "devDependencies": {
     "@babel/core": "^7.7.4",
@@ -34,6 +35,12 @@
     "eslint-plugin-react": "^7.17.0",
     "file-loader": "^5.0.2",
     "flow-bin": "^0.113.0",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-postcss": "^9.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "install": "^0.13.0",
     "jsdom": "^15.2.1",
     "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^6.2.2",
@@ -43,6 +50,7 @@
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.12.0",
     "react-test-renderer": "^16.12.0",
+    "postcss-color-mod-function": "^3.0.3",
     "rimraf": "^3.0.0",
     "sinon": "^7.5.0",
     "style-loader": "^1.0.1",
@@ -50,7 +58,8 @@
     "url-loader": "^3.0.0",
     "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-s3-plugin": "^1.2.0-rc.0"
   },
   "dependencies": {
     "classnames": "^2.2.6",
@@ -70,9 +79,10 @@
   },
   "scripts": {
     "build:css": "cp ./node_modules/@innovaccer/design-system/css/dist/* dist/",
-    "clean": "rimraf dist",
+    "build-css": "gulp --gulpfile config/gulpfile.js build",
+    "clean": "rimraf dist && rimraf public",
     "build:webpack": "cross-env NODE_ENV=production webpack  --mode production --config config/webpack.config.js",
-    "build": "npm run clean && npm run build:webpack && npm run build:css",
+    "build": "npm run clean && npm run build-css && npm run build:webpack",
     "test": "cross-env BABEL_ENV=test mocha --require config/test-compiler.js config/test-setup.js src/**/*Test.js",
     "lint": "eslint src",
     "lintdocs": "eslint docs/src",
