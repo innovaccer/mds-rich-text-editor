@@ -4,6 +4,10 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const S3Plugin = require('webpack-s3-plugin');
+
+const moduleName = require('../package.json').name;
+const moduleVersion = require('../package.json').version;
 
 module.exports = {
   devtool: 'source-map',
@@ -41,6 +45,18 @@ module.exports = {
       options: {
         postcss: [autoprefixer, precss],
       },
+    }),
+    new S3Plugin({
+      // s3Options are required
+      s3Options: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        region: process.env.AWS_REGION
+      },
+      s3UploadOptions: {
+        Bucket: `${process.env.CDN_BUCKET}/${moduleName}/v${moduleVersion}`
+      },
+      directory: path.join(__dirname, '../public'),
     }),
   ],
   module: {
