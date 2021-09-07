@@ -575,6 +575,7 @@ Editor.propTypes = {
    * | suggestion | Properties: label, value, icon | |
    * | chipOptions | [Design System Chip Props](https://innovaccer.github.io/design-system/?path=/docs/atoms-chip--all) | |
    * | dropdownOptions | Properties: dropdownClassName, customOptionRenderer = (suggestion, active, index) => React.ReactNode | |
+   * | renderer | customRenderer = (value) => React.ReactNode | |
    */
   mention: PropTypes.shape({
     separator: PropTypes.string,
@@ -584,6 +585,7 @@ Editor.propTypes = {
       dropdownClassName: PropTypes.string,
       customOptionRenderer: PropTypes.func
     }),
+    renderer: PropTypes.func,
     suggestions: PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,

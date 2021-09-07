@@ -8,6 +8,7 @@ class Mention {
   constructor(config) {
     this.config = config;
     this.chipOptions = config.chipOptions;
+    this.renderer = config.renderer;
   }
 
   first = (array) => {
@@ -19,6 +20,10 @@ class Mention {
   getMentionComponent = () => {
     const MentionComponent = ({ entityKey, children, contentState }) => {
       const { value } = contentState.getEntity(entityKey).getData();
+
+      if (this.renderer) {
+        return this.renderer(children);
+      }
 
       const chipOptions = {
         type: 'input',
