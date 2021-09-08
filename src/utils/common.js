@@ -58,3 +58,25 @@ export function filter(obj, keys) {
 export function stopPropagation(event) {
   event.stopPropagation();
 }
+
+/** 
+ * The function will return array which contain all the elements
+ *  which matches with the searchText
+ */
+
+export function searchElement(searchList, searchText, isCaseSensitive) {
+  const result = searchList && searchList.filter(suggestion => {
+    if (!searchText || searchText.length === 0) {
+      return true;
+    }
+    if (isCaseSensitive) {
+      return suggestion.value.indexOf(searchText) >= 0;
+    }
+    return (
+      suggestion.value
+        .toLowerCase()
+        .indexOf(searchText && searchText.toLowerCase()) >= 0
+    );
+  });
+  return result;
+}

@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import addMention from '../addMention';
 import KeyDownHandler from '../../../event-handler/keyDown';
 import SuggestionHandler from '../../../event-handler/suggestions';
-import { Icon, Text, Popover } from '@innovaccer/design-system'
+import { Icon, Text, Popover, Spinner } from '@innovaccer/design-system'
+import { searchElement } from '../../../utils/common';
 
 class Suggestion {
   constructor(config) {
@@ -18,7 +19,8 @@ class Suggestion {
       caseSensitive,
       optionClassName,
       modalHandler,
-      dropdownOptions
+      dropdownOptions,
+      fetchSuggestions
     } = config;
     this.config = {
       separator,
@@ -31,6 +33,7 @@ class Suggestion {
       dropdownOptions,
       optionClassName,
       modalHandler,
+      fetchSuggestions
     };
   }
 
@@ -41,6 +44,7 @@ class Suggestion {
         trigger,
         getSuggestions,
         getEditorState,
+        fetchSuggestions
       } = this.config;
       const selection = getEditorState().getSelection();
       if (
@@ -63,23 +67,17 @@ class Suggestion {
         }
 
         if (index >= 0) {
-          const mentionText = text.substr(index + preText.length, text.length);
-          const suggestionPresent = getSuggestions().some(suggestion => {
-            if (suggestion.value) {
-              if (this.config.caseSensitive) {
-                return suggestion.value.indexOf(mentionText) >= 0;
-              }
-              return (
-                suggestion.value
-                  .toLowerCase()
-                  .indexOf(mentionText && mentionText.toLowerCase()) >= 0
-              );
-            }
-            return false;
-          });
-
-          if (suggestionPresent) {
+          if (fetchSuggestions) {
             callback(index === 0 ? 0 : index + 1, text.length);
+          }
+          else {
+            const staticSuggestionList = getSuggestions();
+            const mentionText = text.substr(index + preText.length, text.length);
+            const suggestionPresent = searchElement(staticSuggestionList, mentionText, this.config.caseSensitive);
+
+            if (suggestionPresent.length > 0) {
+              callback(index === 0 ? 0 : index + 1, text.length);
+            }
           }
         }
       }
@@ -105,13 +103,14 @@ function getSuggestionComponent() {
       style: { left: 15 },
       activeOption: -1,
       showSuggestions: true,
+      showLoader: false
     };
 
     componentDidMount() {
       KeyDownHandler.registerCallBack(this.onEditorKeyDown);
       SuggestionHandler.open();
       config.modalHandler.setSuggestionCallback(this.closeSuggestionDropdown);
-      this.filterSuggestions(this.props);
+      this.updateSuggestions(this.props);
       this.setState({
         showSuggestions: true
       });
@@ -120,7 +119,7 @@ function getSuggestionComponent() {
     componentDidUpdate(props) {
       const { children } = this.props;
       if (children !== props.children) {
-        this.filterSuggestions(props);
+        this.updateSuggestions(this.props);
         this.setState({
           showSuggestions: true,
         });
@@ -188,25 +187,30 @@ function getSuggestionComponent() {
 
     filteredSuggestions = [];
 
-    filterSuggestions = props => {
-      const mentionText = props.children[0].props.text.substr(1);
-      const suggestions = config.getSuggestions();
-      this.filteredSuggestions =
-        suggestions &&
-        suggestions.filter(suggestion => {
-          if (!mentionText || mentionText.length === 0) {
-            return true;
-          }
-          if (config.caseSensitive) {
-            return suggestion.value.indexOf(mentionText) >= 0;
-          }
-          return (
-            suggestion.value
-              .toLowerCase()
-              .indexOf(mentionText && mentionText.toLowerCase()) >= 0
-          );
-        });
+    filterSuggestions = mentionText => {
+      const suggestions = config.getSuggestions ? config.getSuggestions() : [];
+      this.filteredSuggestions = searchElement(suggestions, mentionText, config.caseSensitive);
     };
+
+    updateSuggestions = props => {
+      const mentionText = props.children[0].props.text.substr(1);
+
+      if (config.fetchSuggestions) {
+        this.setState({
+          showLoader: this.filteredSuggestions.length === 0
+        })
+        config.fetchSuggestions(mentionText)
+          .then(result => {
+            this.filteredSuggestions = result;
+            this.setState({
+              showSuggestions: result.length > 0,
+              showLoader: false
+            });
+          });
+      } else {
+        this.filterSuggestions(mentionText);
+      }
+    }
 
     addMention = () => {
       const { activeOption } = this.state;
@@ -283,7 +287,7 @@ function getSuggestionComponent() {
           aria-haspopup="true"
         >
           <span>{children}</span>
-          { showSuggestions && (
+          {showSuggestions && (
             <Popover
               position="bottom-start"
               open={true}
@@ -293,9 +297,16 @@ function getSuggestionComponent() {
               suppressContentEditableWarning
               ref={this.setDropdownReference}
             >
-              {this.filteredSuggestions.map((suggestion, index) =>
-                this.renderOption(suggestion, index)
-              )}
+              {this.state.showLoader &&
+                <span className="Editor-dropdown-option" >
+                  <Spinner size="small" />
+                </span>
+              }
+              {
+                this.filteredSuggestions.map((suggestion, index) =>
+                  this.renderOption(suggestion, index)
+                )
+              }
             </Popover>
           )}
         </span>
