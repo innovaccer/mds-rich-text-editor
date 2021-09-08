@@ -521,7 +521,7 @@ class Editor extends Component {
                 />
               );
             })}
-          </div> 
+          </div>
         }
         <div
           ref={this.setWrapperReference}
@@ -573,6 +573,7 @@ Editor.propTypes = {
    * | seperator | Character that separates a mention from word preceding it | '  ' |
    * | trigger | Character that causes mention suggestions to appear, | '@' |
    * | suggestion | Properties: label, value, icon | |
+   * | fetchSuggestions | Fetch dynamic suggestions list (Either use suggestion or fetchSuggestions option)
    * | chipOptions | [Design System Chip Props](https://innovaccer.github.io/design-system/?path=/docs/atoms-chip--all) | |
    * | dropdownOptions | Properties: dropdownClassName, customOptionRenderer = (suggestion, active, index) => React.ReactNode | |
    * | renderer | customRenderer = (value) => React.ReactNode | |
@@ -590,7 +591,8 @@ Editor.propTypes = {
       label: PropTypes.string,
       value: PropTypes.string,
       icon: PropTypes.string
-    })
+    }),
+    fetchSuggestions: PropTypes.func
   }),
   /**
    * The EditorState object is a complete snapshot of the state of the editor, including contents, cursor, and undo/redo history.
@@ -681,7 +683,7 @@ Editor.propTypes = {
   /**
    * Determines whether to show Toolbar option or not
    */
-   showToolbar: PropTypes.bool,
+  showToolbar: PropTypes.bool,
   /**
    * Class applied around the editor
    */
