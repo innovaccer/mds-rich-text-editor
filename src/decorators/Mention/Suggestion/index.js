@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import addMention from '../addMention';
 import KeyDownHandler from '../../../event-handler/keyDown';
 import SuggestionHandler from '../../../event-handler/suggestions';
-import { Icon, Text, Popover, Spinner } from '@innovaccer/design-system'
+import { Icon, Text, Popover, Placeholder, PlaceholderParagraph } from '@innovaccer/design-system'
 import { searchElement } from '../../../utils/common';
 
 class Suggestion {
@@ -299,7 +299,10 @@ function getSuggestionComponent() {
             >
               {this.state.showLoader &&
                 <span className="Editor-dropdown-option" >
-                  <Spinner size="small" />
+                  <Placeholder withImage={false}>
+                    <PlaceholderParagraph length="large" />
+                    <PlaceholderParagraph length="medium" />
+                  </Placeholder>
                 </span>
               }
               {
