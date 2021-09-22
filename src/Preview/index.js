@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import redraft, { createStylesRenderer } from 'redraft';
-import { Heading, Text, Link, Chip } from '@innovaccer/design-system';
+import { Heading, Text, Link, Chip, Paragraph } from '@innovaccer/design-system';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { defaultColors } from '../config/defaultToolbar';
 
@@ -79,7 +79,7 @@ const defaultEntities = {
 
 const defaultBlocks = {
   unstyled: (children, { keys }, test) => (
-    <Text key={keys[0]}>{addBreaklines(children)}</Text>
+    <Paragraph key={keys[0]}>{addBreaklines(children)}</Paragraph>
   ),
   atomic: (children, obj) => children[0],
 };
@@ -117,8 +117,11 @@ const getPreviewComponent = (
     styles: createStylesRenderer(InlineWrapper, styles)
   };
 
-  return redraft(raw, renderer, options);
+  //Case 1: Pass options as third argument when require cleanup feature
+  // return redraft(raw, renderer, options);
 
+  //Case 2: Pass false as third argument when needs to render empty blocks with no text or data
+  return redraft(raw, renderer, false);
 };
 
 const convertToHTML = (raw, withCSS = false, renderer = {}) => {

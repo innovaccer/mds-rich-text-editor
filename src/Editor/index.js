@@ -449,8 +449,8 @@ class Editor extends Component {
         wrapper: <Heading size="m">{this.props.children}</Heading>
       },
       'unstyled': {
-        element: 'span',
-        wrapper: <Text>{this.props.children}</Text>
+        element: 'p',
+        wrapper: <div>{this.props.children}</div>
       }
     })
   );
