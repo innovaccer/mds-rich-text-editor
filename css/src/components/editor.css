@@ -52,3 +52,8 @@ figure {
   cursor: pointer;
   width: fit-content;
 }
+
+.Editor-unstyled-wrapper p {
+  margin-top: 0;
+  margin-bottom: 0;
+}

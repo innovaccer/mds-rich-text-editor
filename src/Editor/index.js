@@ -450,7 +450,7 @@ class Editor extends Component {
       },
       'unstyled': {
         element: 'p',
-        wrapper: <div>{this.props.children}</div>
+        wrapper: <div className="Editor-unstyled-wrapper">{this.props.children}</div>
       }
     })
   );
