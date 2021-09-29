@@ -21,7 +21,7 @@ export const All = (args) => {
     const result = new Promise(resolve => {
       window.setTimeout(() => {
         resolve(searchedOptions);
-      }, 1000);
+      }, 3000);
     });
     return result;
   };

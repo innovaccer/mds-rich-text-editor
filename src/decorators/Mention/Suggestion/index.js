@@ -5,7 +5,7 @@ import addMention from '../addMention';
 import KeyDownHandler from '../../../event-handler/keyDown';
 import SuggestionHandler from '../../../event-handler/suggestions';
 import { Icon, Text, Popover, Placeholder, PlaceholderParagraph } from '@innovaccer/design-system'
-import { searchElement } from '../../../utils/common';
+import { searchElement, debounce } from '../../../utils/common';
 
 class Suggestion {
   constructor(config) {
@@ -192,6 +192,17 @@ function getSuggestionComponent() {
       this.filteredSuggestions = searchElement(suggestions, mentionText, config.caseSensitive);
     };
 
+    debouncedFetchSuggestion = debounce((mentionText) => {
+      config.fetchSuggestions(mentionText)
+        .then(result => {
+          this.filteredSuggestions = result;
+          this.setState({
+            showSuggestions: result.length > 0,
+            showLoader: false
+          });
+        });
+    });
+
     updateSuggestions = props => {
       const mentionText = props.children[0].props.text.substr(1);
 
@@ -199,14 +210,7 @@ function getSuggestionComponent() {
         this.setState({
           showLoader: true
         })
-        config.fetchSuggestions(mentionText)
-          .then(result => {
-            this.filteredSuggestions = result;
-            this.setState({
-              showSuggestions: result.length > 0,
-              showLoader: false
-            });
-          });
+        this.debouncedFetchSuggestion(mentionText);
       } else {
         this.filterSuggestions(mentionText);
       }
