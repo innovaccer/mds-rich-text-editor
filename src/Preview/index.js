@@ -77,10 +77,25 @@ const defaultEntities = {
   ),
 };
 
+const getUnstyledBlock = (children, keys) => (
+  <>
+    {
+      children.map((child, i) => {
+        const text = child.length > 1 && child[1][0];
+
+        if (text && text.includes('\n')) {
+          const newBlock = text.split('\n');
+          return <Paragraph key={keys[i]}>{addBreaklines(newBlock)}</Paragraph>
+        } else {
+          return <Paragraph key={keys[i]}>{addBreaklines(child)}</Paragraph>
+        }
+      })
+    }
+  </>
+);
+
 const defaultBlocks = {
-  unstyled: (children, { keys }, test) => (
-    <Paragraph key={keys[0]}>{addBreaklines(children)}</Paragraph>
-  ),
+  unstyled: (children, { keys }, test) => getUnstyledBlock(children, keys),
   atomic: (children, obj) => children[0],
 };
 
