@@ -5,6 +5,11 @@
   margin-left: var(--spacing-l);
 }
 
+.Editor p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .Editor-wrapper {
   box-sizing: content-box;
   border-radius: var(--spacing-m);
@@ -51,9 +56,4 @@ figure {
   padding: 0;
   cursor: pointer;
   width: fit-content;
-}
-
-.Editor-unstyled-wrapper p {
-  margin-top: 0;
-  margin-bottom: 0;
 }
