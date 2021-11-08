@@ -69,9 +69,16 @@ const defaultEntities = {
       {children}
     </Link>
   ),
-  IMAGE: (children, { src, alt, height, width }) => (
-    <img style={{ display: 'flex' }} src={src} alt={alt} height={height} width={width} />
-  ),
+  IMAGE: (children, props) => {
+    const { src, alt, height, width, alignment } = props;
+    const imageAlign = alignment ? alignment : 'center';
+
+    return (
+      <p style={{ justifyContent: imageAlign, display: 'flex' }}>
+        <img src={src} alt={alt} height={height} width={width} />
+      </p>
+    )
+  },
   MENTION: (children, entity, { key }) => (
     <Chip label={children} name={entity.value} key={key} type={"input"} />
   ),
