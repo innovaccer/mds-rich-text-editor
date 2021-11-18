@@ -1,0 +1,73 @@
+name: "Test build release"
+on:
+  push:
+    branches:
+      - master
+jobs:
+  release:
+    name: Release tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      
+      - name: Check for release commit
+        id: 'is_release_commit'
+        uses: /innovaccer/design-system/actions/check-release-commit@master
+      
+      - uses: actions/setup-node@v1
+        if: steps.is_release_commit.outputs.result == 1
+        with:
+          node-version: '14.x'
+      
+      - name: npm install
+        if: steps.is_release_commit.outputs.result == 1
+        run: npm install
+        
+      - name: setup git
+        if: steps.is_release_commit.outputs.result == 1
+        run: git checkout -b preparing-module-for-npm-publish && git config --global user.email "release-bot@innovaccer.com" && git config --global user.name "release-bot"
+      
+      - name: bump module version
+        if: steps.is_release_commit.outputs.result == 1
+        env:
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          CDN_BUCKET: ${{ secrets.CDN_BUCKET }}
+        run: RELEASE_COMMIT=true npm version --no-commit-hooks $(git log -1 --pretty=format:%s) -m "Released %s"
+
+      - name: gnerate .npmrc
+        if: steps.is_release_commit.outputs.result == 1
+        run: cp .npmrc.stub .npmrc
+
+      - name: Publish to npmjs
+        if: steps.is_release_commit.outputs.result == 1
+        run: npm publish --access public
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: remove .npmrc
+        if: steps.is_release_commit.outputs.result == 1
+        run: rm -rf .npmrc
+        
+      - name: push module tags to github
+        if: steps.is_release_commit.outputs.result == 1
+        run: git push https://${{ secrets.GH_TOKEN }}@github.com/$GITHUB_REPOSITORY.git $(git log -2 --pretty=format:%B | tail -n1)
+
+      - name: remove dist from commit
+        if: steps.is_release_commit.outputs.result == 1
+        run: |
+          git reset HEAD~1
+          git add package.json
+          git commit -m "Released $(git log -1 --pretty=format:%s)"
+
+      - name: push version to github
+        if: steps.is_release_commit.outputs.result == 1
+        run: git push https://${{ secrets.GH_TOKEN }}@github.com/$GITHUB_REPOSITORY.git HEAD:master 
+    
+      - name: deploy storybook
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        if: steps.is_release_commit.outputs.result == 1
+        run: npm run deploy-storybook -- --ci
+      

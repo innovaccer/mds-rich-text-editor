@@ -90,7 +90,8 @@
     "check": "npm run lint && npm run flow",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages"
+    "deploy-storybook": "storybook-to-ghpages",
+    "version": "./scripts/version.sh"
   },
   "license": "MIT"
 }
