@@ -30,18 +30,15 @@ export default class LayoutComponent extends Component {
       const editorStyles = window.getComputedStyle(editorElm[0]);
       let defaultFontSize = editorStyles.getPropertyValue('font-size');
       defaultFontSize = defaultFontSize.substring(0, defaultFontSize.length - 2);
-      this.setState({ // eslint-disable-line react/no-did-mount-set-state
+      this.setState({
+        // eslint-disable-line react/no-did-mount-set-state
         defaultFontSize,
       });
     }
   }
 
   renderCustomTrigger() {
-    return (
-      <div>
-        Riya
-      </div>
-    )
+    return <div>Riya</div>;
   }
 
   render() {
@@ -55,25 +52,26 @@ export default class LayoutComponent extends Component {
       translations,
     } = this.props;
 
-    let { currentState: { fontSize: currentFontSize } } = this.props;
+    let {
+      currentState: { fontSize: currentFontSize },
+    } = this.props;
     let { defaultFontSize } = this.state;
     defaultFontSize = Number(defaultFontSize);
-    currentFontSize = currentFontSize ||
-      (options && options.indexOf(defaultFontSize) >= 0 && defaultFontSize);
+    currentFontSize = currentFontSize || (options && options.indexOf(defaultFontSize) >= 0 && defaultFontSize);
     return (
       <div className="rdw-fontsize-wrapper" aria-label="rdw-font-size-control">
         <Dropdown
           className={classNames('rdw-fontsize-dropdown', className)}
           onChange={onChange}
           customTrigger={this.renderCustomTrigger}
-          icon={"text_fields"}
-          placeholder={""}
+          icon={'text_fields'}
+          placeholder={''}
           options={options.map((option) => {
             return {
               label: option,
               value: option,
-              selected: option === 14
-            }
+              selected: option === 14,
+            };
           })}
         />
         {/* <Dropdown

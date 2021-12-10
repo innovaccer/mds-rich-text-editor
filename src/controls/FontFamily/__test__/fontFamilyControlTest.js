@@ -3,11 +3,7 @@
 import React from 'react';
 import { expect, assert } from 'chai';
 import { mount } from 'enzyme';
-import {
-  EditorState,
-  convertFromHTML,
-  ContentState,
-} from 'draft-js';
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
 
 import FontFamilyControl from '..';
 import { Dropdown } from '../../../components/Dropdown';
@@ -21,15 +17,19 @@ describe('FontFamilyControl test suite', () => {
   const editorState = EditorState.createWithContent(contentState);
 
   it('should have a div when rendered', () => {
-    expect(mount(
-      <FontFamilyControl
-        onChange={() => {}}
-        editorState={editorState}
-        config={defaultToolbar.fontFamily}
-        modalHandler={new ModalHandler()}
-        translations={localeTranslations.en}
-      />,
-    ).html().startsWith('<div')).to.equal(true);
+    expect(
+      mount(
+        <FontFamilyControl
+          onChange={() => {}}
+          editorState={editorState}
+          config={defaultToolbar.fontFamily}
+          modalHandler={new ModalHandler()}
+          translations={localeTranslations.en}
+        />
+      )
+        .html()
+        .startsWith('<div')
+    ).to.equal(true);
   });
 
   it('should have a dropdown child component well defined', () => {
@@ -40,7 +40,7 @@ describe('FontFamilyControl test suite', () => {
         config={defaultToolbar.fontFamily}
         modalHandler={new ModalHandler()}
         translations={localeTranslations.en}
-      />,
+      />
     );
     assert.equal(control.find(Dropdown).length, 1);
     assert.equal(control.find(Dropdown).prop('children').length, 2);

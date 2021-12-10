@@ -28,7 +28,8 @@ class LayoutComponent extends Component {
     if (editorElm && editorElm.length > 0) {
       const editorStyles = window.getComputedStyle(editorElm[0]);
       const defaultFontFamily = editorStyles.getPropertyValue('font-family');
-      this.setState({ // eslint-disable-line react/no-did-mount-set-state
+      this.setState({
+        // eslint-disable-line react/no-did-mount-set-state
         defaultFontFamily,
       });
     }
@@ -45,11 +46,14 @@ class LayoutComponent extends Component {
       onExpandEvent,
       doExpand,
     } = this.props;
-    let { currentState: { fontFamily: currentFontFamily } } = this.props;
-    currentFontFamily = currentFontFamily ||
+    let {
+      currentState: { fontFamily: currentFontFamily },
+    } = this.props;
+    currentFontFamily =
+      currentFontFamily ||
       (options &&
         defaultFontFamily &&
-        options.some(opt => opt.toLowerCase() === defaultFontFamily.toLowerCase()) &&
+        options.some((opt) => opt.toLowerCase() === defaultFontFamily.toLowerCase()) &&
         defaultFontFamily);
     return (
       <div className="rdw-fontfamily-wrapper" aria-label="rdw-font-family-control">
@@ -66,16 +70,11 @@ class LayoutComponent extends Component {
           <span className="rdw-fontfamily-placeholder">
             {currentFontFamily || translations['components.controls.fontfamily.fontfamily']}
           </span>
-          {
-            options.map((family, index) =>
-              (<DropdownOption
-                active={currentFontFamily === family}
-                value={family}
-                key={index}
-              >
-                {family}
-              </DropdownOption>))
-          }
+          {options.map((family, index) => (
+            <DropdownOption active={currentFontFamily === family} value={family} key={index}>
+              {family}
+            </DropdownOption>
+          ))}
         </Dropdown>
       </div>
     );

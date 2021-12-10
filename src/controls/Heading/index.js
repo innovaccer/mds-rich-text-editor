@@ -11,7 +11,7 @@ class Heading extends Component {
     editorState: PropTypes.object,
     modalHandler: PropTypes.object,
     config: PropTypes.object,
-    className: PropTypes.string
+    className: PropTypes.string,
   };
 
   constructor(props) {
@@ -19,9 +19,7 @@ class Heading extends Component {
     const { editorState, modalHandler } = props;
     this.state = {
       expanded: false,
-      currentBlockType: editorState
-        ? getSelectedBlocksType(editorState)
-        : 'unstyled',
+      currentBlockType: editorState ? getSelectedBlocksType(editorState) : 'unstyled',
     };
     modalHandler.registerCallBack(this.expandCollapse);
   }
@@ -71,9 +69,8 @@ class Heading extends Component {
     });
   };
 
-  toggleBlockType = blockType => {
-    const blockTypeValue = this.blocksTypes.find(bt => bt.label === blockType)
-      .style;
+  toggleBlockType = (blockType) => {
+    const blockTypeValue = this.blocksTypes.find((bt) => bt.label === blockType).style;
     const { editorState, onChange } = this.props;
     const newState = RichUtils.toggleBlockType(editorState, blockTypeValue);
     if (newState) {
@@ -84,9 +81,7 @@ class Heading extends Component {
   render() {
     const { config, className } = this.props;
     const { expanded, currentBlockType } = this.state;
-    const blockType = this.blocksTypes.find(
-      bt => bt.style === currentBlockType
-    );
+    const blockType = this.blocksTypes.find((bt) => bt.style === currentBlockType);
 
     return (
       <LayoutComponent

@@ -9,13 +9,15 @@ import ModalHandler from '../../../../event-handler/modals';
 
 describe('Dropdown test suite', () => {
   it('should have a div when rendered', () => {
-    expect(mount(
-      <Dropdown
-        modalHandler={new ModalHandler()}
-      >
-        <span>test</span>
-        <DropdownOption>test1</DropdownOption>
-      </Dropdown>,
-    ).childAt(0).type()).to.equal('div');
+    expect(
+      mount(
+        <Dropdown modalHandler={new ModalHandler()}>
+          <span>test</span>
+          <DropdownOption>test1</DropdownOption>
+        </Dropdown>
+      )
+        .childAt(0)
+        .type()
+    ).to.equal('div');
   });
 });

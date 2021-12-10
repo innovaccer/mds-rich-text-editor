@@ -1,3 +1,3 @@
-function describe() {};
-function it() {};
-function xit() {};
+function describe() {}
+function it() {}
+function xit() {}

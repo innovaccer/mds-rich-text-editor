@@ -11,7 +11,9 @@ export const All = (args) => {
     <Editor
       {...args}
       defaultEditorState={defaultEditorState}
-      onEditorStateChange={(eState) => { console.log(eState) }}
+      onEditorStateChange={(eState) => {
+        console.log(eState);
+      }}
     />
   );
 };
@@ -31,7 +33,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

@@ -11,11 +11,11 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@babel/register": "^7.7.4",
-    "@innovaccer/design-system": "^2.5.0",
-    "@storybook/storybook-deployer": "^2.8.7",
+    "@innovaccer/design-system": "^2.6.0",
     "@storybook/addon-docs": "^6.1.6",
     "@storybook/addon-essentials": "^6.1.5",
     "@storybook/react": "^6.1.5",
+    "@storybook/storybook-deployer": "^2.8.7",
     "autoprefixer": "^9.7.3",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
@@ -44,13 +44,14 @@
     "jsdom": "^15.2.1",
     "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^6.2.2",
+    "postcss-color-mod-function": "^3.0.3",
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",
+    "prettier": "^2.5.1",
     "react": "^16.12.0",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.12.0",
     "react-test-renderer": "^16.12.0",
-    "postcss-color-mod-function": "^3.0.3",
     "rimraf": "^3.0.0",
     "sinon": "^7.5.0",
     "style-loader": "^1.0.1",
@@ -70,7 +71,8 @@
     "immutable": "^4.0.0-rc.12",
     "linkify-it": "^2.2.0",
     "prop-types": "^15.7.2",
-    "redraft": "^0.10.2"
+    "redraft": "^0.10.2",
+    "update": "^0.7.4"
   },
   "peerDependencies": {
     "@innovaccer/design-system": "^1.4.0-0",
@@ -91,7 +93,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages",
-    "version": "./scripts/version.sh"
+    "version": "./scripts/version.sh",
+    "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css}\""
   },
   "license": "MIT"
 }

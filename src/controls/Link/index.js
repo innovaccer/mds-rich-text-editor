@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { RichUtils, EditorState, Modifier } from 'draft-js';
-import {
-  getSelectionText,
-  getEntityRange,
-  getSelectionEntity,
-} from 'draftjs-utils';
+import { getSelectionText, getEntityRange, getSelectionEntity } from 'draftjs-utils';
 import linkifyIt from 'linkify-it';
 
 import LayoutComponent from './Component';
 
 const linkify = linkifyIt();
-const linkifyLink = params => {
+const linkifyLink = (params) => {
   const links = linkify.match(params.target);
   return {
     ...params,
@@ -27,7 +23,7 @@ class Link extends Component {
     modalHandler: PropTypes.object,
     config: PropTypes.object,
     inDropdown: PropTypes.boolean,
-    linkPopoverOpen: PropTypes.bool
+    linkPopoverOpen: PropTypes.bool,
   };
 
   constructor(props) {
@@ -59,7 +55,7 @@ class Link extends Component {
     const isPopoverOpen = !this.state.expanded;
 
     this.setState({
-      expanded: isPopoverOpen
+      expanded: isPopoverOpen,
     });
 
     if (!isPopoverOpen) {
@@ -86,20 +82,13 @@ class Link extends Component {
     const { currentEntity, link } = this.state;
     const contentState = editorState.getCurrentContent();
     const currentValues = {};
-    
-    if (
-      currentEntity &&
-      contentState.getEntity(currentEntity).get('type') === 'LINK'
-    ) {
+
+    if (currentEntity && contentState.getEntity(currentEntity).get('type') === 'LINK') {
       currentValues.link = {};
-      const entityRange =
-        currentEntity && getEntityRange(editorState, currentEntity);
-      currentValues.link.target =
-        currentEntity && (contentState.getEntity(currentEntity).get('data').url);
-      currentValues.link.targetOption =
-        currentEntity &&
-        contentState.getEntity(currentEntity).get('data').targetOption;
-      currentValues.link.title = entityRange && (entityRange.text);
+      const entityRange = currentEntity && getEntityRange(editorState, currentEntity);
+      currentValues.link.target = currentEntity && contentState.getEntity(currentEntity).get('data').url;
+      currentValues.link.targetOption = currentEntity && contentState.getEntity(currentEntity).get('data').targetOption;
+      currentValues.link.title = entityRange && entityRange.text;
     }
     currentValues.selectionText = getSelectionText(editorState);
     return currentValues;
@@ -171,7 +160,7 @@ class Link extends Component {
       .createEntity('LINK', 'MUTABLE', {
         url: linkTarget,
         targetOption: linkTargetOption,
-        targetText: linkTitle
+        targetText: linkTitle,
       })
       .getLastCreatedEntityKey();
 
@@ -182,11 +171,7 @@ class Link extends Component {
       null,
       entityKey
     );
-    let newEditorState = EditorState.push(
-      editorState,
-      contentState,
-      'insert-characters'
-    );
+    let newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
 
     // insert a blank space after link
     selection = newEditorState.getSelection().merge({
@@ -201,9 +186,7 @@ class Link extends Component {
       newEditorState.getCurrentInlineStyle(),
       undefined
     );
-    onChange(
-      EditorState.push(newEditorState, contentState, 'insert-characters'),
-    );
+    onChange(EditorState.push(newEditorState, contentState, 'insert-characters'));
     this.props.onCloseLinkPopover();
     this.doCollapse();
   };

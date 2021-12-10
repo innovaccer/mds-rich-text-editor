@@ -4,11 +4,7 @@ import React from 'react';
 import { Editor } from '../../src';
 import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 
-export const All = (args) => (
-  <Editor
-    {...args}
-  />
-);
+export const All = (args) => <Editor {...args} />;
 
 All.argTypes = {
   ...disabledArgtypes,
@@ -16,7 +12,7 @@ All.argTypes = {
 
 All.args = {
   toolbar: {
-    textDecoration: { max: 2 }
+    textDecoration: { max: 2 },
   },
   ...commonArgs,
 };

@@ -3,11 +3,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import {
-  EditorState,
-  convertFromHTML,
-  ContentState,
-} from 'draft-js';
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
 import Block from '..';
 import defaultToolbar from '../../../config/defaultToolbar';
 import ModalHandler from '../../../event-handler/modals';
@@ -26,7 +22,7 @@ describe('Block test suite', () => {
         config={{ ...defaultToolbar.blockType, inDropdown: false }}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     expect(block.html().startsWith('<div')).to.equal(true);
   });
@@ -39,7 +35,7 @@ describe('Block test suite', () => {
         config={defaultToolbar.blockType}
         modalHandler={new ModalHandler()}
         translations={localeTranslations.en}
-      />,
+      />
     );
     expect(block.find('Dropdown').length).to.equal(1);
   });
@@ -52,7 +48,7 @@ describe('Block test suite', () => {
         config={{ ...defaultToolbar.blockType, inDropdown: false }}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     expect(block.find('Option').length).to.equal(9);
   });

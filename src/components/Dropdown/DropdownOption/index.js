@@ -24,8 +24,8 @@ export default class DropDownOption extends Component {
   static defaultProps = {
     activeClassName: '',
     disabledClassName: '',
-    highlightedClassName: ''
-  }
+    highlightedClassName: '',
+  };
 
   onClick: Function = (event): void => {
     const { onSelect, onClick, value, disabled } = this.props;
@@ -63,12 +63,15 @@ export default class DropDownOption extends Component {
       highlightedClassName,
     } = this.props;
 
-    const OptionClass = classNames({
-      ['Editor-dropdown-option']: true,
-      [`Editor-dropdown-option--active ${activeClassName}`]: active && !isCheckbox,
-      [`${highlightedClassName}`]: highlighted,
-      [`${disabledClassName}`]: disabled
-    }, className);
+    const OptionClass = classNames(
+      {
+        ['Editor-dropdown-option']: true,
+        [`Editor-dropdown-option--active ${activeClassName}`]: active && !isCheckbox,
+        [`${highlightedClassName}`]: highlighted,
+        [`${disabledClassName}`]: disabled,
+      },
+      className
+    );
 
     return (
       <li

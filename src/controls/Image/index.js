@@ -35,24 +35,14 @@ class ImageControl extends Component {
       .getCurrentContent()
       .createEntity('IMAGE', 'MUTABLE', entityData)
       .getLastCreatedEntityKey();
-    const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-      editorState,
-      entityKey,
-      ' '
-    );
+    const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
     onChange(newEditorState);
   };
 
   render() {
     const { config, inDropdown } = this.props;
 
-    return (
-      <LayoutComponent
-        config={config}
-        inDropdown={inDropdown}
-        onChange={this.addImage}
-      />
-    );
+    return <LayoutComponent config={config} inDropdown={inDropdown} onChange={this.addImage} />;
   }
 }
 

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import addMention from '../addMention';
 import KeyDownHandler from '../../../event-handler/keyDown';
 import SuggestionHandler from '../../../event-handler/suggestions';
-import { Icon, Text, Popover, Placeholder, PlaceholderParagraph } from '@innovaccer/design-system'
+import { Icon, Text, Popover, Placeholder, PlaceholderParagraph } from '@innovaccer/design-system';
 import { searchElement, debounce } from '../../../utils/common';
 
 class Suggestion {
@@ -20,7 +20,7 @@ class Suggestion {
       optionClassName,
       modalHandler,
       dropdownOptions,
-      fetchSuggestions
+      fetchSuggestions,
     } = config;
     this.config = {
       separator,
@@ -33,19 +33,13 @@ class Suggestion {
       dropdownOptions,
       optionClassName,
       modalHandler,
-      fetchSuggestions
+      fetchSuggestions,
     };
   }
 
   findSuggestionEntities = (contentBlock, callback) => {
     if (this.config.getEditorState()) {
-      const {
-        separator,
-        trigger,
-        getSuggestions,
-        getEditorState,
-        fetchSuggestions
-      } = this.config;
+      const { separator, trigger, getSuggestions, getEditorState, fetchSuggestions } = this.config;
       const selection = getEditorState().getSelection();
       if (
         selection.get('anchorKey') === contentBlock.get('key') &&
@@ -55,9 +49,7 @@ class Suggestion {
 
         text = text.substr(
           0,
-          selection.get('focusOffset') === text.length - 1
-            ? text.length
-            : selection.get('focusOffset') + 1
+          selection.get('focusOffset') === text.length - 1 ? text.length : selection.get('focusOffset') + 1
         );
         let index = text.lastIndexOf(separator + trigger);
         let preText = separator + trigger;
@@ -69,8 +61,7 @@ class Suggestion {
         if (index >= 0) {
           if (fetchSuggestions) {
             callback(index === 0 ? 0 : index + 1, text.length);
-          }
-          else {
+          } else {
             const staticSuggestionList = getSuggestions();
             const mentionText = text.substr(index + preText.length, text.length);
             const suggestionPresent = searchElement(staticSuggestionList, mentionText, this.config.caseSensitive);
@@ -103,7 +94,7 @@ function getSuggestionComponent() {
       style: { left: 15 },
       activeOption: -1,
       showSuggestions: true,
-      showLoader: false
+      showLoader: false,
     };
 
     componentDidMount() {
@@ -112,7 +103,7 @@ function getSuggestionComponent() {
       config.modalHandler.setSuggestionCallback(this.closeSuggestionDropdown);
       this.updateSuggestions(this.props);
       this.setState({
-        showSuggestions: true
+        showSuggestions: true,
       });
     }
 
@@ -132,7 +123,7 @@ function getSuggestionComponent() {
       config.modalHandler.removeSuggestionCallback();
     }
 
-    onEditorKeyDown = event => {
+    onEditorKeyDown = (event) => {
       const { activeOption } = this.state;
       const newState = {};
 
@@ -158,7 +149,7 @@ function getSuggestionComponent() {
       this.setState(newState);
     };
 
-    onOptionMouseEnter = event => {
+    onOptionMouseEnter = (event) => {
       const index = event.target.getAttribute('data-index');
       this.setState({
         activeOption: index,
@@ -171,11 +162,11 @@ function getSuggestionComponent() {
       });
     };
 
-    setSuggestionReference = ref => {
+    setSuggestionReference = (ref) => {
       this.suggestion = ref;
     };
 
-    setDropdownReference = ref => {
+    setDropdownReference = (ref) => {
       this.dropdown = ref;
     };
 
@@ -187,34 +178,33 @@ function getSuggestionComponent() {
 
     filteredSuggestions = [];
 
-    filterSuggestions = mentionText => {
+    filterSuggestions = (mentionText) => {
       const suggestions = config.getSuggestions ? config.getSuggestions() : [];
       this.filteredSuggestions = searchElement(suggestions, mentionText, config.caseSensitive);
     };
 
     debouncedFetchSuggestion = debounce((mentionText) => {
-      config.fetchSuggestions(mentionText)
-        .then(result => {
-          this.filteredSuggestions = result;
-          this.setState({
-            showSuggestions: result.length > 0,
-            showLoader: false
-          });
+      config.fetchSuggestions(mentionText).then((result) => {
+        this.filteredSuggestions = result;
+        this.setState({
+          showSuggestions: result.length > 0,
+          showLoader: false,
         });
+      });
     });
 
-    updateSuggestions = props => {
+    updateSuggestions = (props) => {
       const mentionText = props.children[0].props.text.substr(1);
 
       if (config.fetchSuggestions) {
         this.setState({
-          showLoader: true
-        })
+          showLoader: true,
+        });
         this.debouncedFetchSuggestion(mentionText);
       } else {
         this.filterSuggestions(mentionText);
       }
-    }
+    };
 
     addMention = () => {
       const { activeOption } = this.state;
@@ -231,7 +221,7 @@ function getSuggestionComponent() {
 
       const OptionClass = classNames({
         ['Editor-dropdown-option']: true,
-        ['Editor-dropdown-option--highlight']: index === activeOption
+        ['Editor-dropdown-option--highlight']: index === activeOption,
       });
 
       return OptionClass;
@@ -301,19 +291,17 @@ function getSuggestionComponent() {
               suppressContentEditableWarning
               ref={this.setDropdownReference}
             >
-              {this.state.showLoader ?
-                <span className="Editor-dropdown-option" >
+              {this.state.showLoader ? (
+                <span className="Editor-dropdown-option">
                   <Placeholder withImage={false}>
                     <PlaceholderParagraph length="large" />
                     <PlaceholderParagraph length="large" />
                     <PlaceholderParagraph length="large" />
                   </Placeholder>
                 </span>
-                :
-                this.filteredSuggestions.map((suggestion, index) =>
-                  this.renderOption(suggestion, index)
-                )
-              }
+              ) : (
+                this.filteredSuggestions.map((suggestion, index) => this.renderOption(suggestion, index))
+              )}
             </Popover>
           )}
         </span>

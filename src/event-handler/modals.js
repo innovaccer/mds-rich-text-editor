@@ -18,7 +18,8 @@ export default class ModalHandler {
       });
     }
     if (document) {
-      document.addEventListener('click', () => { // eslint-disable-line no-undef
+      document.addEventListener('click', () => {
+        // eslint-disable-line no-undef
         if (!this.editorFlag) {
           this.closeAllModals();
           if (this.suggestionCallback) {
@@ -28,7 +29,8 @@ export default class ModalHandler {
           this.editorFlag = false;
         }
       });
-      document.addEventListener('keydown', (event) => { // eslint-disable-line no-undef
+      document.addEventListener('keydown', (event) => {
+        // eslint-disable-line no-undef
         if (event.key === 'Escape') {
           this.closeAllModals();
         }
@@ -43,7 +45,7 @@ export default class ModalHandler {
     } else {
       this.suggestionFlag = false;
     }
-  }
+  };
 
   closeModals = (event: Object): void => {
     this.closeAllModals(event);
@@ -54,7 +56,7 @@ export default class ModalHandler {
   };
 
   deregisterCallBack = (callBack): void => {
-    this.callBacks = this.callBacks.filter(cb => cb !== callBack);
+    this.callBacks = this.callBacks.filter((cb) => cb !== callBack);
   };
 
   setSuggestionCallback = (callBack): void => {
@@ -65,7 +67,7 @@ export default class ModalHandler {
     this.suggestionCallback = undefined;
   };
 
-  onSuggestionClick = ():void => {
+  onSuggestionClick = (): void => {
     this.suggestionFlag = true;
-  }
+  };
 }

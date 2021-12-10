@@ -1,12 +1,12 @@
 /* @flow */
 
-import { forEach, isMap } from "./common";
+import { forEach, isMap } from './common';
 
 /**
  * This function is used when displaying options in drop-down.
  * Icon for first available options is used in drop-down placeholder.
  */
-export const getFirstIcon = config => config[config.options[0]].icon;
+export const getFirstIcon = (config) => config[config.options[0]].icon;
 
 /**
  * The function is used to recursively merge toolbar options.

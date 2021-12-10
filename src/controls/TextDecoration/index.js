@@ -19,9 +19,7 @@ export default class Inline extends Component {
     super(props);
     const { editorState, modalHandler } = this.props;
     this.state = {
-      currentStyles: editorState
-        ? this.changeKeys(getSelectionInlineStyle(editorState))
-        : {},
+      currentStyles: editorState ? this.changeKeys(getSelectionInlineStyle(editorState)) : {},
     };
 
     modalHandler.registerCallBack(this.expandCollapse);
@@ -52,7 +50,7 @@ export default class Inline extends Component {
     this.signalExpanded = false;
   };
 
-  toggleInlineStyle = style => {
+  toggleInlineStyle = (style) => {
     const { editorState, onChange } = this.props;
 
     const newStyle = style.toUpperCase();
@@ -72,7 +70,7 @@ export default class Inline extends Component {
     }
   };
 
-  changeKeys = style => {
+  changeKeys = (style) => {
     if (style) {
       const st = {};
       forEach(style, (key, value) => {

@@ -6,11 +6,7 @@ import { Text } from '@innovaccer/design-system';
 import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 
 export const All = (args) => {
-  const customRenderer = (props) => (
-    <Text appearance="link">
-      {props}
-    </Text>
-  );
+  const customRenderer = (props) => <Text appearance="link">{props}</Text>;
 
   return (
     <Editor
@@ -33,11 +29,11 @@ export const All = (args) => {
 
 All.argTypes = {
   ...disabledArgtypes,
-  mention: { control: { disable: true } }
+  mention: { control: { disable: true } },
 };
 
 All.args = {
-  ...commonArgs
+  ...commonArgs,
 };
 
 export default {
@@ -47,7 +43,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

@@ -20,7 +20,7 @@ export default class Insert extends Component {
     super(props);
     const { editorState, modalHandler } = this.props;
     this.state = {
-      expanded: false
+      expanded: false,
     };
 
     //modalHandler.registerCallBack(this.expandCollapse);
@@ -42,7 +42,7 @@ export default class Insert extends Component {
 
   onExpandEvent = () => {
     this.setState({
-      expanded: !this.state.expanded
+      expanded: !this.state.expanded,
     });
   };
 
@@ -82,9 +82,7 @@ export default class Insert extends Component {
       ...rest
     } = this.props;
 
-    const {
-      expanded
-    } = this.state;
+    const { expanded } = this.state;
 
     // const trigger = (
     //   <div className="d-flex">
@@ -103,23 +101,12 @@ export default class Insert extends Component {
         menu={true}
       >
         <Icon name="more_horizon" />
-        {
-          config.options.slice(config.max, config.options.length)
-            .map((style, index) => {
-              const conf = config[style];
-              const Control = Controls[style];
+        {config.options.slice(config.max, config.options.length).map((style, index) => {
+          const conf = config[style];
+          const Control = Controls[style];
 
-              return (
-                <Control
-                  key={index}
-                  config={conf}
-                  inDropdown={true}
-                  onChange={this.onChange}
-                  {...rest}
-                />
-              );
-            })
-        }
+          return <Control key={index} config={conf} inDropdown={true} onChange={this.onChange} {...rest} />;
+        })}
       </Dropdown>
     );
   }
@@ -131,26 +118,16 @@ export default class Insert extends Component {
 
     return (
       <div className="Editor-toolbar-insert">
-        {
-          config.options.slice(0, visibleOptions)
-            .map((style, index) => {
-              const conf = config[style];
-              const Control = Controls[style];
+        {config.options.slice(0, visibleOptions).map((style, index) => {
+          const conf = config[style];
+          const Control = Controls[style];
 
-              if (!this.props.mention && style === 'mention') {
-                return null;
-              }
+          if (!this.props.mention && style === 'mention') {
+            return null;
+          }
 
-              return conf.isVisible ? (
-                <Control
-                  key={index}
-                  config={conf}
-                  inDropdown={false}
-                  {...rest}
-                />
-              ) : null;
-            })
-        }
+          return conf.isVisible ? <Control key={index} config={conf} inDropdown={false} {...rest} /> : null;
+        })}
         {/* {hiddenOptions > 0 && this.renderInDropdown()} */}
       </div>
     );

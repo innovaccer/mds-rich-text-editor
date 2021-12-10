@@ -5,5 +5,5 @@ declare module 'draftjs-utils' {
     getEntityRange: () => {},
     getSelectionText: () => {},
     getSelectionEntity: () => {},
-  }
+  };
 }

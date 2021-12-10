@@ -12,6 +12,6 @@ export default {
   },
 
   deregisterCallBack: (callBack): void => {
-    callBacks = callBacks.filter(cb => cb !== callBack);
+    callBacks = callBacks.filter((cb) => cb !== callBack);
   },
 };

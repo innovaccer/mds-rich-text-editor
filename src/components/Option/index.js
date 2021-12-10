@@ -17,7 +17,7 @@ export default class Option extends Component {
 
   static defaultProps = {
     activeClassName: '',
-  }
+  };
 
   onClick: Function = () => {
     const { disabled, onClick, value } = this.props;
@@ -29,19 +29,18 @@ export default class Option extends Component {
   render() {
     const { children, className, activeClassName, active, disabled } = this.props;
 
-    const OptionClass = classNames({
-      ['Editor-option']: true,
-      [`Editor-option--active`]: active && !activeClassName,
-      [`${activeClassName}`]: active && activeClassName,
-      ['Editor-option--disabled']: disabled,
-    }, className);
+    const OptionClass = classNames(
+      {
+        ['Editor-option']: true,
+        [`Editor-option--active`]: active && !activeClassName,
+        [`${activeClassName}`]: active && activeClassName,
+        ['Editor-option--disabled']: disabled,
+      },
+      className
+    );
 
     return (
-      <div
-        className={OptionClass}
-        onClick={this.onClick}
-        aria-selected={active}
-      >
+      <div className={OptionClass} onClick={this.onClick} aria-selected={active}>
         {children}
       </div>
     );

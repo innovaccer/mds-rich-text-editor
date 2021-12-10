@@ -26,9 +26,7 @@ export default class TextAlign extends Component {
     const { editorState } = this.props;
     if (editorState !== prevProps.editorState) {
       this.setState({
-        currentTextAlignment: getSelectedBlocksMetadata(editorState).get(
-          'text-align'
-        ),
+        currentTextAlignment: getSelectedBlocksMetadata(editorState).get('text-align'),
       });
     }
   }
@@ -61,7 +59,7 @@ export default class TextAlign extends Component {
     });
   };
 
-  addBlockAlignmentData = value => {
+  addBlockAlignmentData = (value) => {
     const { editorState, onChange } = this.props;
     const { currentTextAlignment } = this.state;
     if (currentTextAlignment !== value) {

@@ -16,10 +16,8 @@ export const All = (args) => {
   const onClick = () => {
     const raw = Editor.utils.convertToRaw(editorState.getCurrentContent());
     const entities = {
-      MENTION: (children, entity, { key }) => (
-        <div key={key}>{entity.value}</div>
-      ),
-    }
+      MENTION: (children, entity, { key }) => <div key={key}>{entity.value}</div>,
+    };
     const html = EditorPreview.utils.convertToHTML(raw, true, { entities });
     setHTML(html);
   };
@@ -41,17 +39,10 @@ export const All = (args) => {
           ],
         }}
       />
-      <Button
-        appearance="primary"
-        size="large"
-        onClick={onClick}
-        className="my-4"
-      >
+      <Button appearance="primary" size="large" onClick={onClick} className="my-4">
         Get Preview HTML
       </Button>
-      <div>
-        {html}
-      </div>
+      <div>{html}</div>
     </div>
   );
 };
@@ -68,7 +59,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

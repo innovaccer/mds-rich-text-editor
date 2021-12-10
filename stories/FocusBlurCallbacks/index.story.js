@@ -18,23 +18,20 @@ export const All = (args) => {
 
   return (
     <div>
-      <Text weight="medium">State right now: {status}</Text><br />
-      <Editor
-        {...args}
-        onBlur={onBlur}
-        onFocus={onFocus}
-      />
+      <Text weight="medium">State right now: {status}</Text>
+      <br />
+      <Editor {...args} onBlur={onBlur} onFocus={onFocus} />
     </div>
   );
 };
 
 All.argTypes = {
   ...disabledArgtypes,
-  mention: { control: { disable: true } }
+  mention: { control: { disable: true } },
 };
 
 All.args = {
-  ...commonArgs
+  ...commonArgs,
 };
 
 export default {
@@ -44,7 +41,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

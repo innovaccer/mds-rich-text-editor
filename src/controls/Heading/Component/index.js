@@ -54,7 +54,7 @@ class LayoutComponent extends Component {
       onExpandEvent,
       doCollapse,
       onChange,
-      className
+      className,
     } = this.props;
 
     return (
@@ -69,11 +69,7 @@ class LayoutComponent extends Component {
         >
           <Icon name={icon} size={20} />
           {blocks.map((block, index) => (
-            <DropdownOption
-              active={blockType === block.label}
-              value={block.label}
-              key={index}
-            >
+            <DropdownOption active={blockType === block.label} value={block.label} key={index}>
               <Heading
                 size={block.size}
                 className="Editor-heading-option"
@@ -91,9 +87,7 @@ class LayoutComponent extends Component {
   render() {
     const { config } = this.props;
     const { blockTypes } = this.state;
-    const blocks = blockTypes.filter(
-      ({ label }) => config.options.indexOf(label) > -1
-    );
+    const blocks = blockTypes.filter(({ label }) => config.options.indexOf(label) > -1);
 
     return this.renderInDropdown(blocks);
   }

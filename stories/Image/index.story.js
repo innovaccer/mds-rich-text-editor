@@ -6,13 +6,12 @@ import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 
 export const All = (args) => {
   const uploadCallback = (file) => {
-    return new Promise(
-      (resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = e => resolve({ data: { link: reader.result } });
-        reader.onerror = e => reject(e);
-        reader.readAsDataURL(file);
-      });
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve({ data: { link: reader.result } });
+      reader.onerror = (e) => reject(e);
+      reader.readAsDataURL(file);
+    });
   };
 
   return (
@@ -23,8 +22,8 @@ export const All = (args) => {
           image: {
             uploadCallback,
             defaultSize: { height: '200px' },
-          }
-        }
+          },
+        },
       }}
     />
   );
@@ -32,7 +31,7 @@ export const All = (args) => {
 
 All.argTypes = {
   ...disabledArgtypes,
-  toolbar: { control: { disable: true } }
+  toolbar: { control: { disable: true } },
 };
 
 All.args = {
@@ -46,7 +45,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

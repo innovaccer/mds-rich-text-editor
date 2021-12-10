@@ -15,5 +15,5 @@ export default {
   Dropdown,
   Option,
   Insert,
-  Utils
+  Utils,
 };

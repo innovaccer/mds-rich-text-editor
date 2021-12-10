@@ -45,36 +45,15 @@ export default class Remove extends Component {
     onChange(this.removeAllInlineStyles(editorState));
   };
 
-  removeAllInlineStyles = editorState => {
+  removeAllInlineStyles = (editorState) => {
     let contentState = editorState.getCurrentContent();
-    [
-      'BOLD',
-      'ITALIC',
-      'UNDERLINE',
-      'STRIKETHROUGH',
-      'MONOSPACE',
-      'SUPERSCRIPT',
-      'SUBSCRIPT',
-    ].forEach(style => {
-      contentState = Modifier.removeInlineStyle(
-        contentState,
-        editorState.getSelection(),
-        style
-      );
+    ['BOLD', 'ITALIC', 'UNDERLINE', 'STRIKETHROUGH', 'MONOSPACE', 'SUPERSCRIPT', 'SUBSCRIPT'].forEach((style) => {
+      contentState = Modifier.removeInlineStyle(contentState, editorState.getSelection(), style);
     });
-    const customStyles = getSelectionCustomInlineStyle(editorState, [
-      'FONTSIZE',
-      'FONTFAMILY',
-      'COLOR',
-      'BGCOLOR',
-    ]);
+    const customStyles = getSelectionCustomInlineStyle(editorState, ['FONTSIZE', 'FONTFAMILY', 'COLOR', 'BGCOLOR']);
     forEach(customStyles, (key, value) => {
       if (value) {
-        contentState = Modifier.removeInlineStyle(
-          contentState,
-          editorState.getSelection(),
-          value
-        );
+        contentState = Modifier.removeInlineStyle(contentState, editorState.getSelection(), value);
       }
     });
 

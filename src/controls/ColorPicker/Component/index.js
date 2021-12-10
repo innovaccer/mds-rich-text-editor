@@ -11,7 +11,7 @@ class LayoutComponent extends Component {
     onChange: PropTypes.func,
     config: PropTypes.object,
     currentState: PropTypes.object,
-    className: PropTypes.className
+    className: PropTypes.className,
   };
 
   state = {
@@ -27,7 +27,7 @@ class LayoutComponent extends Component {
     }
   }
 
-  onChange = color => {
+  onChange = (color) => {
     const { onChange } = this.props;
     const { currentStyle } = this.state;
     onChange(currentStyle, color);
@@ -55,10 +55,7 @@ class LayoutComponent extends Component {
     const currentSelectedColor = currentStyle === 'color' ? color : bgColor;
 
     return (
-      <div
-        className={'Editor-colorPicker'}
-        onClick={stopPropagation}
-      >
+      <div className={'Editor-colorPicker'} onClick={stopPropagation}>
         {colors.map((c, index) => (
           <div className="Editor-colorPicker-circleWrapper">
             <div
@@ -69,11 +66,7 @@ class LayoutComponent extends Component {
               onClick={() => this.onChange(c)}
             />
             {currentSelectedColor === c && (
-              <Icon
-                name="check"
-                appearance="white"
-                className={'Editor-colorPicker-selectedCircle'}
-              />
+              <Icon name="check" appearance="white" className={'Editor-colorPicker-selectedCircle'} />
             )}
           </div>
         ))}
@@ -82,34 +75,17 @@ class LayoutComponent extends Component {
   };
 
   render() {
-    const {
-      expanded,
-      onExpandEvent,
-      className
-    } = this.props;
+    const { expanded, onExpandEvent, className } = this.props;
 
     const trigger = (
-      <Option
-        onClick={onExpandEvent}
-        active={expanded}
-        activeClassName="bg-secondary"
-      >
+      <Option onClick={onExpandEvent} active={expanded} activeClassName="bg-secondary">
         <Icon name="text_format" size={20} />
       </Option>
     );
 
     return (
-      <div
-        className={className}
-        aria-haspopup="true"
-        aria-expanded={expanded}
-      >
-        <Popover
-          trigger={trigger}
-          position="bottom-start"
-          open={expanded}
-          onToggle={onExpandEvent}
-        >
+      <div className={className} aria-haspopup="true" aria-expanded={expanded}>
+        <Popover trigger={trigger} position="bottom-start" open={expanded} onToggle={onExpandEvent}>
           {this.renderModal()}
         </Popover>
       </div>

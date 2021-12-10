@@ -1,14 +1,10 @@
 /* @flow */
 
 import React from 'react';
-import { expect, assert } from 'chai';// eslint-disable-line import/no-extraneous-dependencies
-import { spy } from 'sinon';// eslint-disable-line import/no-extraneous-dependencies
-import { mount } from 'enzyme';// eslint-disable-line import/no-extraneous-dependencies
-import {
-  EditorState,
-  convertFromHTML,
-  ContentState,
-} from 'draft-js';
+import { expect, assert } from 'chai'; // eslint-disable-line import/no-extraneous-dependencies
+import { spy } from 'sinon'; // eslint-disable-line import/no-extraneous-dependencies
+import { mount } from 'enzyme'; // eslint-disable-line import/no-extraneous-dependencies
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
 import TextAlignControl from '..';
 import Option from '../../../components/Option';
 import Dropdown from '../../../components/Dropdown';
@@ -22,15 +18,19 @@ describe('TextAlignControl test suite', () => {
   const editorState = EditorState.createWithContent(contentState);
 
   it('should have a div when rendered', () => {
-    expect(mount(
-      <TextAlignControl
-        onChange={() => {}}
-        editorState={editorState}
-        config={defaultToolbar.textAlign}
-        translations={localeTranslations.en}
-        modalHandler={new ModalHandler()}
-      />,
-    ).html().startsWith('<div')).to.equal(true);
+    expect(
+      mount(
+        <TextAlignControl
+          onChange={() => {}}
+          editorState={editorState}
+          config={defaultToolbar.textAlign}
+          translations={localeTranslations.en}
+          modalHandler={new ModalHandler()}
+        />
+      )
+        .html()
+        .startsWith('<div')
+    ).to.equal(true);
   });
 
   it('should have 4 child elements by default', () => {
@@ -41,7 +41,7 @@ describe('TextAlignControl test suite', () => {
         config={defaultToolbar.textAlign}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     expect(control.find(Option).length).to.equal(4);
   });
@@ -54,7 +54,7 @@ describe('TextAlignControl test suite', () => {
         config={{ ...defaultToolbar.textAlign, inDropdown: true }}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     expect(control.childAt(0).childAt(0).prop('children').length).to.equal(5);
   });
@@ -68,7 +68,7 @@ describe('TextAlignControl test suite', () => {
         config={defaultToolbar.textAlign}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     control.find(Option).at(0).simulate('click');
     assert.isTrue(onChange.calledOnce);

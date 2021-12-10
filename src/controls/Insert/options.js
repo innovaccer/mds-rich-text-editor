@@ -3,7 +3,7 @@ import link from '../Link';
 import embedded from '../Embedded';
 
 export default {
-	image,
-	link,
-	embedded
-}
+  image,
+  link,
+  embedded,
+};

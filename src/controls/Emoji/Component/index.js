@@ -23,20 +23,16 @@ class LayoutComponent extends Component {
   };
 
   renderEmojiModal(): Object {
-    const { config: { popupClassName, emojis } } = this.props;
+    const {
+      config: { popupClassName, emojis },
+    } = this.props;
     return (
-      <div
-        className={classNames('rdw-emoji-modal', popupClassName)}
-        onClick={stopPropagation}
-      >
-        {
-          emojis.map((emoji, index) => (<span
-            key={index}
-            className="rdw-emoji-icon"
-            alt=""
-            onClick={this.onChange}
-          >{emoji}</span>))
-        }
+      <div className={classNames('rdw-emoji-modal', popupClassName)} onClick={stopPropagation}>
+        {emojis.map((emoji, index) => (
+          <span key={index} className="rdw-emoji-icon" alt="" onClick={this.onChange}>
+            {emoji}
+          </span>
+        ))}
       </div>
     );
   }
@@ -56,15 +52,8 @@ class LayoutComponent extends Component {
         aria-expanded={expanded}
         title={title || translations['components.controls.emoji.emoji']}
       >
-        <Option
-          className={classNames(className)}
-          value="unordered-list-item"
-          onClick={onExpandEvent}
-        >
-          <img
-            src={icon}
-            alt=""
-          />
+        <Option className={classNames(className)} value="unordered-list-item" onClick={onExpandEvent}>
+          <img src={icon} alt="" />
         </Option>
         {expanded ? this.renderEmojiModal() : undefined}
       </div>

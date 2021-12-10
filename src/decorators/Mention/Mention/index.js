@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Modifier, EditorState } from 'draft-js';
 import { getEntityRange } from 'draftjs-utils';
 import { Chip } from '@innovaccer/design-system';
@@ -12,9 +12,7 @@ class Mention {
   }
 
   first = (array) => {
-    return (array != null && array.length)
-      ? array[0]
-      : undefined
+    return array != null && array.length ? array[0] : undefined;
   };
 
   getMentionComponent = () => {
@@ -31,7 +29,7 @@ class Mention {
         clearButton: false,
         ...this.chipOptions,
         label: children,
-        className: 'Editor-mention-chip'
+        className: 'Editor-mention-chip',
       };
 
       const onDeleteLink = () => {
@@ -55,46 +53,33 @@ class Mention {
           });
         }
 
-        let newContentState = Modifier.setBlockType(
-          updatedContentState,
-          selection,
-          'unstyled'
-        );
+        let newContentState = Modifier.setBlockType(updatedContentState, selection, 'unstyled');
 
         newContentState = Modifier.removeRange(newContentState, selection, 'backward');
         config.onChange(EditorState.push(config.getEditorState(), newContentState, 'remove-range'));
       };
 
-      return (
-        <Chip {...chipOptions} onClose={onDeleteLink} />
-      );
+      return <Chip {...chipOptions} onClose={onDeleteLink} />;
     };
 
     MentionComponent.propTypes = {
       entityKey: PropTypes.number,
       children: PropTypes.array,
-      contentState: PropTypes.object
+      contentState: PropTypes.object,
     };
     return MentionComponent;
   };
 
   getMentionDecorator = () => ({
     strategy: this.findMentionEntities,
-    component: this.getMentionComponent()
+    component: this.getMentionComponent(),
   });
 }
 
-Mention.prototype.findMentionEntities = (
-  contentBlock,
-  callback,
-  contentState
-) => {
-  contentBlock.findEntityRanges(character => {
+Mention.prototype.findMentionEntities = (contentBlock, callback, contentState) => {
+  contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
-    return (
-      entityKey !== null &&
-      contentState.getEntity(entityKey).getType() === "MENTION"
-    );
+    return entityKey !== null && contentState.getEntity(entityKey).getType() === 'MENTION';
   }, callback);
 };
 

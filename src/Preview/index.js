@@ -7,7 +7,7 @@ import { defaultColors } from '../config/defaultToolbar';
 
 const listStyle = {
   padding: '0px',
-  margin: '0px'
+  margin: '0px',
 };
 
 const styleMap = {
@@ -33,10 +33,12 @@ const options = {
   },
 };
 
-const addBreaklines = children => children.map(child => [child, <br />]);
+const addBreaklines = (children) => children.map((child) => [child, <br />]);
 
 const InlineWrapper = ({ children, style, key }) => (
-  <span key={key} style={style}>{children}</span>
+  <span key={key} style={style}>
+    {children}
+  </span>
 );
 
 const getList = (children, keys) => (
@@ -48,14 +50,30 @@ const getList = (children, keys) => (
 );
 
 const defaultHeadings = {
-  'header-one': (children, { keys }) => children.map((child, i) =>
-    <Heading size="xxl" key={keys[i]}>{child}</Heading>),
-  'header-two': (children, { keys }) => children.map((child, i) =>
-    <Heading size="xl" key={keys[i]}>{child}</Heading>),
-  'header-three': (children, { keys }) => children.map((child, i) =>
-    <Heading size="l" key={keys[i]}>{child}</Heading>),
-  'header-four': (children, { keys }) => children.map((child, i) =>
-    <Heading size="m" key={keys[i]}>{child}</Heading>),
+  'header-one': (children, { keys }) =>
+    children.map((child, i) => (
+      <Heading size="xxl" key={keys[i]}>
+        {child}
+      </Heading>
+    )),
+  'header-two': (children, { keys }) =>
+    children.map((child, i) => (
+      <Heading size="xl" key={keys[i]}>
+        {child}
+      </Heading>
+    )),
+  'header-three': (children, { keys }) =>
+    children.map((child, i) => (
+      <Heading size="l" key={keys[i]}>
+        {child}
+      </Heading>
+    )),
+  'header-four': (children, { keys }) =>
+    children.map((child, i) => (
+      <Heading size="m" key={keys[i]}>
+        {child}
+      </Heading>
+    )),
 };
 
 const defaultList = {
@@ -77,27 +95,23 @@ const defaultEntities = {
       <p style={{ justifyContent: imageAlign, display: 'flex' }}>
         <img src={src} alt={alt} height={height} width={width} />
       </p>
-    )
+    );
   },
-  MENTION: (children, entity, { key }) => (
-    <Chip label={children} name={entity.value} key={key} type={"input"} />
-  ),
+  MENTION: (children, entity, { key }) => <Chip label={children} name={entity.value} key={key} type={'input'} />,
 };
 
 const getUnstyledBlock = (children, keys) => (
   <>
-    {
-      children.map((child, i) => {
-        const text = child.length > 1 && child[1][0];
+    {children.map((child, i) => {
+      const text = child.length > 1 && child[1][0];
 
-        if (text && text.includes('\n')) {
-          const newBlock = text.split('\n');
-          return <Paragraph key={keys[i]}>{addBreaklines(newBlock)}</Paragraph>
-        } else {
-          return <Paragraph key={keys[i]}>{addBreaklines(child)}</Paragraph>
-        }
-      })
-    }
+      if (text && text.includes('\n')) {
+        const newBlock = text.split('\n');
+        return <Paragraph key={keys[i]}>{addBreaklines(newBlock)}</Paragraph>;
+      } else {
+        return <Paragraph key={keys[i]}>{addBreaklines(child)}</Paragraph>;
+      }
+    })}
   </>
 );
 
@@ -115,18 +129,13 @@ const getColors = (newColors) => {
       color: curr,
     };
 
-    return (
-      { ...acc, [styleName]: style }
-    );
+    return { ...acc, [styleName]: style };
   }, {});
 
   return colorsStyleMap;
 };
 
-const getPreviewComponent = (
-  raw,
-  { entities = {}, headings = {}, list = {}, colors = [] }
-) => {
+const getPreviewComponent = (raw, { entities = {}, headings = {}, list = {}, colors = [] }) => {
   const updatedEntities = { ...defaultEntities, ...entities };
   const updatedHeadings = { ...defaultHeadings, ...headings };
   const updatedList = { ...defaultList, ...list };
@@ -136,7 +145,7 @@ const getPreviewComponent = (
   const renderer = {
     blocks,
     entities: updatedEntities,
-    styles: createStylesRenderer(InlineWrapper, styles)
+    styles: createStylesRenderer(InlineWrapper, styles),
   };
 
   //Case 1: Pass options as third argument when require cleanup feature
@@ -162,9 +171,7 @@ const convertToHTML = (raw, withCSS = false, renderer = {}) => {
   if (html) {
     const { name, version } = require('../../package.json');
     const cdnPath = `https://s3.us-east-1.amazonaws.com/webui-assets/${name}/v${version}/design-system.css`;
-    const css = withCSS
-      ? `<link rel="stylesheet" href="${cdnPath}">`
-      : '';
+    const css = withCSS ? `<link rel="stylesheet" href="${cdnPath}">` : '';
 
     return `${css} ${renderToStaticMarkup(previewComponent)}`;
   }
@@ -175,7 +182,7 @@ const convertToHTML = (raw, withCSS = false, renderer = {}) => {
 /**
  * ###Note about `EditorPreview.utils.convertToHTML`:
  * - HTML obtained from this preview component includes CSS and is not supposed to be passed in editor props as initialContent.
- * - Paramenters of `EditorPreview.utils.convertToHTML`: 
+ * - Paramenters of `EditorPreview.utils.convertToHTML`:
  *  1. raw: Result of the `Editor.utils.convertToRaw`
  *  2. withCSS: Determines if link tag (with required CSS classes CDN Path) is concatenated along with HTML string.
  *  3. renderer: Object with custom renderers( { entities, headings, list, colors } )
@@ -192,15 +199,11 @@ export const EditorPreview = ({ raw, entities, headings, list, colors }) => {
     return null;
   }
 
-  return (
-    <>
-      {previewComponent}
-    </>
-  );
+  return <>{previewComponent}</>;
 };
 
 EditorPreview.utils = {
-  convertToHTML
+  convertToHTML,
 };
 
 EditorPreview.propTypes = {
@@ -222,7 +225,7 @@ EditorPreview.propTypes = {
    * <pre style="font-family: monospace; font-size: 13px; background: #f8f8f8">
    * Example:
    *  const list = {
-   *   'unordered-list-item': 
+   *   'unordered-list-item':
    *      (children, { keys }) => (
    *        ```
    *        <ul>
@@ -252,7 +255,7 @@ EditorPreview.propTypes = {
    * <pre style="font-family: monospace; font-size: 13px; background: #f8f8f8">
    * Example:
    *  const headers = {
-   *   'header-one': 
+   *   'header-one':
    *      (children, { keys }) => (
    *         {children.map((child, i) => (
    *            ```
@@ -296,8 +299,7 @@ EditorPreview.propTypes = {
    *  };
    * </pre>
    */
-  entities: PropTypes.object
-
+  entities: PropTypes.object,
 };
 
 EditorPreview.defaultProps = {

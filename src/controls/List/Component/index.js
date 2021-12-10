@@ -31,42 +31,28 @@ export default class LayoutComponent extends Component {
     const {
       config,
       currentState: { listType },
-      className
+      className,
     } = this.props;
 
     const { options, unordered, ordered } = config;
 
-    const ListClass = classNames({
-      ['d-flex']: true,
-    }, className);
+    const ListClass = classNames(
+      {
+        ['d-flex']: true,
+      },
+      className
+    );
 
     return (
       <div className={ListClass}>
         <Tooltip tooltip={unordered.title}>
-          <Option
-            value="unordered"
-            onClick={this.toggleBlockType}
-            active={listType === 'unordered'}
-            className="mr-2"
-          >
-            <Icon
-              appearance={listType === 'unordered' ? 'info' : 'default'}
-              name={unordered.icon}
-              size={20}
-            />
+          <Option value="unordered" onClick={this.toggleBlockType} active={listType === 'unordered'} className="mr-2">
+            <Icon appearance={listType === 'unordered' ? 'info' : 'default'} name={unordered.icon} size={20} />
           </Option>
         </Tooltip>
         <Tooltip tooltip={ordered.title}>
-          <Option
-            value="ordered"
-            onClick={this.toggleBlockType}
-            active={listType === 'ordered'}
-          >
-            <Icon
-              appearance={listType === 'ordered' ? 'info' : 'default'}
-              name={ordered.icon}
-              size={20}
-            />
+          <Option value="ordered" onClick={this.toggleBlockType} active={listType === 'ordered'}>
+            <Icon appearance={listType === 'ordered' ? 'info' : 'default'} name={ordered.icon} size={20} />
           </Option>
         </Tooltip>
       </div>

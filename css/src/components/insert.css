@@ -11,9 +11,9 @@
   height: 0px;
   width: 0px;
   opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
 .Editor-image {

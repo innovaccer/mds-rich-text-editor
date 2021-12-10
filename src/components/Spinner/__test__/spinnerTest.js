@@ -7,8 +7,10 @@ import Spinner from '..';
 
 describe('Option test suite', () => {
   it('should have a span when rendered', () => {
-    expect(mount(
-      <Spinner />,
-    ).childAt(0).type()).to.equal('div');
+    expect(
+      mount(<Spinner />)
+        .childAt(0)
+        .type()
+    ).to.equal('div');
   });
 });

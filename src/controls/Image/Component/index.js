@@ -19,8 +19,7 @@ class LayoutComponent extends Component {
   state = {
     imgSrc: '',
     dragEnter: false,
-    uploadHighlighted:
-      this.props.config.uploadEnabled && !!this.props.config.uploadCallback,
+    uploadHighlighted: this.props.config.uploadEnabled && !!this.props.config.uploadCallback,
     showImageLoading: false,
     height: this.props.config.defaultSize.height,
     width: this.props.config.defaultSize.width,
@@ -117,29 +116,32 @@ class LayoutComponent extends Component {
     });
   };
 
-  updateValue = event => {
+  updateValue = (event) => {
     this.setState({
       [`${event.target.name}`]: event.target.value,
     });
   };
 
-  selectImage = event => {
+  selectImage = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       this.uploadImage(event.target.files[0]);
     }
   };
 
-  uploadImage = file => {
+  uploadImage = (file) => {
     this.toggleShowImageLoading();
     const { uploadCallback } = this.props.config;
 
     uploadCallback(file)
       .then(({ data }) => {
-        this.setState({
-          showImageLoading: false,
-          dragEnter: false,
-          imgSrc: data.link || data.url,
-        }, this.addImageFromState);
+        this.setState(
+          {
+            showImageLoading: false,
+            dragEnter: false,
+            imgSrc: data.link || data.url,
+          },
+          this.addImageFromState
+        );
 
         this.fileUpload = false;
       })
@@ -156,7 +158,7 @@ class LayoutComponent extends Component {
     //event.stopPropagation();
   };
 
-  stopPropagation = event => {
+  stopPropagation = (event) => {
     if (!this.fileUpload) {
       event.preventDefault();
       event.stopPropagation();
@@ -175,15 +177,8 @@ class LayoutComponent extends Component {
     if (inDropdown) {
       return (
         <DropdownOption>
-          <label
-            htmlFor="file"
-            className="Editor-insert-imageLabel"
-          >
-            <Icon
-              size={20}
-              name={icon}
-              className="mr-4"
-            />
+          <label htmlFor="file" className="Editor-insert-imageLabel">
+            <Icon size={20} name={icon} className="mr-4" />
             <Text>{title}</Text>
           </label>
           <input
@@ -198,20 +193,10 @@ class LayoutComponent extends Component {
     }
 
     return (
-      <div
-        aria-haspopup="true"
-        aria-expanded={expanded}
-      >
+      <div aria-haspopup="true" aria-expanded={expanded}>
         <Tooltip tooltip={title}>
-          <Option
-            className={"mr-2"}
-            value="unordered-list-item"
-            onClick={this.fileUploadClick}
-          >
-            <label
-              htmlFor="file"
-              className="Editor-insert-imageLabel"
-            >
+          <Option className={'mr-2'} value="unordered-list-item" onClick={this.fileUploadClick}>
+            <label htmlFor="file" className="Editor-insert-imageLabel">
               <Icon name={icon} size={20} />
             </label>
             <input

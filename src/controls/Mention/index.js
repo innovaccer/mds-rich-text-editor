@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { EditorState, Modifier } from 'draft-js';
-import {
-  getEntityRange,
-  getSelectionEntity,
-} from 'draftjs-utils';
+import { getEntityRange, getSelectionEntity } from 'draftjs-utils';
 import Option from '../../components/Option';
 import { Tooltip, Icon } from '@innovaccer/design-system';
 
@@ -63,15 +60,9 @@ class Mention extends Component {
       editorState.getCurrentInlineStyle(),
       undefined
     );
-    let newEditorState = EditorState.push(
-      editorState,
-      contentState,
-      'insert-characters'
-    );
+    let newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
 
-    onChange(
-      EditorState.push(newEditorState, contentState, 'insert-characters'),
-    );
+    onChange(EditorState.push(newEditorState, contentState, 'insert-characters'));
   };
 
   render() {
@@ -82,15 +73,8 @@ class Mention extends Component {
 
     return (
       <Tooltip tooltip={title}>
-        <Option
-          value="unordered-list-item"
-          onClick={this.addLink}
-          className="mr-2"
-        >
-          <Icon
-            name={icon}
-            size={20}
-          />
+        <Option value="unordered-list-item" onClick={this.addLink} className="mr-2">
+          <Icon name={icon} size={20} />
         </Option>
       </Tooltip>
     );

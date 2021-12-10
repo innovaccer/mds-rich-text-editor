@@ -1,23 +1,23 @@
 /* @flow */
 
-import React from "react";
-import { expect, assert } from "chai";
-import { mount } from "enzyme";
-import { spy } from "sinon";
-import { EditorState, convertFromHTML, ContentState } from "draft-js";
+import React from 'react';
+import { expect, assert } from 'chai';
+import { mount } from 'enzyme';
+import { spy } from 'sinon';
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
 
-import LinkControl from "..";
-import Option from "../../../components/Option";
-import defaultToolbar from "../../../config/defaultToolbar";
-import ModalHandler from "../../../event-handler/modals";
-import localeTranslations from "../../../i18n";
+import LinkControl from '..';
+import Option from '../../../components/Option';
+import defaultToolbar from '../../../config/defaultToolbar';
+import ModalHandler from '../../../event-handler/modals';
+import localeTranslations from '../../../i18n';
 
-describe("LinkControl test suite", () => {
-  const contentBlocks = convertFromHTML("<div>test</div>");
+describe('LinkControl test suite', () => {
+  const contentBlocks = convertFromHTML('<div>test</div>');
   const contentState = ContentState.createFromBlockArray(contentBlocks);
   const editorState = EditorState.createWithContent(contentState);
 
-  it("should have a div when rendered", () => {
+  it('should have a div when rendered', () => {
     expect(
       mount(
         <LinkControl
@@ -29,11 +29,11 @@ describe("LinkControl test suite", () => {
         />
       )
         .html()
-        .startsWith("<div")
+        .startsWith('<div')
     ).to.equal(true);
   });
 
-  it("should have 2 child elements by default", () => {
+  it('should have 2 child elements by default', () => {
     const control = mount(
       <LinkControl
         onChange={() => {}}
@@ -46,7 +46,7 @@ describe("LinkControl test suite", () => {
     expect(control.find(Option).length).to.equal(2);
   });
 
-  it("should have no value for state variable link default", () => {
+  it('should have no value for state variable link default', () => {
     const control = mount(
       <LinkControl
         onChange={() => {}}
@@ -61,7 +61,7 @@ describe("LinkControl test suite", () => {
     assert.equal(state.link, undefined);
   });
 
-  it("should convert links starting with www to start with http://", () => {
+  it('should convert links starting with www to start with http://', () => {
     const onChange = spy();
     const control = mount(
       <LinkControl
@@ -73,47 +73,49 @@ describe("LinkControl test suite", () => {
       />
     );
     control.setState({ expanded: true });
-    const buttons = control.find(".rdw-option-wrapper");
-    buttons.first().simulate("click");
-    const inputs = control.find(".rdw-link-modal-input");
-    inputs.last().simulate("change", {
-      target: { name: "linkTitle", value: "the google" }
+    const buttons = control.find('.rdw-option-wrapper');
+    buttons.first().simulate('click');
+    const inputs = control.find('.rdw-link-modal-input');
+    inputs.last().simulate('change', {
+      target: { name: 'linkTitle', value: 'the google' },
     });
-    inputs.first().simulate("change", {
-      target: { name: "linkTarget", value: "www.google.com" }
+    inputs.first().simulate('change', {
+      target: { name: 'linkTarget', value: 'www.google.com' },
     });
-    const addButton = control.find(".rdw-link-modal-btn").first();
-    addButton.simulate("click");
+    const addButton = control.find('.rdw-link-modal-btn').first();
+    addButton.simulate('click');
     const lastCall = contentState.getLastCreatedEntityKey();
-    assert.equal(
-      contentState.getEntity(lastCall).getData().url,
-      "http://www.google.com"
-    );
+    assert.equal(contentState.getEntity(lastCall).getData().url, 'http://www.google.com');
   });
 
-  it("should use custom linkifier if one is set with linkCallback", () => {
+  it('should use custom linkifier if one is set with linkCallback', () => {
     const onChange = spy();
-    const control = mount(<LinkControl config={{ ...defaultToolbar.link, linkCallback: props => props }} onChange={onChange} editorState={editorState} translations={localeTranslations.en} modalHandler={new ModalHandler()} />);
-    control.setState({ expanded: true });
-    const buttons = control.find(".rdw-option-wrapper");
-    buttons.first().simulate("click");
-    const inputs = control.find(".rdw-link-modal-input");
-    inputs.last().simulate("change", {
-      target: { name: "linkTitle", value: "the google" }
-    });
-    inputs.first().simulate("change", {
-      target: { name: "linkTarget", value: "www.google.com" }
-    });
-    const addButton = control.find(".rdw-link-modal-btn").first();
-    addButton.simulate("click");
-    const lastCall = contentState.getLastCreatedEntityKey();
-    assert.equal(
-      contentState.getEntity(lastCall).getData().url,
-      "www.google.com"
+    const control = mount(
+      <LinkControl
+        config={{ ...defaultToolbar.link, linkCallback: (props) => props }}
+        onChange={onChange}
+        editorState={editorState}
+        translations={localeTranslations.en}
+        modalHandler={new ModalHandler()}
+      />
     );
+    control.setState({ expanded: true });
+    const buttons = control.find('.rdw-option-wrapper');
+    buttons.first().simulate('click');
+    const inputs = control.find('.rdw-link-modal-input');
+    inputs.last().simulate('change', {
+      target: { name: 'linkTitle', value: 'the google' },
+    });
+    inputs.first().simulate('change', {
+      target: { name: 'linkTarget', value: 'www.google.com' },
+    });
+    const addButton = control.find('.rdw-link-modal-btn').first();
+    addButton.simulate('click');
+    const lastCall = contentState.getLastCreatedEntityKey();
+    assert.equal(contentState.getEntity(lastCall).getData().url, 'www.google.com');
   });
 
-  it("should return input value by default", () => {
+  it('should return input value by default', () => {
     const onChange = spy();
     const control = mount(
       <LinkControl
@@ -125,18 +127,18 @@ describe("LinkControl test suite", () => {
       />
     );
     control.setState({ expanded: true });
-    const buttons = control.find(".rdw-option-wrapper");
-    buttons.first().simulate("click");
-    const inputs = control.find(".rdw-link-modal-input");
-    inputs.last().simulate("change", {
-      target: { name: "linkTitle", value: "the google" }
+    const buttons = control.find('.rdw-option-wrapper');
+    buttons.first().simulate('click');
+    const inputs = control.find('.rdw-link-modal-input');
+    inputs.last().simulate('change', {
+      target: { name: 'linkTitle', value: 'the google' },
     });
-    inputs.first().simulate("change", {
-      target: { name: "linkTarget", value: "#hash-link" }
+    inputs.first().simulate('change', {
+      target: { name: 'linkTarget', value: '#hash-link' },
     });
-    const addButton = control.find(".rdw-link-modal-btn").first();
-    addButton.simulate("click");
+    const addButton = control.find('.rdw-link-modal-btn').first();
+    addButton.simulate('click');
     const lastCall = contentState.getLastCreatedEntityKey();
-    assert.equal(contentState.getEntity(lastCall).getData().url, "#hash-link");
+    assert.equal(contentState.getEntity(lastCall).getData().url, '#hash-link');
   });
 });
