@@ -395,6 +395,18 @@ class Editor extends Component {
     }
   };
 
+  hidePlaceholder = () => {
+
+    // If the user changes block type before entering any text, we can hide the placeholder
+    var contentState = this.state.editorState.getCurrentContent();
+    if (!contentState.hasText()) {
+      if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+        return true;
+      }
+    }
+    return false;
+  }
+
   blockRenderMap = DefaultDraftBlockRenderMap.merge(
     Map({
       'header-one': {
@@ -457,12 +469,10 @@ class Editor extends Component {
       wrapperClassName
     );
 
-    const EditorClass = classNames(
-      {
-        ['Editor']: true,
-      },
-      editorClassName
-    );
+    const EditorClass = classNames({
+      ['Editor']: true,
+      ['hide-placeholder']: this.hidePlaceholder()
+    }, editorClassName);
 
     return (
       <div
