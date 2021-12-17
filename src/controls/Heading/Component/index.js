@@ -69,7 +69,7 @@ class LayoutComponent extends Component {
         >
           <Icon name={icon} size={20} />
           {blocks.map((block, index) => (
-            <DropdownOption active={blockType === block.label} value={block.label} key={index}>
+            <DropdownOption index={index} active={blockType === block.label} value={block.label} key={index}>
               <Heading
                 size={block.size}
                 className="Editor-heading-option"

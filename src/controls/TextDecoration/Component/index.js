@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Option from '../../../components/Option';
 import { Dropdown, DropdownOption } from '../../../components/Dropdown';
-import { Icon, Tooltip, Text, Checkbox } from '@innovaccer/design-system';
+import { Icon, Tooltip, Text, Checkbox, Button } from '@innovaccer/design-system';
 
 export default class TextDecoration extends Component {
   static propTypes = {
@@ -17,7 +17,7 @@ export default class TextDecoration extends Component {
     className: PropTypes.string,
   };
 
-  renderInDropdown(): Object {
+  renderInDropdown() {
     const { config, expanded, doExpand, onExpandEvent, doCollapse, currentState, onChange } = this.props;
 
     const len = config.options.length - config.max;
@@ -54,7 +54,7 @@ export default class TextDecoration extends Component {
     );
   }
 
-  render(): Object {
+  render() {
     const { config, currentState, onChange, className } = this.props;
     const hiddenOptions = config.options.length - config.max;
     const visibleOptions = config.max;
@@ -74,7 +74,16 @@ export default class TextDecoration extends Component {
 
           return (
             <Tooltip tooltip={title}>
-              <Option key={index} value={style} onClick={onChange} active={active} className="mr-2">
+              <Option
+                aria-label={`${style} button`}
+                role="button"
+                tabIndex={0}
+                key={index}
+                value={style}
+                onClick={onChange}
+                active={active}
+                className="mr-2"
+              >
                 <Icon name={icon} size={20} appearance={active ? 'info' : 'default'} />
               </Option>
             </Tooltip>

@@ -20,14 +20,14 @@ export default class LayoutComponent extends Component {
     className: PropTypes.string,
   };
 
-  options: Array = ['unordered', 'ordered'];
+  options = ['unordered', 'ordered'];
 
-  toggleBlockType: Function = (blockType: String): void => {
+  toggleBlockType = (blockType) => {
     const { onChange } = this.props;
     onChange(blockType);
   };
 
-  render(): Object {
+  render() {
     const {
       config,
       currentState: { listType },
@@ -42,6 +42,8 @@ export default class LayoutComponent extends Component {
       },
       className
     );
+
+    // todo
 
     return (
       <div className={ListClass}>

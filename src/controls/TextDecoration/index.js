@@ -21,8 +21,6 @@ export default class Inline extends Component {
     this.state = {
       currentStyles: editorState ? this.changeKeys(getSelectionInlineStyle(editorState)) : {},
     };
-
-    modalHandler.registerCallBack(this.expandCollapse);
   }
 
   componentDidUpdate(prevProps) {
@@ -34,20 +32,10 @@ export default class Inline extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const { modalHandler } = this.props;
-    modalHandler.deregisterCallBack(this.expandCollapse);
-  }
-
-  onExpandEvent = () => {
-    this.signalExpanded = !this.state.expanded;
-  };
-
   expandCollapse = () => {
-    this.setState({
-      expanded: this.signalExpanded,
-    });
-    this.signalExpanded = false;
+    this.setState((prevState) => ({
+      expanded: !prevState.expanded,
+    }));
   };
 
   toggleInlineStyle = (style) => {
@@ -103,7 +91,7 @@ export default class Inline extends Component {
         config={config}
         currentState={currentStyles}
         expanded={expanded}
-        onExpandEvent={this.onExpandEvent}
+        onExpandEvent={this.expandCollapse}
         doExpand={this.doExpand}
         doCollapse={this.doCollapse}
         onChange={this.toggleInlineStyle}

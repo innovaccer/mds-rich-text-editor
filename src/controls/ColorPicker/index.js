@@ -8,7 +8,6 @@ class ColorPicker extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     editorState: PropTypes.object.isRequired,
-    modalHandler: PropTypes.object,
     config: PropTypes.object,
     className: PropTypes.string,
   };
@@ -21,7 +20,7 @@ class ColorPicker extends Component {
 
   constructor(props) {
     super(props);
-    const { editorState, modalHandler } = props;
+    const { editorState } = props;
     const state = {
       expanded: false,
       currentColor: undefined,
@@ -29,49 +28,27 @@ class ColorPicker extends Component {
     };
     if (editorState) {
       state.currentColor = getSelectionCustomInlineStyle(editorState, ['COLOR']).COLOR || 'color-var(--text)';
-
       state.currentBgColor = getSelectionCustomInlineStyle(editorState, ['BGCOLOR']).BGCOLOR;
     }
 
     this.state = state;
-    modalHandler.registerCallBack(this.expandCollapse);
   }
 
-  componentDidUpdate(prevProps) {
-    const { editorState } = this.props;
-    if (editorState && editorState !== prevProps.editorState) {
-      this.setState({
-        currentColor: getSelectionCustomInlineStyle(editorState, ['COLOR']).COLOR || 'color-var(--text)',
-        currentBgColor: getSelectionCustomInlineStyle(editorState, ['BGCOLOR']).BGCOLOR,
-      });
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   const { editorState } = this.props;
+  //   if (editorState && editorState !== prevProps.editorState) {
+  //     this.setState({
+  //       currentColor: getSelectionCustomInlineStyle(editorState, ['COLOR']).COLOR || 'color-var(--text)',
+  //       currentBgColor: getSelectionCustomInlineStyle(editorState, ['BGCOLOR']).BGCOLOR,
+  //     });
+  //   }
+  // }
 
-  componentWillUnmount() {
-    const { modalHandler } = this.props;
-    modalHandler.deregisterCallBack(this.expandCollapse);
-  }
-
-  onExpandEvent = () => {
-    this.signalExpanded = !this.state.expanded;
-  };
-
-  expandCollapse = () => {
-    this.setState({
-      expanded: this.signalExpanded,
-    });
-    this.signalExpanded = false;
-  };
-
-  doExpand = () => {
-    this.setState({
-      expanded: true,
-    });
-  };
-
-  doCollapse = () => {
-    this.setState({
-      expanded: false,
+  toggleColorPicker = () => {
+    this.setState((prevState) => {
+      return {
+        expanded: !prevState.expanded,
+      };
     });
   };
 
@@ -86,11 +63,21 @@ class ColorPicker extends Component {
       }
     }
 
-    const newState = toggleCustomInlineStyle(editorState, style, color);
-    if (newState) {
-      onChange(newState);
-    }
-    this.doCollapse();
+    this.setState(
+      () => {
+        return {
+          currentColor: color ? `color-${color}` : 'color-var(--text)',
+          currentBgColor: getSelectionCustomInlineStyle(editorState, ['BGCOLOR']).BGCOLOR,
+          expanded: false,
+        };
+      },
+      () => {
+        const newState = toggleCustomInlineStyle(editorState, style, color);
+        if (newState) {
+          onChange(newState);
+        }
+      }
+    );
   };
 
   render() {
@@ -106,9 +93,7 @@ class ColorPicker extends Component {
         className={className}
         onChange={this.toggleColor}
         expanded={expanded}
-        onExpandEvent={this.onExpandEvent}
-        doExpand={this.doExpand}
-        doCollapse={this.doCollapse}
+        onToggle={this.toggleColorPicker}
         currentState={{ color, bgColor }}
       />
     );

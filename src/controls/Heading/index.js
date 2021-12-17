@@ -9,19 +9,17 @@ class Heading extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     editorState: PropTypes.object,
-    modalHandler: PropTypes.object,
     config: PropTypes.object,
     className: PropTypes.string,
   };
 
   constructor(props) {
     super(props);
-    const { editorState, modalHandler } = props;
+    const { editorState } = props;
     this.state = {
       expanded: false,
       currentBlockType: editorState ? getSelectedBlocksType(editorState) : 'unstyled',
     };
-    modalHandler.registerCallBack(this.expandCollapse);
   }
 
   componentDidUpdate(prevProps) {
@@ -33,20 +31,10 @@ class Heading extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const { modalHandler } = this.props;
-    modalHandler.deregisterCallBack(this.expandCollapse);
-  }
-
-  onExpandEvent = () => {
-    this.signalExpanded = !this.state.expanded;
-  };
-
   expandCollapse = () => {
-    this.setState({
-      expanded: this.signalExpanded,
-    });
-    this.signalExpanded = false;
+    this.setState((x) => ({
+      expanded: !x.expanded,
+    }));
   };
 
   blocksTypes = [
@@ -89,7 +77,7 @@ class Heading extends Component {
         currentState={{ blockType: blockType && blockType.label }}
         onChange={this.toggleBlockType}
         expanded={expanded}
-        onExpandEvent={this.onExpandEvent}
+        onExpandEvent={this.expandCollapse}
         doExpand={this.doExpand}
         doCollapse={this.doCollapse}
         className={className}

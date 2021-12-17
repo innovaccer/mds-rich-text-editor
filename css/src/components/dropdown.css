@@ -28,6 +28,10 @@
   padding: var(--spacing-m) 0 var(--spacing-m) 0;
 }
 
+.Editor-dropdown-optionWrapper:focus {
+  outline: none;
+}
+
 .Editor-dropdown-option {
   display: flex;
   align-items: center;
@@ -38,9 +42,11 @@
 }
 
 .Editor-dropdown-option:hover,
+.Editor-dropdown-option:focus,
 .Editor-dropdown-option--highlight {
   background-color: var(--secondary-lightest);
   cursor: pointer;
+  outline: none;
 }
 
 .Editor-dropdown-option--active {

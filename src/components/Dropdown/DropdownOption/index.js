@@ -27,7 +27,7 @@ export default class DropDownOption extends Component {
     highlightedClassName: '',
   };
 
-  onClick: Function = (event): void => {
+  onClick = (event) => {
     const { onSelect, onClick, value, disabled } = this.props;
     if (!disabled) {
       if (onSelect) {
@@ -40,17 +40,16 @@ export default class DropDownOption extends Component {
     }
   };
 
-  setHighlighted: Function = (): void => {
-    const { setHighlighted, index } = this.props;
-    setHighlighted(index);
+  setHighlighted = () => {
+    this.props.setHighlighted(this.props.index);
   };
 
-  resetHighlighted: Function = (): void => {
+  resetHighlighted = () => {
     const { setHighlighted } = this.props;
     setHighlighted(-1);
   };
 
-  render(): Object {
+  render() {
     const {
       children,
       active,
@@ -75,6 +74,7 @@ export default class DropDownOption extends Component {
 
     return (
       <li
+        tabIndex={1}
         className={OptionClass}
         onMouseEnter={this.setHighlighted}
         onMouseLeave={this.resetHighlighted}

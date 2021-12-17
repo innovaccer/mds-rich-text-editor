@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { DropdownOption } from '../../../components/Dropdown';
 import Option from '../../../components/Option';
-import { Tooltip, Icon, Text } from '@innovaccer/design-system';
+import { Tooltip, Icon, Text, Button } from '@innovaccer/design-system';
 
 class LayoutComponent extends Component {
   static propTypes = {
@@ -15,16 +15,21 @@ class LayoutComponent extends Component {
     translations: PropTypes.object,
     inDropdown: PropTypes.bool,
   };
+  inputRef = null;
 
-  state = {
-    imgSrc: '',
-    dragEnter: false,
-    uploadHighlighted: this.props.config.uploadEnabled && !!this.props.config.uploadCallback,
-    showImageLoading: false,
-    height: this.props.config.defaultSize.height,
-    width: this.props.config.defaultSize.width,
-    alt: '',
-  };
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+    this.state = {
+      imgSrc: '',
+      dragEnter: false,
+      uploadHighlighted: this.props.config.uploadEnabled && !!this.props.config.uploadCallback,
+      showImageLoading: false,
+      height: this.props.config.defaultSize.height,
+      width: this.props.config.defaultSize.width,
+      alt: '',
+    };
+  }
 
   componentDidUpdate(prevProps) {
     const { config } = this.props;
@@ -153,9 +158,11 @@ class LayoutComponent extends Component {
       });
   };
 
-  fileUploadClick = () => {
+  fileUploadClick = (_, event) => {
+    if (this.inputRef.current && event && event.key) {
+      this.inputRef.current.click();
+    }
     this.fileUpload = true;
-    //event.stopPropagation();
   };
 
   stopPropagation = (event) => {
@@ -164,6 +171,12 @@ class LayoutComponent extends Component {
       event.stopPropagation();
     } else {
       this.fileUpload = false;
+    }
+  };
+
+  handleButtonClick = () => {
+    if (this.inputRef && this.inputRef.current) {
+      this.inputRef.current.click();
     }
   };
 
@@ -178,10 +191,11 @@ class LayoutComponent extends Component {
       return (
         <DropdownOption>
           <label htmlFor="file" className="Editor-insert-imageLabel">
-            <Icon size={20} name={icon} className="mr-4" />
+            <Icon name={icon} size={20} className="mr-4" />
             <Text>{title}</Text>
           </label>
           <input
+            ref={this.inputRef}
             type="file"
             id="file"
             accept={inputAccept}
@@ -195,11 +209,14 @@ class LayoutComponent extends Component {
     return (
       <div aria-haspopup="true" aria-expanded={expanded}>
         <Tooltip tooltip={title}>
-          <Option className={'mr-2'} value="unordered-list-item" onClick={this.fileUploadClick}>
-            <label htmlFor="file" className="Editor-insert-imageLabel">
-              <Icon name={icon} size={20} />
-            </label>
+          <Option aria-label="add image" className={'mr-2'} value="unordered-list-item" onClick={this.fileUploadClick}>
+            <span>
+              <label htmlFor="file" className="Editor-insert-imageLabel">
+                <Icon name={icon} size={20} />
+              </label>
+            </span>
             <input
+              ref={this.inputRef}
               type="file"
               id="file"
               accept={inputAccept}
