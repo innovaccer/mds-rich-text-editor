@@ -5,9 +5,9 @@ import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 export const All = (args) => (
   <Editor
     toolbar={{
-      options: ["textDecoration", "list"],
+      options: ['textDecoration', 'list'],
       textDecoration: {
-        options: ["bold", "italic", "underline"],
+        options: ['bold', 'italic', 'underline'],
       },
     }}
   />

@@ -40,7 +40,7 @@ class LayoutComponent extends Component {
     onChange(embeddedLink, height, width);
   };
 
-  updateValue = event => {
+  updateValue = (event) => {
     this.setState({
       [`${event.target.name}`]: event.target.value,
     });
@@ -54,10 +54,7 @@ class LayoutComponent extends Component {
       translations,
     } = this.props;
     return (
-      <div
-        className={classNames('rdw-embedded-modal', popupClassName)}
-        onClick={stopPropagation}
-      >
+      <div className={classNames('rdw-embedded-modal', popupClassName)} onClick={stopPropagation}>
         <div className="rdw-embedded-modal-header">
           <span className="rdw-embedded-modal-header-option">
             {translations['components.controls.embedded.embeddedlink']}
@@ -68,9 +65,7 @@ class LayoutComponent extends Component {
           <span className="rdw-embedded-modal-link-input-wrapper">
             <input
               className="rdw-embedded-modal-link-input"
-              placeholder={
-                translations['components.controls.embedded.enterlink']
-              }
+              placeholder={translations['components.controls.embedded.enterlink']}
               onChange={this.updateValue}
               onBlur={this.updateValue}
               value={embeddedLink}
@@ -112,11 +107,7 @@ class LayoutComponent extends Component {
           >
             {translations['generic.add']}
           </button>
-          <button
-            type="button"
-            className="rdw-embedded-modal-btn"
-            onClick={doCollapse}
-          >
+          <button type="button" className="rdw-embedded-modal-btn" onClick={doCollapse}>
             {translations['generic.cancel']}
           </button>
         </span>

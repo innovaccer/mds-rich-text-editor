@@ -9,7 +9,7 @@ import {
   convertFromRaw,
   CompositeDecorator,
   getDefaultKeyBinding,
-  DefaultDraftBlockRenderMap
+  DefaultDraftBlockRenderMap,
 } from 'draft-js';
 import {
   changeDepth,
@@ -46,9 +46,7 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     const toolbar = mergeRecursive(defaultToolbar, props.toolbar);
-    const wrapperId = props.wrapperId
-      ? props.wrapperId
-      : Math.floor(Math.random() * 10000);
+    const wrapperId = props.wrapperId ? props.wrapperId : Math.floor(Math.random() * 10000);
     this.wrapperId = `Editor-wrapper-${wrapperId}`;
     this.modalHandler = new ModalHandler();
     this.focusHandler = new FocusHandler();
@@ -59,7 +57,7 @@ class Editor extends Component {
         isImageAlignmentEnabled: this.isImageAlignmentEnabled,
         getEditorState: this.getEditorState,
         onChange: this.onChange,
-      },
+      }
       //props.customBlockRenderFunc
     );
     this.editorProps = this.filterEditorProps(props);
@@ -83,7 +81,6 @@ class Editor extends Component {
   // todo: change decorators depending on properties recceived in componentWillReceiveProps.
 
   componentDidUpdate(prevProps) {
-
     if (prevProps === this.props) return;
     const newState = {};
     const { editorState, contentState } = this.props;
@@ -91,10 +88,7 @@ class Editor extends Component {
       const toolbar = mergeRecursive(defaultToolbar, toolbar);
       newState.toolbar = toolbar;
     }
-    if (
-      hasProperty(this.props, 'editorState') &&
-      editorState !== prevProps.editorState
-    ) {
+    if (hasProperty(this.props, 'editorState') && editorState !== prevProps.editorState) {
       if (editorState) {
         newState.editorState = EditorState.set(editorState, {
           decorator: this.compositeDecorator,
@@ -102,10 +96,7 @@ class Editor extends Component {
       } else {
         newState.editorState = EditorState.createEmpty(this.compositeDecorator);
       }
-    } else if (
-      hasProperty(this.props, 'contentState') &&
-      contentState !== prevProps.contentState
-    ) {
+    } else if (hasProperty(this.props, 'contentState') && contentState !== prevProps.contentState) {
       if (contentState) {
         const newEditorState = this.changeEditorState(contentState);
         if (newEditorState) {
@@ -115,10 +106,7 @@ class Editor extends Component {
         newState.editorState = EditorState.createEmpty(this.compositeDecorator);
       }
     }
-    if (
-      prevProps.editorState !== editorState ||
-      prevProps.contentState !== contentState
-    ) {
+    if (prevProps.editorState !== editorState || prevProps.contentState !== contentState) {
       extractInlineStyle(newState.editorState);
     }
     if (Object.keys(newState).length) this.setState(newState);
@@ -132,7 +120,7 @@ class Editor extends Component {
     });
   };
 
-  onEditorFocus = event => {
+  onEditorFocus = (event) => {
     const { onFocus } = this.props;
     this.setState({
       editorFocused: true,
@@ -147,21 +135,17 @@ class Editor extends Component {
     this.focusHandler.onEditorMouseDown();
   };
 
-  keyBindingFn = event => {
+  keyBindingFn = (event) => {
     if (event.key === 'Tab') {
       const { onTab } = this.props;
       // if (!onTab || !onTab(event)) {
-      const editorState = changeDepth(
-        this.state.editorState,
-        event.shiftKey ? -1 : 1,
-        4
-      );
+      const editorState = changeDepth(this.state.editorState, event.shiftKey ? -1 : 1, 4);
       if (editorState && editorState !== this.state.editorState) {
         this.onChange(editorState);
         event.preventDefault();
       }
       // }
-      if (onTab) onTab(event, editorState)
+      if (onTab) onTab(event, editorState);
       return null;
     }
     if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
@@ -172,14 +156,14 @@ class Editor extends Component {
     return getDefaultKeyBinding(event);
   };
 
-  onToolbarFocus = event => {
+  onToolbarFocus = (event) => {
     const { onFocus } = this.props;
     if (onFocus && this.focusHandler.isToolbarFocused()) {
       onFocus(event);
     }
   };
 
-  onWrapperBlur = event => {
+  onWrapperBlur = (event) => {
     const { onBlur } = this.props;
 
     if (onBlur && this.focusHandler.isEditorBlur(event)) {
@@ -189,13 +173,7 @@ class Editor extends Component {
 
   onChange = (editorState, type) => {
     const { readOnly, onEditorStateChange } = this.props;
-    if (
-      !readOnly &&
-      !(
-        getSelectedBlocksType(editorState) === 'atomic' &&
-        editorState.getSelection().isCollapsed
-      )
-    ) {
+    if (!readOnly && !(getSelectedBlocksType(editorState) === 'atomic' && editorState.getSelection().isCollapsed)) {
       if (onEditorStateChange) {
         onEditorStateChange(editorState, this.props.wrapperId);
       }
@@ -207,11 +185,11 @@ class Editor extends Component {
     }
   };
 
-  setWrapperReference = ref => {
+  setWrapperReference = (ref) => {
     this.wrapper = ref;
   };
 
-  setEditorReference = ref => {
+  setEditorReference = (ref) => {
     if (this.props.editorRef) {
       this.props.editorRef(ref);
     }
@@ -231,7 +209,7 @@ class Editor extends Component {
     });
   };
 
-  getCompositeDecorator = toolbar => {
+  getCompositeDecorator = (toolbar) => {
     const decorators = [
       //...this.props.customDecorators,
       getLinkDecorator({
@@ -262,12 +240,11 @@ class Editor extends Component {
 
   getWrapperRef = () => this.wrapper;
 
-  getEditorState = () => this.state ? this.state.editorState : null;
+  getEditorState = () => (this.state ? this.state.editorState : null);
 
   getSuggestions = () => this.props.mention && this.props.mention.suggestions;
 
-  afterChange = editorState => {
-
+  afterChange = (editorState) => {
     setTimeout(() => {
       const { onContentStateChange } = this.props;
       // if (onChange) {
@@ -283,7 +260,7 @@ class Editor extends Component {
 
   isImageAlignmentEnabled = () => this.state.toolbar.image.alignmentEnabled;
 
-  createEditorState = compositeDecorator => {
+  createEditorState = (compositeDecorator) => {
     let editorState;
     if (hasProperty(this.props, 'editorState')) {
       if (this.props.editorState) {
@@ -300,23 +277,14 @@ class Editor extends Component {
     } else if (hasProperty(this.props, 'contentState')) {
       if (this.props.contentState) {
         const contentState = convertFromRaw(this.props.contentState);
-        editorState = EditorState.createWithContent(
-          contentState,
-          compositeDecorator
-        );
+        editorState = EditorState.createWithContent(contentState, compositeDecorator);
         editorState = EditorState.moveSelectionToEnd(editorState);
       }
-    } else if (
-      hasProperty(this.props, 'defaultContentState')
-    ) {
-      let contentState =
-        this.props.defaultContentState;
+    } else if (hasProperty(this.props, 'defaultContentState')) {
+      let contentState = this.props.defaultContentState;
       if (contentState) {
         contentState = convertFromRaw(contentState);
-        editorState = EditorState.createWithContent(
-          contentState,
-          compositeDecorator
-        );
+        editorState = EditorState.createWithContent(contentState, compositeDecorator);
         editorState = EditorState.moveSelectionToEnd(editorState);
       }
     }
@@ -326,7 +294,7 @@ class Editor extends Component {
     return editorState;
   };
 
-  filterEditorProps = props =>
+  filterEditorProps = (props) =>
     filter(props, [
       'onChange',
       'onEditorStateChange',
@@ -362,16 +330,15 @@ class Editor extends Component {
       'customStyleMap',
     ]);
 
-  getStyleMap = props => ({ ...getCustomStyleMap(), ...props.customStyleMap });
+  getStyleMap = (props) => ({
+    ...getCustomStyleMap(),
+    ...props.customStyleMap,
+  });
 
-  changeEditorState = contentState => {
+  changeEditorState = (contentState) => {
     const newContentState = convertFromRaw(contentState);
     let { editorState } = this.state;
-    editorState = EditorState.push(
-      editorState,
-      newContentState,
-      'insert-characters'
-    );
+    editorState = EditorState.push(editorState, newContentState, 'insert-characters');
     editorState = EditorState.moveSelectionToEnd(editorState);
     return editorState;
   };
@@ -382,7 +349,7 @@ class Editor extends Component {
     });
   };
 
-  handleKeyCommand = command => {
+  handleKeyCommand = (command) => {
     const {
       editorState,
       toolbar: { textDecoration },
@@ -397,7 +364,7 @@ class Editor extends Component {
     return false;
   };
 
-  handleReturn = event => {
+  handleReturn = (event) => {
     if (SuggestionHandler.isOpen()) {
       return true;
     }
@@ -412,9 +379,7 @@ class Editor extends Component {
 
   handlePastedTextFn = (text, html) => {
     const { editorState } = this.state;
-    const {
-      handlePastedText: handlePastedTextProp,
-    } = this.props;
+    const { handlePastedText: handlePastedTextProp } = this.props;
 
     if (handlePastedTextProp) {
       return handlePastedTextProp(text, html, editorState, this.onChange);
@@ -422,12 +387,8 @@ class Editor extends Component {
     return handlePastedText(text, html, editorState, this.onChange);
   };
 
-  preventDefault = event => {
-    if (
-      event.target.tagName === 'INPUT' ||
-      event.target.tagName === 'LABEL' ||
-      event.target.tagName === 'TEXTAREA'
-    ) {
+  preventDefault = (event) => {
+    if (event.target.tagName === 'INPUT' || event.target.tagName === 'LABEL' || event.target.tagName === 'TEXTAREA') {
       this.focusHandler.onInputMouseDown();
     } else {
       event.preventDefault();
@@ -437,21 +398,21 @@ class Editor extends Component {
   blockRenderMap = DefaultDraftBlockRenderMap.merge(
     Map({
       'header-one': {
-        wrapper: <Heading size="xxl">{this.props.children}</Heading>
+        wrapper: <Heading size="xxl">{this.props.children}</Heading>,
       },
       'header-two': {
-        wrapper: <Heading size="xl">{this.props.children}</Heading>
+        wrapper: <Heading size="xl">{this.props.children}</Heading>,
       },
       'header-three': {
-        wrapper: <Heading size="l">{this.props.children}</Heading>
+        wrapper: <Heading size="l">{this.props.children}</Heading>,
       },
       'header-four': {
-        wrapper: <Heading size="m">{this.props.children}</Heading>
+        wrapper: <Heading size="m">{this.props.children}</Heading>,
       },
-      'unstyled': {
+      unstyled: {
         element: 'p',
-        wrapper: <div>{this.props.children}</div>
-      }
+        wrapper: <div>{this.props.children}</div>,
+      },
     })
   );
 
@@ -482,17 +443,26 @@ class Editor extends Component {
       // },
     };
 
-    const ToolbarClass = classNames({
-      ['Editor-toolbar']: true,
-    }, toolbarClassName);
+    const ToolbarClass = classNames(
+      {
+        ['Editor-toolbar']: true,
+      },
+      toolbarClassName
+    );
 
-    const WrapperClass = classNames({
-      ['Editor-wrapper']: true,
-    }, wrapperClassName);
+    const WrapperClass = classNames(
+      {
+        ['Editor-wrapper']: true,
+      },
+      wrapperClassName
+    );
 
-    const EditorClass = classNames({
-      ['Editor']: true,
-    }, editorClassName);
+    const EditorClass = classNames(
+      {
+        ['Editor']: true,
+      },
+      editorClassName
+    );
 
     return (
       <div
@@ -501,7 +471,7 @@ class Editor extends Component {
         onClick={this.modalHandler.onEditorClick}
         onBlur={this.onWrapperBlur}
       >
-        {this.props.showToolbar &&
+        {this.props.showToolbar && (
           <div
             className={ToolbarClass}
             onMouseDown={this.preventDefault}
@@ -522,7 +492,7 @@ class Editor extends Component {
               );
             })}
           </div>
-        }
+        )}
         <div
           ref={this.setWrapperReference}
           className={EditorClass}
@@ -561,13 +531,13 @@ Editor.utils = {
   convertFromRaw,
   convertToRaw,
   htmlToState,
-  stateToHTML
+  stateToHTML,
 };
 
 Editor.propTypes = {
   /**
    * Used to enable mention in the editor
-   * 
+   *
    * | Name | Description | Default |
    * | --- | --- | --- |
    * | seperator | Character that separates a mention from word preceding it | '  ' |
@@ -584,47 +554,47 @@ Editor.propTypes = {
     chipOptions: PropTypes.object,
     dropdownOptions: PropTypes.shape({
       dropdownClassName: PropTypes.string,
-      customOptionRenderer: PropTypes.func
+      customOptionRenderer: PropTypes.func,
     }),
     renderer: PropTypes.func,
     suggestions: PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-      icon: PropTypes.string
+      icon: PropTypes.string,
     }),
-    fetchSuggestions: PropTypes.func
+    fetchSuggestions: PropTypes.func,
   }),
   /**
    * The EditorState object is a complete snapshot of the state of the editor, including contents, cursor, and undo/redo history.
-   * 
+   *
    * All changes to content and selection within the editor will create new EditorState objects.
-   * 
+   *
    * [Read More about Editor State](https://draftjs.org/docs/api-reference-editor-state)
-   * 
+   *
    * **Works in case of controlled `Editor`**
    */
   editorState: PropTypes.object,
   /**
    * Callback function called each time there is change in state of editor
-   * 
+   *
    * onChange: (editorState: EditorState) => void;
    */
   onEditorStateChange: PropTypes.func,
   /**
    * Property to initialize editor state once when its created.
-   * 
+   *
    * **Works in case of uncontrolled `Editor`**
    */
   defaultEditorState: PropTypes.object,
   /**
    * Callback function called each time there is change in state of editor
-   * 
+   *
    * onChange: (contentState: ContentState) => void;
    */
   onContentStateChange: PropTypes.func,
   /**
    *  Property to initialize content state once when its created.
-   * 
+   *
    * **Works in case of uncontrolled `Editor`**
    */
   defaultContentState: PropTypes.object,
@@ -641,7 +611,7 @@ Editor.propTypes = {
   /**
    * <pre style="font-family: monospace; font-size: 13px; background: #f8f8f8">
    * Customizes pre-built option in the toolbar
-   * 
+   *
    * ToolbarShape: {
    *   textDecoration: {
    *     max: number; // default: 3
@@ -661,13 +631,13 @@ Editor.propTypes = {
    *       title: string,
    *       alt: string,
    *       defaultSize: { height: string, width: string },
-   *       uploadCallback: 
+   *       uploadCallback:
    *         (file) => Promise<{ data: { link: <THE_URL>}}>
    *     }
    *   }
    * }
    * </pre>
-   * 
+   *
    * | Name | Description | Default |
    * | --- | --- | --- |
    * | max | Max controls visible on toolbar, rest are visible inside dropdown | |
@@ -702,19 +672,19 @@ Editor.propTypes = {
   editorStyle: PropTypes.object,
   /**
    * Callback called when editor is focused.
-   * 
+   *
    * onFocus = (event) => void;
    */
   onFocus: PropTypes.func,
   /**
    * Callback called when editor is blurred.
-   * 
+   *
    * onFocus = (event, editorState) => void;
    */
   onBlur: PropTypes.func,
   /**
    * Callback called when editor receives 'tab' keydown
-   * 
+   *
    * onTab = (event, editorState) => void;
    */
   onTab: PropTypes.func,
@@ -737,22 +707,22 @@ Editor.propTypes = {
   placeholder: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   /**
    * Attribute used to define a string that labels the current element.
-   * 
-   * Used in cases where a text label is not visible on the screen. 
+   *
+   * Used in cases where a text label is not visible on the screen.
    */
   ariaLabel: PropTypes.string,
   //ariaOwneeID: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   // customBlockRenderFunc: PropTypes.func,
   /**
-   * Custom id added to wrapper around the editor. 
+   * Custom id added to wrapper around the editor.
    */
   wrapperId: PropTypes.number,
   // customDecorators: PropTypes.array,
   /**
    * Reference of Editor can be obtained using editorRef property.
-   * 
+   *
    * This can be used to raise events on editor like focus editor.
-   * 
+   *
    * editorRef = (ref) => void;
    */
   editorRef: PropTypes.func,
@@ -761,7 +731,7 @@ Editor.propTypes = {
 
 Editor.defaultProps = {
   autoFocus: true,
-  showToolbar: true
+  showToolbar: true,
   // stripPastedStyles: false,
   //customDecorators: [],
 };

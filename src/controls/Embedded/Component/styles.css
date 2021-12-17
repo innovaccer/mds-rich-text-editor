@@ -3,7 +3,7 @@
   align-items: center;
   margin-bottom: 6px;
   position: relative;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 .rdw-embedded-modal {
   position: absolute;
@@ -13,13 +13,13 @@
   flex-direction: column;
   width: 235px;
   height: 180px;
-  border: 1px solid #F1F1F1;
+  border: 1px solid #f1f1f1;
   padding: 15px;
   border-radius: 2px;
   z-index: 100;
   background: white;
   justify-content: space-between;
-  box-shadow: 3px 3px 5px #BFBDBD;
+  box-shadow: 3px 3px 5px #bfbdbd;
 }
 .rdw-embedded-modal-header {
   font-size: 15px;
@@ -37,7 +37,7 @@
   width: 95px;
   border: 1px solid #f1f1f1;
   margin-top: 5px;
-  background: #6EB8D4;
+  background: #6eb8d4;
   border-bottom: 2px solid #0a66b7;
 }
 .rdw-embedded-modal-link-section {
@@ -48,7 +48,7 @@
   width: 88%;
   height: 35px;
   margin: 10px 0;
-  border: 1px solid #F1F1F1;
+  border: 1px solid #f1f1f1;
   border-radius: 2px;
   font-size: 15px;
   padding: 0 5px;
@@ -68,17 +68,17 @@
   margin: 0 3px;
   width: 75px;
   height: 30px;
-  border: 1px solid #F1F1F1;
+  border: 1px solid #f1f1f1;
   border-radius: 2px;
   cursor: pointer;
   background: white;
   text-transform: capitalize;
 }
 .rdw-embedded-modal-btn:hover {
-  box-shadow: 1px 1px 0px #BFBDBD;
+  box-shadow: 1px 1px 0px #bfbdbd;
 }
 .rdw-embedded-modal-btn:active {
-  box-shadow: 1px 1px 0px #BFBDBD inset;
+  box-shadow: 1px 1px 0px #bfbdbd inset;
 }
 .rdw-embedded-modal-btn:focus {
   outline: none !important;
@@ -95,7 +95,7 @@
 .rdw-embedded-modal-size-input {
   width: 80%;
   height: 20px;
-  border: 1px solid #F1F1F1;
+  border: 1px solid #f1f1f1;
   border-radius: 2px;
   font-size: 12px;
 }

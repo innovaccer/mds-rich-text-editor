@@ -2,12 +2,14 @@ const path = require('path');
 
 module.exports = {
   stories: ['../stories/**/*.story.@(js)'],
-  addons: [{
-    name: '@storybook/addon-essentials',
-    options: {
-      controls: false,
-    }
-  }],
+  addons: [
+    {
+      name: '@storybook/addon-essentials',
+      options: {
+        controls: false,
+      },
+    },
+  ],
 
   webpackFinal: async (config, { configType }) => {
     const customRules = [
@@ -20,6 +22,6 @@ module.exports = {
 
     // Return the altered config
     const newRules = [...config.module.rules, ...customRules];
-    return { ...config, module: { ...config.module, rules: newRules } }
+    return { ...config, module: { ...config.module, rules: newRules } };
   },
 };

@@ -35,12 +35,7 @@ export const All = (args) => {
           ],
         }}
       />
-      <Button
-        appearance="primary"
-        size="large"
-        onClick={onClick}
-        className="my-4"
-      >
+      <Button appearance="primary" size="large" onClick={onClick} className="my-4">
         Get Preview
       </Button>
       <div>
@@ -48,9 +43,7 @@ export const All = (args) => {
           {...args}
           raw={raw}
           entities={{
-            MENTION: (children, entity, { key }) => (
-              <Chip label={children} type="action" key={key} />
-            )
+            MENTION: (children, entity, { key }) => <Chip label={children} type="action" key={key} />,
           }}
         />
       </div>
@@ -70,7 +63,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

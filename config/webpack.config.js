@@ -51,10 +51,10 @@ module.exports = {
       s3Options: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: process.env.AWS_REGION
+        region: process.env.AWS_REGION,
       },
       s3UploadOptions: {
-        Bucket: `${process.env.CDN_BUCKET}/${moduleName}/v${moduleVersion}`
+        Bucket: `${process.env.CDN_BUCKET}/${moduleName}/v${moduleVersion}`,
       },
       directory: path.join(__dirname, '../public'),
     }),
@@ -89,9 +89,9 @@ module.exports = {
         loader: 'file-loader',
         options: {
           limit: 10000,
-          name: '[name].[hash:7].[ext]'
-        }
-      }
+          name: '[name].[hash:7].[ext]',
+        },
+      },
     ],
   },
   resolve: {

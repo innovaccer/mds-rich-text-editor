@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react";
-import embed from "embed-video";
+import React from 'react';
+import embed from 'embed-video';
 
-import { Editor } from "../../src";
+import { Editor } from '../../src';
 
 const Embeddable = () => (
   <div className="rdw-storybook-root">
@@ -15,14 +15,14 @@ const Embeddable = () => (
       editorClassName="rdw-storybook-editor"
       toolbar={{
         link: {
-          linkCallback: params => ({ ...params })
+          linkCallback: (params) => ({ ...params }),
         },
         embedded: {
-          embedCallback: link => {
+          embedCallback: (link) => {
             const detectedSrc = /<iframe.*? src="(.*?)"/.exec(embed(link));
             return (detectedSrc && detectedSrc[1]) || link;
-          }
-        }
+          },
+        },
       }}
     />
   </div>

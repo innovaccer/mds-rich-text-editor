@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { RichUtils } from 'draft-js';
-import {
-  changeDepth,
-  getBlockBeforeSelectedBlock,
-  getSelectedBlock,
-  isListBlock,
-} from 'draftjs-utils';
+import { changeDepth, getBlockBeforeSelectedBlock, getSelectedBlock, isListBlock } from 'draftjs-utils';
 
 import LayoutComponent from './Component';
 
@@ -46,7 +41,7 @@ export default class List extends Component {
     this.signalExpanded = !this.state.expanded;
   };
 
-  onChange = value => {
+  onChange = (value) => {
     if (value === 'unordered') {
       this.toggleBlockType('unordered-list-item');
     } else if (value === 'ordered') {
@@ -77,7 +72,7 @@ export default class List extends Component {
     });
   };
 
-  toggleBlockType = blockType => {
+  toggleBlockType = (blockType) => {
     const { onChange, editorState } = this.props;
     const newState = RichUtils.toggleBlockType(editorState, blockType);
 
@@ -86,7 +81,7 @@ export default class List extends Component {
     }
   };
 
-  adjustDepth = adjustment => {
+  adjustDepth = (adjustment) => {
     const { onChange, editorState } = this.props;
     const newState = changeDepth(editorState, adjustment, 4);
     if (newState) {
@@ -111,11 +106,7 @@ export default class List extends Component {
 
   isOutdentDisabled = () => {
     const { currentBlock } = this.state;
-    return (
-      !currentBlock ||
-      !isListBlock(currentBlock) ||
-      currentBlock.get('depth') <= 0
-    );
+    return !currentBlock || !isListBlock(currentBlock) || currentBlock.get('depth') <= 0;
   };
 
   render() {
@@ -143,8 +134,8 @@ export default class List extends Component {
         doCollapse={this.doCollapse}
         onChange={this.onChange}
         className={className}
-      // indentDisabled={indentDisabled}
-      // outdentDisabled={outdentDisabled}
+        // indentDisabled={indentDisabled}
+        // outdentDisabled={outdentDisabled}
       />
     );
   }

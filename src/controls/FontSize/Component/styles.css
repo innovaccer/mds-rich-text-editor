@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 6px;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 .rdw-fontsize-dropdown {
   min-width: 40px;

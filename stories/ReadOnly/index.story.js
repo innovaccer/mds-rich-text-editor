@@ -4,11 +4,7 @@ import React from 'react';
 import { Editor } from '../../src';
 import { disabledArgtypes } from '../__common__/argTypes';
 
-export const All = (args) => (
-  <Editor
-    {...args}
-  />
-);
+export const All = (args) => <Editor {...args} />;
 
 All.argTypes = {
   ...disabledArgtypes,
@@ -16,10 +12,10 @@ All.argTypes = {
 
 All.args = {
   editorClassName: 'RichTextEditor',
-  readOnly: true
+  readOnly: true,
 };
 
 export default {
   title: 'Library/ReadOnly',
-  component: Editor
+  component: Editor,
 };

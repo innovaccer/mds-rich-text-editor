@@ -21,22 +21,11 @@ export const All = (args) => {
 
   return (
     <div>
-      <Editor
-        {...args}
-        editorState={editorState}
-        onEditorStateChange={onEditorStateChange}
-      />
-      <Button
-        appearance="primary"
-        size="large"
-        onClick={onClick}
-        className="mt-4 mb-5"
-      >
+      <Editor {...args} editorState={editorState} onEditorStateChange={onEditorStateChange} />
+      <Button appearance="primary" size="large" onClick={onClick} className="mt-4 mb-5">
         Convert to markdown
       </Button>
-      <Paragraph>
-        {markdown}
-      </Paragraph>
+      <Paragraph>{markdown}</Paragraph>
     </div>
   );
 };
@@ -46,7 +35,7 @@ All.argTypes = {
 };
 
 All.args = {
-  ...commonArgs
+  ...commonArgs,
 };
 
 export default {
@@ -56,8 +45,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };
-

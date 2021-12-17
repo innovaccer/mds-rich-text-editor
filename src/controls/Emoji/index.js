@@ -50,7 +50,7 @@ export default class Emoji extends Component {
     });
   };
 
-  addEmoji = emoji => {
+  addEmoji = (emoji) => {
     const { editorState, onChange } = this.props;
     const contentState = Modifier.replaceText(
       editorState.getCurrentContent(),

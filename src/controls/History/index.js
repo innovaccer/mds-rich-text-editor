@@ -48,7 +48,7 @@ export default class History extends Component {
     this.signalExpanded = !this.state.expanded;
   };
 
-  onChange = action => {
+  onChange = (action) => {
     const { editorState, onChange } = this.props;
     const newState = EditorState[action](editorState);
     if (newState) {

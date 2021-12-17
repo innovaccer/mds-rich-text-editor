@@ -8,12 +8,7 @@ export const All = (args) => {
   const html = `<p>Innovaccer Rich Text Editor</p>`;
   const defaultEditorState = Editor.utils.htmlToState(html).editorState;
 
-  return (
-    <Editor
-      {...args}
-      defaultEditorState={defaultEditorState}
-    />
-  );
+  return <Editor {...args} defaultEditorState={defaultEditorState} />;
 };
 
 All.argTypes = {
@@ -21,7 +16,7 @@ All.argTypes = {
 };
 
 All.args = {
-  ...commonArgs
+  ...commonArgs,
 };
 
 export default {
@@ -31,7 +26,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

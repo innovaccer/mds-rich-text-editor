@@ -12,14 +12,8 @@ describe('ImageRenderer test suite', () => {
   const contentBlocks = convertFromHTML('<div>test</div>');
   const contentState = ContentState.createFromBlockArray(contentBlocks);
   const editorState = EditorState.createWithContent(contentState);
-  const entityKey = contentState
-    .createEntity('IMAGE', 'MUTABLE', { src: 'testing' })
-    .getLastCreatedEntityKey();
-  const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-    editorState,
-    entityKey,
-    ' ',
-  );
+  const entityKey = contentState.createEntity('IMAGE', 'MUTABLE', { src: 'testing' }).getLastCreatedEntityKey();
+  const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
 
   it('should have a div when rendered', () => {
     const Image = getImageComponent({
@@ -27,11 +21,10 @@ describe('ImageRenderer test suite', () => {
       isImageAlignmentEnabled: () => true,
     });
     expect(
-      mount(
-        <Image block={getAllBlocks(newEditorState).get(1)} contentState={contentState} />,
-      ).childAt(0).type(),
-    )
-      .to.equal('span');
+      mount(<Image block={getAllBlocks(newEditorState).get(1)} contentState={contentState} />)
+        .childAt(0)
+        .type()
+    ).to.equal('span');
   });
 
   it('should have state initialized correctly', () => {
@@ -39,9 +32,7 @@ describe('ImageRenderer test suite', () => {
       isReadOnly: () => false,
       isImageAlignmentEnabled: () => true,
     });
-    const control = shallow(
-      <Image block={getAllBlocks(newEditorState).get(1)} contentState={contentState} />,
-    );
+    const control = shallow(<Image block={getAllBlocks(newEditorState).get(1)} contentState={contentState} />);
     assert.isNotTrue(control.state().hovered);
   });
 
@@ -50,9 +41,7 @@ describe('ImageRenderer test suite', () => {
       isReadOnly: () => false,
       isImageAlignmentEnabled: () => true,
     });
-    const control = shallow(
-      <Image block={getAllBlocks(newEditorState).get(1)} contentState={contentState} />,
-    );
+    const control = shallow(<Image block={getAllBlocks(newEditorState).get(1)} contentState={contentState} />);
     expect(control.children().length).to.equal(1);
   });
 });

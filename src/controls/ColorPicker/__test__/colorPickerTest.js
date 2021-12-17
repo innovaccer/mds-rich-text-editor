@@ -1,11 +1,7 @@
 /* @flow */
 
 import React from 'react';
-import {
-  EditorState,
-  convertFromHTML,
-  ContentState,
-} from 'draft-js';
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
 import { expect, assert } from 'chai';
 import { mount } from 'enzyme';
 
@@ -20,15 +16,19 @@ describe('ColorPicker test suite', () => {
   const editorState = EditorState.createWithContent(contentState);
 
   it('should have a div when rendered', () => {
-    expect(mount(
-      <ColorPicker
-        onChange={() => {}}
-        editorState={editorState}
-        config={defaultToolbar.colorPicker}
-        translations={localeTranslations.en}
-        modalHandler={new ModalHandler()}
-      />,
-    ).html().startsWith('<div')).to.equal(true);
+    expect(
+      mount(
+        <ColorPicker
+          onChange={() => {}}
+          editorState={editorState}
+          config={defaultToolbar.colorPicker}
+          translations={localeTranslations.en}
+          modalHandler={new ModalHandler()}
+        />
+      )
+        .html()
+        .startsWith('<div')
+    ).to.equal(true);
   });
 
   it('should correctly set default state values', () => {
@@ -39,7 +39,7 @@ describe('ColorPicker test suite', () => {
         config={defaultToolbar.colorPicker}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     const state = control.state();
     assert.isNotTrue(state.expanded);
@@ -55,7 +55,7 @@ describe('ColorPicker test suite', () => {
         config={defaultToolbar.colorPicker}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     const colorPicker = control.find('ColorPicker');
     assert.isNotTrue(colorPicker.instance().signalExpanded);

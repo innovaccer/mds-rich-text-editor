@@ -12,13 +12,7 @@ export const All = (args) => {
     setEditorState(eState);
   };
 
-  return (
-    <Editor
-      {...args}
-      editorState={editorState}
-      onEditorStateChange={onEditorStateChange}
-    />
-  );
+  return <Editor {...args} editorState={editorState} onEditorStateChange={onEditorStateChange} />;
 };
 
 All.argTypes = {
@@ -26,7 +20,7 @@ All.argTypes = {
 };
 
 All.args = {
-  ...commonArgs
+  ...commonArgs,
 };
 
 export default {
@@ -36,7 +30,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

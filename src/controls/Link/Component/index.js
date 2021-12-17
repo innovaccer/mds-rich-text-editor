@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { stopPropagation } from '../../../utils/common';;
+import { stopPropagation } from '../../../utils/common';
 import Option from '../../../components/Option';
 import { DropdownOption } from '../../../components/Dropdown';
 import { Popover, Icon, Text, Input, Button } from '@innovaccer/design-system';
@@ -26,7 +26,9 @@ class LayoutComponent extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    const { currentState: { link, selectionText } } = this.props;
+    const {
+      currentState: { link, selectionText },
+    } = this.props;
 
     if (prevProps.expanded && !this.props.expanded) {
       this.setState({
@@ -43,7 +45,7 @@ class LayoutComponent extends Component {
         linkTarget: link && link.target,
         linkTitle: (link && link.title) || selectionText,
         linkTargetOption: this.props.config.defaultTargetOption,
-        editing: link !== undefined
+        editing: link !== undefined,
       });
     }
   }
@@ -54,31 +56,26 @@ class LayoutComponent extends Component {
     onChange('link', linkTitle, linkTarget, linkTargetOption);
   };
 
-  updateValue = event => {
+  updateValue = (event) => {
     this.setState({
       [`${event.target.name}`]: event.target.value,
     });
   };
 
-  updateTargetOption = event => {
+  updateTargetOption = (event) => {
     this.setState({
       linkTargetOption: event.target.checked ? '_blank' : '_self',
     });
   };
 
   renderAddLinkModal() {
-    const {
-      onExpandEvent
-    } = this.props;
+    const { onExpandEvent } = this.props;
 
     const { linkTitle, linkTarget, editing } = this.state;
     const label = editing ? 'Edit' : 'Add';
 
     return (
-      <div
-        className="px-6 mt-6 mb-5"
-        onClick={stopPropagation}
-      >
+      <div className="px-6 mt-6 mb-5" onClick={stopPropagation}>
         <Text weight="strong" size="large">
           {label} a link
         </Text>
@@ -106,12 +103,10 @@ class LayoutComponent extends Component {
           onClick={stopPropagation}
         />
         <div className="d-flex justify-content-end">
-          <Button onClick={onExpandEvent} className="mr-4">Cancel</Button>
-          <Button
-            onClick={this.addLink}
-            disabled={!linkTarget || !linkTitle}
-            appearance="primary"
-          >
+          <Button onClick={onExpandEvent} className="mr-4">
+            Cancel
+          </Button>
+          <Button onClick={this.addLink} disabled={!linkTarget || !linkTitle} appearance="primary">
             {label}
           </Button>
         </div>
@@ -139,24 +134,15 @@ class LayoutComponent extends Component {
         <Icon name={icon} size={20} />
       </Option>
     ) : (
-        <DropdownOption>
-          <Icon
-            size={20}
-            name={icon}
-            className="mr-4"
-          />
-          <Text>{title}</Text>
-        </DropdownOption>
-      );
+      <DropdownOption>
+        <Icon size={20} name={icon} className="mr-4" />
+        <Text>{title}</Text>
+      </DropdownOption>
+    );
 
     return (
       <div aria-haspopup="true" aria-expanded={expanded}>
-        <Popover
-          trigger={trigger}
-          position={inDropdown ? 'right' : 'bottom'}
-          open={expanded}
-          onToggle={onExpandEvent}
-        >
+        <Popover trigger={trigger} position={inDropdown ? 'right' : 'bottom'} open={expanded} onToggle={onExpandEvent}>
           {this.renderAddLinkModal()}
         </Popover>
       </div>

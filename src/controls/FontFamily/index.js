@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  toggleCustomInlineStyle,
-  getSelectionCustomInlineStyle,
-} from 'draftjs-utils';
+import { toggleCustomInlineStyle, getSelectionCustomInlineStyle } from 'draftjs-utils';
 
 import LayoutComponent from './Component';
 
@@ -32,9 +29,7 @@ export default class FontFamily extends Component {
     const { editorState } = this.props;
     if (editorState && editorState !== prevProps.editorState) {
       this.setState({
-        currentFontFamily: getSelectionCustomInlineStyle(editorState, [
-          'FONTFAMILY',
-        ]).FONTFAMILY,
+        currentFontFamily: getSelectionCustomInlineStyle(editorState, ['FONTFAMILY']).FONTFAMILY,
       });
     }
   }
@@ -67,13 +62,9 @@ export default class FontFamily extends Component {
     });
   };
 
-  toggleFontFamily = fontFamily => {
+  toggleFontFamily = (fontFamily) => {
     const { editorState, onChange } = this.props;
-    const newState = toggleCustomInlineStyle(
-      editorState,
-      'fontFamily',
-      fontFamily
-    );
+    const newState = toggleCustomInlineStyle(editorState, 'fontFamily', fontFamily);
     if (newState) {
       onChange(newState);
     }

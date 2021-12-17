@@ -18,17 +18,8 @@ export const All = (args) => {
 
   return (
     <div>
-      <Editor
-        {...args}
-        editorState={editorState}
-        onEditorStateChange={onEditorStateChange}
-      />
-      <Button
-        appearance="primary"
-        size="large"
-        onClick={onClick}
-        className="mt-4"
-      >
+      <Editor {...args} editorState={editorState} onEditorStateChange={onEditorStateChange} />
+      <Button appearance="primary" size="large" onClick={onClick} className="mt-4">
         Convert to JSON
       </Button>
     </div>
@@ -40,7 +31,7 @@ All.argTypes = {
 };
 
 All.args = {
-  ...commonArgs
+  ...commonArgs,
 };
 
 export default {
@@ -50,7 +41,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

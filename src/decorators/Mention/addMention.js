@@ -1,7 +1,4 @@
-import {
-  EditorState,
-  Modifier,
-} from 'draft-js';
+import { EditorState, Modifier } from 'draft-js';
 import { getSelectedBlock } from 'draftjs-utils';
 
 export default function addMention(
@@ -9,7 +6,7 @@ export default function addMention(
   onChange: Function,
   separator: string,
   trigger: string,
-  suggestion: Object,
+  suggestion: Object
 ): void {
   const { label, value, url } = suggestion;
 
@@ -30,7 +27,7 @@ export default function addMention(
 
   let updatedSelection = editorState.getSelection().merge({
     anchorOffset: mentionIndex,
-    focusOffset
+    focusOffset,
   });
 
   let newEditorState = EditorState.acceptSelection(editorState, updatedSelection);
@@ -39,14 +36,14 @@ export default function addMention(
     updatedSelection,
     `${label}`,
     null,
-    entityKey,
+    entityKey
   );
   newEditorState = EditorState.push(newEditorState, contentState, 'insert-characters');
 
   // insert a blank space after mention
   updatedSelection = newEditorState.getSelection().merge({
     anchorOffset: mentionIndex + label.length,
-    focusOffset: mentionIndex + label.length
+    focusOffset: mentionIndex + label.length,
   });
   newEditorState = EditorState.acceptSelection(newEditorState, updatedSelection);
   contentState = Modifier.insertText(
@@ -54,7 +51,7 @@ export default function addMention(
     updatedSelection,
     ' ',
     newEditorState.getCurrentInlineStyle(),
-    undefined,
+    undefined
   );
 
   onChange(EditorState.push(newEditorState, contentState, 'insert-characters'));

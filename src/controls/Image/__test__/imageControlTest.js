@@ -1,11 +1,7 @@
 /* @flow */
 
 import React from 'react';
-import {
-  EditorState,
-  convertFromHTML,
-  ContentState,
-} from 'draft-js';
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
 import { expect, assert } from 'chai';
 import { mount } from 'enzyme';
 
@@ -20,15 +16,19 @@ describe('ImageControl test suite', () => {
   const editorState = EditorState.createWithContent(contentState);
 
   it('should have a div when rendered', () => {
-    expect(mount(
-      <ImageControl
-        onChange={() => {}}
-        editorState={editorState}
-        config={defaultToolbar.image}
-        translations={localeTranslations.en}
-        modalHandler={new ModalHandler()}
-      />,
-    ).html().startsWith('<div')).to.equal(true);
+    expect(
+      mount(
+        <ImageControl
+          onChange={() => {}}
+          editorState={editorState}
+          config={defaultToolbar.image}
+          translations={localeTranslations.en}
+          modalHandler={new ModalHandler()}
+        />
+      )
+        .html()
+        .startsWith('<div')
+    ).to.equal(true);
   });
 
   it('should have 1 child element by default', () => {
@@ -39,7 +39,7 @@ describe('ImageControl test suite', () => {
         config={defaultToolbar.image}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     expect(control.children().length).to.equal(1);
   });
@@ -52,7 +52,7 @@ describe('ImageControl test suite', () => {
         config={defaultToolbar.image}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     const imageControl = control.find('ImageControl');
     assert.isNotTrue(imageControl.node.signalExpanded);

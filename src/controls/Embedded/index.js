@@ -61,11 +61,7 @@ class Embedded extends Component {
       .getCurrentContent()
       .createEntity('EMBEDDED_LINK', 'MUTABLE', { src, height, width })
       .getLastCreatedEntityKey();
-    const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-      editorState,
-      entityKey,
-      ' '
-    );
+    const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
     onChange(newEditorState);
     this.doCollapse();
   };

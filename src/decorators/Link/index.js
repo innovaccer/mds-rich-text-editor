@@ -1,29 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Popover,
-  Text,
-  Icon,
-  Link as DesignSystemLink
-} from '@innovaccer/design-system';
+import { Popover, Text, Icon, Link as DesignSystemLink } from '@innovaccer/design-system';
 import { Modifier, EditorState } from 'draft-js';
 import { getEntityRange } from 'draftjs-utils';
 
 function findLinkEntities(contentBlock, callback, contentState) {
-  contentBlock.findEntityRanges(
-    (character) => {
-      const entityKey = character.getEntity();
-      return (
-        entityKey !== null &&
-        contentState.getEntity(entityKey).getType() === 'LINK'
-      );
-    },
-    callback,
-  );
+  contentBlock.findEntityRanges((character) => {
+    const entityKey = character.getEntity();
+    return entityKey !== null && contentState.getEntity(entityKey).getType() === 'LINK';
+  }, callback);
 }
 
 function getLinkComponent(config) {
-
   return class Link extends Component {
     static propTypes = {
       entityKey: PropTypes.string.isRequired,
@@ -55,15 +43,11 @@ function getLinkComponent(config) {
           focusOffset: entityRange.end,
         });
       }
-      let newContentState = Modifier.setBlockType(
-        contentState,
-        selection,
-        'unstyled'
-      );
+      let newContentState = Modifier.setBlockType(contentState, selection, 'unstyled');
 
       newContentState = Modifier.removeRange(newContentState, selection, 'backward');
       config.onChange(EditorState.push(config.getEditorState(), newContentState, 'remove-range'));
-    }
+    };
 
     onEditLink = (e) => {
       e.preventDefault();
@@ -72,13 +56,13 @@ function getLinkComponent(config) {
       config.onEditLink();
 
       this.setState({
-        open: false
-      })
+        open: false,
+      });
     };
 
     onToggle = (updatedOpen) => {
       this.setState({
-        open: updatedOpen
+        open: updatedOpen,
       });
     };
 
@@ -88,31 +72,19 @@ function getLinkComponent(config) {
       const { open } = this.state;
 
       const trigger = (
-        <span
-          contentEditable="false"
-          suppressContentEditableWarning
-        >
+        <span contentEditable="false" suppressContentEditableWarning>
           <Text appearance="link">{children}</Text>
         </span>
       );
 
       return (
-        <Popover
-          trigger={trigger}
-          appendToBody={true}
-          open={open}
-          onToggle={this.onToggle}
-        >
+        <Popover trigger={trigger} appendToBody={true} open={open} onToggle={this.onToggle}>
           <div
             contentEditable="false"
             suppressContentEditableWarning
             className="d-flex pl-5 py-5 pr-4 align-items-center"
           >
-            <DesignSystemLink
-              href={url}
-              target="_new"
-              className="Editor-link"
-            >
+            <DesignSystemLink href={url} target="_new" className="Editor-link">
               {url}
             </DesignSystemLink>
             <span className="Editor-seperator" />
@@ -130,7 +102,7 @@ function getLinkComponent(config) {
   };
 }
 
-export default config => ({
+export default (config) => ({
   strategy: findLinkEntities,
   component: getLinkComponent(config),
 });

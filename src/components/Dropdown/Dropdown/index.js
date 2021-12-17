@@ -34,7 +34,7 @@ export default class Dropdown extends Component {
     }
   }
 
-  onChange = value => {
+  onChange = (value) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(value);
@@ -42,7 +42,7 @@ export default class Dropdown extends Component {
     this.toggleExpansion();
   };
 
-  setHighlighted = highlighted => {
+  setHighlighted = (highlighted) => {
     this.setState({
       highlighted,
     });
@@ -58,48 +58,28 @@ export default class Dropdown extends Component {
   };
 
   render() {
-    const {
-      expanded,
-      children,
-      className,
-      optionWrapperClassName,
-      triggerClassName,
-      ariaLabel,
-      onExpandEvent,
-      menu,
-    } = this.props;
+    const { expanded, children, className, optionWrapperClassName, triggerClassName, ariaLabel, onExpandEvent, menu } =
+      this.props;
 
     const { highlighted } = this.state;
     const options = children.slice(1, children.length);
 
-    const DropdownWrapperClass = classNames({
-      ['Editor-dropdown']: true,
-      ['Editor-dropdown--expanded']: expanded,
-    }, className);
+    const DropdownWrapperClass = classNames(
+      {
+        ['Editor-dropdown']: true,
+        ['Editor-dropdown--expanded']: expanded,
+      },
+      className
+    );
 
     return (
-      <div
-        className={DropdownWrapperClass}
-        aria-expanded={expanded}
-        aria-label={ariaLabel || 'Editor-dropdown'}
-      >
-        <a
-          className={triggerClassName}
-          onClick={onExpandEvent}
-        >
+      <div className={DropdownWrapperClass} aria-expanded={expanded} aria-label={ariaLabel || 'Editor-dropdown'}>
+        <a className={triggerClassName} onClick={onExpandEvent}>
           {children[0]}
-          {!menu && (
-            <Icon name="keyboard_arrow_down" />
-          )}
+          {!menu && <Icon name="keyboard_arrow_down" />}
         </a>
         {expanded && (
-          <ul
-            className={classNames(
-              'Editor-dropdown-optionWrapper',
-              optionWrapperClassName
-            )}
-            onClick={stopPropagation}
-          >
+          <ul className={classNames('Editor-dropdown-optionWrapper', optionWrapperClassName)} onClick={stopPropagation}>
             {React.Children.map(options, (option, index) => {
               const temp =
                 option &&

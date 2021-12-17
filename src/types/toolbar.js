@@ -13,7 +13,7 @@ const imageShape = {
   defaultSize: PropTypes.shape({
     height: PropTypes.string,
     width: PropTypes.string,
-  })
+  }),
 };
 
 const linkShape = {
@@ -30,11 +30,11 @@ export const toolbarShape = PropTypes.shape({
     strikethrough: PropTypes.shape(textDecorationShape),
   }),
   colorPicker: PropTypes.shape({
-    colors: PropTypes.arrayOf(PropTypes.string)
+    colors: PropTypes.arrayOf(PropTypes.string),
   }),
   insert: PropTypes.shape({
     max: PropTypes.number,
     image: PropTypes.shape(imageShape),
-    link: PropTypes.shape(linkShape)
-  })
+    link: PropTypes.shape(linkShape),
+  }),
 });

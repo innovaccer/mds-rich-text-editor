@@ -6,7 +6,6 @@ import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 import { searchElement } from '../../src/utils/common';
 
 export const All = (args) => {
-
   let suggestionList = [
     { label: 'Gender', value: 'Gender' },
     { label: 'ID', value: 'ID' },
@@ -18,7 +17,7 @@ export const All = (args) => {
 
   const fetchSuggestions = (searchTerm) => {
     const searchedOptions = searchTerm ? searchElement(suggestionList, searchTerm, false) : suggestionList;
-    const result = new Promise(resolve => {
+    const result = new Promise((resolve) => {
       window.setTimeout(() => {
         resolve(searchedOptions);
       }, 3000);
@@ -43,7 +42,7 @@ All.argTypes = {
 };
 
 All.args = {
-  ...commonArgs
+  ...commonArgs,
 };
 
 export default {
@@ -53,7 +52,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

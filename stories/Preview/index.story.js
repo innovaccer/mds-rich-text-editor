@@ -35,19 +35,11 @@ export const All = (args) => {
           ],
         }}
       />
-      <Button
-        appearance="primary"
-        size="large"
-        onClick={onClick}
-        className="my-4"
-      >
+      <Button appearance="primary" size="large" onClick={onClick} className="my-4">
         Get Preview
       </Button>
       <div>
-        <EditorPreview
-          {...args}
-          raw={raw}
-        />
+        <EditorPreview {...args} raw={raw} />
       </div>
     </div>
   );
@@ -65,7 +57,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

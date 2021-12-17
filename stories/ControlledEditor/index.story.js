@@ -9,15 +9,9 @@ export const All = (args) => {
 
   const onEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
-  }
+  };
 
-  return (
-    <Editor
-      {...args}
-      editorState={editorState}
-      onEditorStateChange={onEditorStateChange}
-    />
-  );
+  return <Editor {...args} editorState={editorState} onEditorStateChange={onEditorStateChange} />;
 };
 
 All.argTypes = {
@@ -35,7 +29,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };

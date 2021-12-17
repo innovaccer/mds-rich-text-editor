@@ -2,13 +2,13 @@ export default class FocusHandler {
   inputFocused = false;
   editorMouseDown = false;
 
-  onEditorMouseDown = ():void => {
+  onEditorMouseDown = (): void => {
     this.editorFocused = true;
-  }
+  };
 
-  onInputMouseDown = ():void => {
+  onInputMouseDown = (): void => {
     this.inputFocused = true;
-  }
+  };
 
   isEditorBlur = (event): void => {
     if (
@@ -27,21 +27,21 @@ export default class FocusHandler {
     return false;
   };
 
-  isEditorFocused = ():void => {
+  isEditorFocused = (): void => {
     if (!this.inputFocused) {
       return true;
     }
     this.inputFocused = false;
     return false;
-  }
+  };
 
-  isToolbarFocused = ():void => {
+  isToolbarFocused = (): void => {
     if (!this.editorFocused) {
       return true;
     }
     this.editorFocused = false;
     return false;
-  }
+  };
 
-  isInputFocused = ():void => this.inputFocused;
+  isInputFocused = (): void => this.inputFocused;
 }

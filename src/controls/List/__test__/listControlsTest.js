@@ -1,11 +1,7 @@
 /* @flow */
 
 import React from 'react';
-import {
-  EditorState,
-  convertFromHTML,
-  ContentState,
-} from 'draft-js';
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
 import { expect, assert } from 'chai';
 import { spy } from 'sinon';
 import { mount } from 'enzyme';
@@ -21,15 +17,19 @@ describe('ListControl test suite', () => {
   const editorState = EditorState.createWithContent(contentState);
 
   it('should have a div when rendered', () => {
-    expect(mount(
-      <ListControl
-        onChange={() => {}}
-        editorState={editorState}
-        config={defaultToolbar.list}
-        translations={localeTranslations.en}
-        modalHandler={new ModalHandler()}
-      />,
-    ).html().startsWith('<div')).to.equal(true);
+    expect(
+      mount(
+        <ListControl
+          onChange={() => {}}
+          editorState={editorState}
+          config={defaultToolbar.list}
+          translations={localeTranslations.en}
+          modalHandler={new ModalHandler()}
+        />
+      )
+        .html()
+        .startsWith('<div')
+    ).to.equal(true);
   });
 
   it('should have 4 child elements by default', () => {
@@ -40,7 +40,7 @@ describe('ListControl test suite', () => {
         config={defaultToolbar.list}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     expect(control.find(Option).length).to.equal(4);
   });
@@ -53,7 +53,7 @@ describe('ListControl test suite', () => {
         config={{ ...defaultToolbar.list, inDropdown: true }}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     expect(control.children().length).to.equal(1);
     expect(control.childAt(0).childAt(0).prop('children').length).to.equal(2);
@@ -68,7 +68,7 @@ describe('ListControl test suite', () => {
         config={defaultToolbar.list}
         translations={localeTranslations.en}
         modalHandler={new ModalHandler()}
-      />,
+      />
     );
     control.find(Option).at(0).simulate('click');
     assert.isTrue(onChange.calledOnce);

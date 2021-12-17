@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  toggleCustomInlineStyle,
-  getSelectionCustomInlineStyle,
-  getSelectionEntity
-} from 'draftjs-utils';
+import { toggleCustomInlineStyle, getSelectionCustomInlineStyle, getSelectionEntity } from 'draftjs-utils';
 
 import LayoutComponent from './Component';
 
@@ -32,13 +28,9 @@ class ColorPicker extends Component {
       currentBgColor: undefined,
     };
     if (editorState) {
-      state.currentColor = getSelectionCustomInlineStyle(editorState, [
-        'COLOR',
-      ]).COLOR || "color-var(--text)";
+      state.currentColor = getSelectionCustomInlineStyle(editorState, ['COLOR']).COLOR || 'color-var(--text)';
 
-      state.currentBgColor = getSelectionCustomInlineStyle(editorState, [
-        'BGCOLOR',
-      ]).BGCOLOR;
+      state.currentBgColor = getSelectionCustomInlineStyle(editorState, ['BGCOLOR']).BGCOLOR;
     }
 
     this.state = state;
@@ -49,10 +41,8 @@ class ColorPicker extends Component {
     const { editorState } = this.props;
     if (editorState && editorState !== prevProps.editorState) {
       this.setState({
-        currentColor: getSelectionCustomInlineStyle(editorState, ['COLOR'])
-          .COLOR || "color-var(--text)",
-        currentBgColor: getSelectionCustomInlineStyle(editorState, ['BGCOLOR'])
-          .BGCOLOR,
+        currentColor: getSelectionCustomInlineStyle(editorState, ['COLOR']).COLOR || 'color-var(--text)',
+        currentBgColor: getSelectionCustomInlineStyle(editorState, ['BGCOLOR']).BGCOLOR,
       });
     }
   }

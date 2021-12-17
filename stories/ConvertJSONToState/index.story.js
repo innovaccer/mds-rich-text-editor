@@ -6,20 +6,20 @@ import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 
 export const All = (args) => {
   const contentState = Editor.utils.convertFromRaw({
-    "blocks": [
+    blocks: [
       {
-        "key": "637gr",
-        "text": "Initialized from content state.",
-        "type": "unstyled",
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {
-          "text-align": "center"
-        }
-      }
+        key: '637gr',
+        text: 'Initialized from content state.',
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {
+          'text-align': 'center',
+        },
+      },
     ],
-    "entityMap": {}
+    entityMap: {},
   });
 
   const [editorState, setEditorState] = React.useState(Editor.utils.EditorState.createWithContent(contentState));
@@ -28,13 +28,7 @@ export const All = (args) => {
     setEditorState(eState);
   };
 
-  return (
-    <Editor
-      {...args}
-      editorState={editorState}
-      onEditorStateChange={onEditorStateChange}
-    />
-  );
+  return <Editor {...args} editorState={editorState} onEditorStateChange={onEditorStateChange} />;
 };
 
 All.argTypes = {
@@ -42,7 +36,7 @@ All.argTypes = {
 };
 
 All.args = {
-  ...commonArgs
+  ...commonArgs,
 };
 
 export default {
@@ -52,7 +46,7 @@ export default {
     docs: {
       source: {
         type: 'code',
-      }
+      },
     },
   },
 };
