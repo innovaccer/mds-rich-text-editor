@@ -86,6 +86,9 @@
   margin: 0;
   padding: 0;
 }
+.public-DraftStyleDefault-ol {
+  margin-left: 1em;
+}
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR {
   margin-left: 1.5em;
 }
@@ -133,7 +136,7 @@
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listLTR:before {
   left: -36px;
   position: absolute;
-  text-align: right;
+  text-align: center;
   width: 30px;
 }
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listRTL:before {
