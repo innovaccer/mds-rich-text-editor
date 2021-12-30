@@ -38,7 +38,7 @@ export const All = (args) => {
       <Button appearance="primary" size="large" onClick={onClick} className="my-4">
         Get Preview
       </Button>
-      <div>
+      <div className="pl-7">
         <EditorPreview
           {...args}
           raw={raw}
