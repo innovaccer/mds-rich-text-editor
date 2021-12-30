@@ -140,7 +140,7 @@
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listLTR:before {
   left: -36px;
   position: absolute;
-  text-align: center;
+  text-align: right;
   width: 30px;
 }
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-listRTL:before {
