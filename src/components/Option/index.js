@@ -13,21 +13,36 @@ export default class Option extends Component {
     active: PropTypes.bool,
     disabled: PropTypes.bool,
     title: PropTypes.string,
+    tabIndex: PropTypes.number,
   };
 
   static defaultProps = {
     activeClassName: '',
   };
 
-  onClick: Function = () => {
+  onClick = () => {
     const { disabled, onClick, value } = this.props;
     if (!disabled) {
       onClick(value);
     }
   };
 
+  handleKeyDown = (event) => {
+    const allowedActions = new Set(['Enter', 'Space', 'Spacebar', ' ']);
+    const { disabled, onClick, value } = this.props;
+
+    if (disabled) {
+      return;
+    }
+
+    if (allowedActions.has(event.key)) {
+      event.preventDefault();
+      onClick(value, event);
+    }
+  };
+
   render() {
-    const { children, className, activeClassName, active, disabled } = this.props;
+    const { children, className, activeClassName, active, disabled, 'aria-label': ariaLabel } = this.props;
 
     const OptionClass = classNames(
       {
@@ -40,7 +55,14 @@ export default class Option extends Component {
     );
 
     return (
-      <div className={OptionClass} onClick={this.onClick} aria-selected={active}>
+      <div
+        aria-label={ariaLabel}
+        onKeyDown={this.handleKeyDown}
+        tabIndex={0}
+        className={OptionClass}
+        onClick={this.onClick}
+        aria-selected={active}
+      >
         {children}
       </div>
     );

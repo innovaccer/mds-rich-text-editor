@@ -9,8 +9,10 @@
   border-radius: var(--spacing-m);
 }
 
-.Editor-option:hover {
+.Editor-option:hover,
+.Editor-option:focus {
   background-color: var(--secondary-light);
+  outline: none;
 }
 
 .Editor-option--active {

@@ -21,7 +21,8 @@ export default class TextAlign extends Component {
     translations: PropTypes.object,
   };
 
-  renderInFlatList(): Object {
+  // todo
+  renderInFlatList() {
     const {
       config: { options, left, center, right, justify, className },
       onChange,
