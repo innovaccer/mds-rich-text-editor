@@ -8,6 +8,10 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
+.hide-placeholder .public-DraftEditorPlaceholder-inner {
+  display: none;
+}
+
 .DraftEditor-editorContainer,
 .DraftEditor-root,
 .public-DraftEditor-content {
