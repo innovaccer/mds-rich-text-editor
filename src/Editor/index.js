@@ -153,6 +153,17 @@ class Editor extends Component {
         event.preventDefault();
       }
     }
+    if (event.key === 'Backspace') {
+      if (this.isEmptyListBlock()) {
+        // If user presses backspace key on empty list block, unselect the block type from toolbar
+        const newState = RichUtils.toggleBlockType(this.state.editorState);
+
+        if (newState) {
+          this.onChange(newState);
+          return true;
+        }
+      }
+    }
     return getDefaultKeyBinding(event);
   };
 
@@ -395,7 +406,7 @@ class Editor extends Component {
     }
   };
 
-  hidePlaceholder = () => {
+  isEmptyListBlock = () => {
 
     // If the user changes block type before entering any text, we can hide the placeholder
     var contentState = this.state.editorState.getCurrentContent();
@@ -471,7 +482,7 @@ class Editor extends Component {
 
     const EditorClass = classNames({
       ['Editor']: true,
-      ['hide-placeholder']: this.hidePlaceholder()
+      ['hide-placeholder']: this.isEmptyListBlock()
     }, editorClassName);
 
     return (
