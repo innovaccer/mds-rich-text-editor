@@ -532,7 +532,6 @@ class Editor extends Component {
             blockStyleFn={blockStyleFn}
             customStyleMap={this.getStyleMap(this.props)}
             handleReturn={this.handleReturn}
-            handlePastedText={this.handlePastedTextFn}
             blockRendererFn={this.blockRendererFn}
             handleKeyCommand={this.handleKeyCommand}
             ariaLabel={ariaLabel}
