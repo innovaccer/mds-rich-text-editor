@@ -160,6 +160,9 @@ class Editor extends Component {
 
         if (newState) {
           this.onChange(newState);
+          this.setState({
+            editorState: EditorState.moveFocusToEnd(EditorState.createEmpty())
+          });
           return true;
         }
       }
