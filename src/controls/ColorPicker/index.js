@@ -8,6 +8,7 @@ class ColorPicker extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     editorState: PropTypes.object.isRequired,
+    modalHandler: PropTypes.object,
     config: PropTypes.object,
     className: PropTypes.string,
   };
@@ -20,7 +21,7 @@ class ColorPicker extends Component {
 
   constructor(props) {
     super(props);
-    const { editorState } = props;
+    const { editorState, modalHandler } = props;
     const state = {
       expanded: false,
       currentColor: undefined,
@@ -32,6 +33,8 @@ class ColorPicker extends Component {
     }
 
     this.state = state;
+    modalHandler.registerCallBack(this.expandCollapse);
+
   }
 
   // componentDidUpdate(prevProps) {
@@ -43,6 +46,17 @@ class ColorPicker extends Component {
   //     });
   //   }
   // }
+
+  componentWillUnmount() {
+    const { modalHandler } = this.props;
+    modalHandler.deregisterCallBack(this.expandCollapse);
+  }
+
+  expandCollapse = () => {
+    this.setState({
+      expanded: false,
+    });
+  };
 
   toggleColorPicker = () => {
     this.setState((prevState) => {
