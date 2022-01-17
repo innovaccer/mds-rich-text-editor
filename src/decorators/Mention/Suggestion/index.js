@@ -237,7 +237,12 @@ function getSuggestionComponent() {
         const CustomOption = React.cloneElement(optionRenderer, {
           key: index,
           spellCheck: false,
-          onClick: this.addMention,
+          onClick: (ev) => {
+            this.addMention(ev);
+            if(optionRenderer.props.onClick) {
+              optionRenderer.props.onClick();
+            }
+          },
           'data-index': index,
           onMouseEnter: this.onOptionMouseEnter,
           onMouseLeave: this.onOptionMouseLeave,
