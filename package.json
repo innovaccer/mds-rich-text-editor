@@ -71,8 +71,7 @@
     "immutable": "^4.0.0-rc.12",
     "linkify-it": "^2.2.0",
     "prop-types": "^15.7.2",
-    "redraft": "^0.10.2",
-    "update": "^0.7.4"
+    "redraft": "^0.10.2"
   },
   "peerDependencies": {
     "@innovaccer/design-system": "^1.4.0-0",
