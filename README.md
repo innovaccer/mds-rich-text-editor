@@ -13,13 +13,12 @@ $ npm install @innovaccer/rich-text-editor
 Editor can be used as simple React Component:
 
 ```js
-import { Editor } from "@innovaccer/rich-text-editor";
+import { Editor } from '@innovaccer/rich-text-editor';
 import '@innovaccer/rich-text-editor/dist/rich-text-editor.css';
 <Editor
-  editorState={editorState}
-  toolbarClassName="toolbarClassName"
-  wrapperClassName="wrapperClassName"
-  editorClassName="editorClassName"
-  onEditorStateChange={this.onEditorStateChange}
+  ariaLabel="RichTextEditor"
+  editorClassName="RichTextEditor"
+  placeholder="Begin typing.."
+  textAlignment="left"
 />;
 ```
