@@ -3,7 +3,9 @@ import draftToHtml from 'draftjs-to-html';
 import { ContentState, EditorState, convertToRaw } from 'draft-js';
 
 export const htmlToState = (html) => {
-  const contentBlock = htmlToDraft(html);
+  // Remove extra newline in html generated from Preview component
+  const htmlContent = html.replaceAll('<br/>', '');
+  const contentBlock = htmlToDraft(htmlContent);
   if (contentBlock) {
     const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
     const editorState = EditorState.createWithContent(contentState);
