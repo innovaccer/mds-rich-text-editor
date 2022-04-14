@@ -41,6 +41,7 @@
 
 .Editor-mention-chip {
   display: inline-flex;
+  margin-top: var(--spacing-m);
 }
 
 .Editor-mention-dropdown::-webkit-scrollbar {

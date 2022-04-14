@@ -567,7 +567,7 @@ Editor.propTypes = {
    * | trigger | Character that causes mention suggestions to appear, | '@' |
    * | suggestion | Properties: label, value, icon | |
    * | fetchSuggestions | Fetch dynamic suggestions list (Either use suggestion or fetchSuggestions option)
-   * | chipOptions | [Design System Chip Props](https://innovaccer.github.io/design-system/?path=/docs/atoms-chip--all) | |
+   * | chipOptions | [Design System Chip Props](https://innovaccer.github.io/design-system/?path=/docs/components-chip-all--all) | |
    * | dropdownOptions | Properties: dropdownClassName, customOptionRenderer = (suggestion, active, index) => React.ReactNode | |
    * | renderer | customRenderer = (value) => React.ReactNode | |
    */
