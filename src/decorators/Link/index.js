@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, Text, Icon, Link as DesignSystemLink } from '@innovaccer/design-system';
+import { Popover, Text, Button, Link as DesignSystemLink } from '@innovaccer/design-system';
 import { Modifier, EditorState } from 'draft-js';
 import { getEntityRange } from 'draftjs-utils';
 
@@ -19,7 +19,7 @@ function getLinkComponent(config) {
       contentState: PropTypes.object,
     };
 
-    state: Object = {
+    state = {
       open: false,
     };
 
@@ -88,13 +88,22 @@ function getLinkComponent(config) {
               {url}
             </DesignSystemLink>
             <span className="Editor-seperator" />
-            <span className="Editor-linkButtons" onClick={this.onEditLink}>
-              <Icon name="edit" size={20} />
-            </span>
+
+            <Button
+              aria-label="Edit"
+              onClick={this.onEditLink}
+              appearance="transparent"
+              icon="edit"
+            />
+
             <span className="Editor-seperator" />
-            <span className="Editor-linkButtons" onClick={this.onDeleteLink}>
-              <Icon name="delete" size={20} />
-            </span>
+
+            <Button
+              aria-label="Delete"
+              onClick={this.onDeleteLink}
+              appearance="transparent"
+              icon="delete"
+            />
           </div>
         </Popover>
       );

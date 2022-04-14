@@ -4,7 +4,8 @@
   padding-top: var(--spacing);
   padding-bottom: var(--spacing);
   padding-left: var(--spacing-m);
-  border-radius: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
   background-color: var(--secondary-lightest);
   user-select: none;
   flex-wrap: wrap;
