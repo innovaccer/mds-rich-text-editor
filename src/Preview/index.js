@@ -97,7 +97,7 @@ const defaultEntities = {
       </p>
     );
   },
-  MENTION: (children, entity, { key }) => <Chip label={children} name={entity.value} key={key} type={'input'} />,
+  MENTION: (children, entity, { key }) => <span name={entity.value} className='Chip--input Chip d-inline-flex mt-3' key={key}>{children}</span>,
 };
 
 const getUnstyledBlock = (children, keys) => (
@@ -108,7 +108,11 @@ const getUnstyledBlock = (children, keys) => (
       if (text && text.includes('\n')) {
         const newBlock = text.split('\n');
         return <Paragraph key={keys[i]}>{addBreaklines(newBlock)}</Paragraph>;
-      } else {
+      }
+      else if(child && child[1]?.length === 0){
+        return <p><br></br></p>
+      } 
+      else {
         return <Paragraph key={keys[i]}>{addBreaklines(child)}</Paragraph>;
       }
     })}
