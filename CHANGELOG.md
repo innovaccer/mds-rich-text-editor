@@ -134,3 +134,4 @@ Initial stable release
 
 ## 25/4/2018 (1.12.13)
 - Bundle size optimization.
+
