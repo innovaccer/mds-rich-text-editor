@@ -1,7 +1,4 @@
-import {
-  EditorState,
-  Modifier,
-} from 'draft-js';
+import { EditorState, Modifier } from 'draft-js';
 import { getSelectedBlock } from 'draftjs-utils';
 
 export default function addMention(
@@ -10,6 +7,7 @@ export default function addMention(
   separator: string,
   trigger: string,
   suggestion: Object,
+  mouseSelect: string
 ): void {
   const { label, value, url } = suggestion;
 
@@ -28,6 +26,9 @@ export default function addMention(
   if (selectedBlockText[focusOffset] === ' ') {
     spaceAlreadyPresent = true;
   }
+  if (mouseSelect) {
+    focusOffset = mentionIndex + 1;
+  }
   let updatedSelection = editorState.getSelection().merge({
     anchorOffset: mentionIndex,
     focusOffset,
@@ -38,7 +39,7 @@ export default function addMention(
     updatedSelection,
     `${label}`,
     null,
-    entityKey,
+    entityKey
   );
   newEditorState = EditorState.push(newEditorState, contentState, 'insert-characters');
 
@@ -54,7 +55,7 @@ export default function addMention(
       updatedSelection,
       ' ',
       newEditorState.getCurrentInlineStyle(),
-      undefined,
+      undefined
     );
   }
 
