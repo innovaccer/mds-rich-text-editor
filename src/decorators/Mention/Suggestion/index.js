@@ -213,13 +213,13 @@ function getSuggestionComponent() {
       }
     };
 
-    addMention = () => {
+    addMention = (eventName) => {
       const { activeOption } = this.state;
       const editorState = config.getEditorState();
       const { onChange, separator, trigger } = config;
       const selectedMention = this.filteredSuggestions[activeOption];
       if (selectedMention) {
-        addMention(editorState, onChange, separator, trigger, selectedMention);
+        addMention(editorState, onChange, separator, trigger, selectedMention, eventName);
       }
     };
 
@@ -261,7 +261,7 @@ function getSuggestionComponent() {
         <span
           key={index}
           spellCheck={false}
-          onClick={this.addMention}
+          onClick={() => this.addMention("onMouseSelect")}
           data-index={index}
           onMouseEnter={this.onOptionMouseEnter}
           onMouseLeave={this.onOptionMouseLeave}
