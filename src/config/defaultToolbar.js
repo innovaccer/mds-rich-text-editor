@@ -31,7 +31,7 @@ export default {
     strikethrough: { icon: 'strikethrough_s', title: 'Strikethrough', label: 'Strikethrough' },
   },
   heading: {
-    icon: 'format_size',
+    icon: 'text_fields',
     options: [
       //"Normal",
       'H1',
