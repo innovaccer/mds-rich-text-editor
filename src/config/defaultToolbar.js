@@ -23,11 +23,11 @@ export default {
     // "image",
   ],
   textDecoration: {
-    max: 3,
+    max: 4,
     options: ['bold', 'italic', 'underline', 'strikethrough'],
-    bold: { icon: 'format_bold', title: 'Bold (cmd+B)', label: 'Bold' },
-    italic: { icon: 'format_italic', title: 'Italic (cmd+I)', label: 'Italic' },
-    underline: { icon: 'format_underlined', title: 'Underline (cmd+U)', label: 'Underline' },
+    bold: { icon: 'format_bold', title: 'Bold (command B)', label: 'Bold' },
+    italic: { icon: 'format_italic', title: 'Italic (command I)', label: 'Italic' },
+    underline: { icon: 'format_underlined', title: 'Underline (command U)', label: 'Underline' },
     strikethrough: { icon: 'strikethrough_s', title: 'Strikethrough', label: 'Strikethrough' },
   },
   heading: {
@@ -42,8 +42,8 @@ export default {
   },
   list: {
     options: ['unordered', 'ordered'],
-    unordered: { icon: 'format_list_bulleted', title: 'Unordered' },
-    ordered: { icon: 'format_list_numbered', title: 'Ordered' },
+    unordered: { icon: 'format_list_bulleted', title: ' Bulleted list' },
+    ordered: { icon: 'format_list_numbered', title: 'Numbered list' },
   },
   colorPicker: {
     icon: color,

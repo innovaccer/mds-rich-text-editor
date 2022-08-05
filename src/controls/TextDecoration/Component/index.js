@@ -23,34 +23,36 @@ export default class TextDecoration extends Component {
     const len = config.options.length - config.max;
 
     return (
-      <Dropdown
-        onChange={onChange}
-        expanded={expanded}
-        doExpand={doExpand}
-        doCollapse={doCollapse}
-        onExpandEvent={onExpandEvent}
-        triggerClassName="Editor-textDecoration-moreIcon"
-        menu={true}
-      >
-        <Icon name="more_horizon" size={20} />
-        {config.options.slice(config.max, config.options.length).map((style, index) => {
-          const active = currentState[style] === true || (style === 'MONOSPACE' && currentState.CODE);
-          const { icon, title, label } = config[style];
+      <Tooltip tooltip='More formatting'>
+        <Dropdown
+          onChange={onChange}
+          expanded={expanded}
+          doExpand={doExpand}
+          doCollapse={doCollapse}
+          onExpandEvent={onExpandEvent}
+          triggerClassName="Editor-textDecoration-moreIcon"
+          menu={true}
+        >
+          <Icon name="more_horizon" size={20} />
+          {config.options.slice(config.max, config.options.length).map((style, index) => {
+            const active = currentState[style] === true || (style === 'MONOSPACE' && currentState.CODE);
+            const { icon, title, label } = config[style];
 
-          return (
-            <DropdownOption key={index} value={style} active={active} isCheckbox={len > 1}>
-              {len > 1 ? (
-                <Checkbox checked={active} label={label} />
-              ) : (
-                <>
-                  <Icon size={20} name={icon} className="mr-4" appearance={active ? 'white' : 'default'} />
-                  <Text appearance={active ? 'white' : 'default'}>{label}</Text>
-                </>
-              )}
-            </DropdownOption>
-          );
-        })}
-      </Dropdown>
+            return (
+              <DropdownOption key={index} value={style} active={active} isCheckbox={len > 1}>
+                {len > 1 ? (
+                  <Checkbox checked={active} label={label} />
+                ) : (
+                  <>
+                    <Icon size={20} name={icon} className="mr-4" appearance={active ? 'white' : 'default'} />
+                    <Text appearance={active ? 'white' : 'default'}>{label}</Text>
+                  </>
+                )}
+              </DropdownOption>
+            );
+          })}
+        </Dropdown>
+      </Tooltip>
     );
   }
 

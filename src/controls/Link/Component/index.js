@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { stopPropagation } from '../../../utils/common';
 import Option from '../../../components/Option';
 import { DropdownOption } from '../../../components/Dropdown';
-import { Popover, Icon, Text, Input, Button } from '@innovaccer/design-system';
+import { Popover, Icon, Text, Input, Button, Tooltip } from '@innovaccer/design-system';
 
 class LayoutComponent extends Component {
   static propTypes = {
@@ -72,12 +72,12 @@ class LayoutComponent extends Component {
     const { onExpandEvent } = this.props;
 
     const { linkTitle, linkTarget, editing } = this.state;
-    const label = editing ? 'Edit' : 'Add';
+    const label = editing ? 'Edit' : 'Insert';
 
     return (
       <div className="px-6 mt-6 mb-5" onClick={stopPropagation}>
         <Text weight="strong" size="large">
-          {label} a link
+          {label} link
         </Text>
         <Input
           icon="insert_link"
@@ -123,16 +123,18 @@ class LayoutComponent extends Component {
     } = this.props;
 
     const trigger = !inDropdown ? (
-      <Option
-        value="unordered-list-item"
-        onClick={onExpandEvent}
-        aria-haspopup="true"
-        aria-expanded={expanded}
-        active={expanded}
-        activeClassName="bg-secondary"
-      >
-        <Icon name={icon} size={20} />
-      </Option>
+      <Tooltip tooltip='Link'>
+        <Option
+          value="unordered-list-item"
+          onClick={onExpandEvent}
+          aria-haspopup="true"
+          aria-expanded={expanded}
+          active={expanded}
+          activeClassName="bg-secondary"
+        >
+          <Icon name={icon} size={20} />
+        </Option>
+      </Tooltip>
     ) : (
       <DropdownOption>
         <Icon size={20} name={icon} className="mr-4" />

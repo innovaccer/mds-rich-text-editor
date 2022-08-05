@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { stopPropagation } from '../../../utils/common';
 import Option from '../../../components/Option';
-import { Button, Icon, Popover } from '@innovaccer/design-system';
+import { Button, Icon, Popover, Tooltip } from '@innovaccer/design-system';
 
 class LayoutComponent extends Component {
   static propTypes = {
@@ -99,9 +99,11 @@ class LayoutComponent extends Component {
     const { expanded, onToggle, className } = this.props;
 
     const trigger = (
-      <Option tabIndex={0} aria-label="Font colors" onClick={onToggle} active={expanded} activeClassName="bg-secondary">
-        <Icon name="text_format" size={20} />
-      </Option>
+      <Tooltip tooltip='Text color'>
+        <Option tabIndex={0} aria-label="Font colors" onClick={onToggle} active={expanded} activeClassName="bg-secondary">
+          <Icon name="text_format" size={20} />
+        </Option>
+      </Tooltip>
     );
 
     return (

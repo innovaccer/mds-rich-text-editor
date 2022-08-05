@@ -22,7 +22,6 @@ export const All = (args) => {
         {...args}
         onEditorStateChange={onEditorStateChange}
         mention={{
-          label: ' ',
           trigger: '@',
           suggestions: [
             { label: 'First Name', value: 'fn' },

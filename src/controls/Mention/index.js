@@ -68,11 +68,12 @@ class Mention extends Component {
   render() {
     const {
       config: { icon, title },
+      mention: { label },
       inDropdown,
     } = this.props;
 
     return (
-      <Tooltip tooltip={title}>
+      <Tooltip tooltip={label || title}>
         <Option value="unordered-list-item" onClick={this.addLink} className="mr-2">
           <Icon name={icon} size={20} />
         </Option>
