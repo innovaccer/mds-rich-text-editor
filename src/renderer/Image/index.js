@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { EditorState, SelectionState, Modifier } from 'draft-js';
 import classNames from 'classnames';
-import { Icon, Popover } from '@innovaccer/design-system';
+import { Icon } from '@innovaccer/design-system';
 
 const getImageComponent = (config) =>
   class Image extends Component {
@@ -56,30 +56,27 @@ const getImageComponent = (config) =>
     };
 
     toggleHovered: Function = (): void => {
-      const hovered = true;
       this.setState({
-        hovered,
+        hovered: !this.state.hovered,
       });
     };
 
     renderAlignmentOptions(): Object {
       return (
-        <Popover position="bottom-end" appendToBody={false} open={true}>
-          <div className="d-flex">
-            <div onClick={this.setEntityAlignmentLeft} className="Editor-image-options">
-              <Icon name="format_align_left" size={20} />
-            </div>
-            <div onClick={this.setEntityAlignmentCenter} className="Editor-image-options">
-              <Icon name="format_align_center" size={20} />
-            </div>
-            <div onClick={this.setEntityAlignmentRight} className="Editor-image-options">
-              <Icon name="format_align_right" size={20} />
-            </div>
-            <div onClick={this.removeEntity} className="Editor-image-options">
-              <Icon name="delete" size={20} />
-            </div>
+        <div className='Popover d-flex'>
+          <div onClick={this.setEntityAlignmentLeft} className="Editor-image-options">
+            <Icon name="format_align_left" size={20} />
           </div>
-        </Popover>
+          <div onClick={this.setEntityAlignmentCenter} className="Editor-image-options">
+            <Icon name="format_align_center" size={20} />
+          </div>
+          <div onClick={this.setEntityAlignmentRight} className="Editor-image-options">
+            <Icon name="format_align_right" size={20} />
+          </div>
+          <div onClick={this.removeEntity} className="Editor-image-options">
+            <Icon name="delete" size={20} />
+          </div>
+        </div>
       );
     }
 
@@ -98,7 +95,12 @@ const getImageComponent = (config) =>
       });
 
       return (
-        <div onClick={this.toggleHovered} className={wrapperClass}>
+        <div 
+          onMouseEnter={this.toggleHovered}
+          onMouseLeave={this.toggleHovered} 
+          onClick={this.toggleHovered} 
+          className={wrapperClass}
+        >
           <span className="position-relative">
             <img
               src={src}
