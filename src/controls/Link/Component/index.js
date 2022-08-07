@@ -72,7 +72,7 @@ class LayoutComponent extends Component {
     const { onExpandEvent } = this.props;
 
     const { linkTitle, linkTarget, editing } = this.state;
-    const label = editing ? 'Edit' : 'Add';
+    const label = editing ? 'Edit' : 'Insert';
 
     return (
       <div className="px-6 mt-6 mb-5" onClick={stopPropagation}>
