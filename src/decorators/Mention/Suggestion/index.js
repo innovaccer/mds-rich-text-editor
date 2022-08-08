@@ -112,6 +112,8 @@ function getSuggestionComponent() {
       this.setState({
         showSuggestions: true,
       });
+
+      document.addEventListener('scroll', this.closeSuggestionDropdown, { once: true })
     }
 
     componentDidUpdate(props) {
@@ -125,6 +127,7 @@ function getSuggestionComponent() {
     }
 
     componentWillUnmount() {
+      document.removeEventListener('scroll', this.closeSuggestionDropdown)
       KeyDownHandler.deregisterCallBack(this.onEditorKeyDown);
       SuggestionHandler.close();
       config.modalHandler.removeSuggestionCallback();
@@ -178,9 +181,11 @@ function getSuggestionComponent() {
     };
 
     closeSuggestionDropdown = () => {
-      this.setState({
-        showSuggestions: false,
-      });
+      if (this.state.showSuggestions) {
+        this.setState({
+          showSuggestions: false,
+        });
+      }
     };
 
     filteredSuggestions = [];
