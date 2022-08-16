@@ -131,6 +131,7 @@ class LayoutComponent extends Component {
     if (event.target.files && event.target.files.length > 0) {
       this.uploadImage(event.target.files[0]);
     }
+    event.target.value = null
   };
 
   uploadImage = (file) => {
