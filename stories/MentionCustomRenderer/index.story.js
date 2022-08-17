@@ -12,7 +12,6 @@ export const All = (args) => {
     <Editor
       {...args}
       mention={{
-        label: ' ',
         trigger: '@',
         renderer: customRenderer,
         suggestions: [

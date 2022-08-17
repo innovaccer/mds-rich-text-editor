@@ -19,7 +19,6 @@ export const All = (args) => {
     <Editor
       {...args}
       mention={{
-        label: ' ',
         trigger: '@',
         dropdownOptions: { customOptionRenderer },
         suggestions: [

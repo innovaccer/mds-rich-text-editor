@@ -29,7 +29,6 @@ export const All = (args) => {
     <Editor
       {...args}
       mention={{
-        label: ' ',
         trigger: '@',
         fetchSuggestions: fetchSuggestions,
       }}

@@ -12,7 +12,7 @@ All.argTypes = {
 
 All.args = {
   mention: {
-    label: ' ',
+    label: 'Mention',
     trigger: '@',
     chipOptions: { type: 'selection' },
     suggestions: [

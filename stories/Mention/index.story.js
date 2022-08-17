@@ -12,7 +12,6 @@ All.argTypes = {
 
 All.args = {
   mention: {
-    label: ' ',
     trigger: '@',
     suggestions: [
       { label: 'First Name', value: 'First Name' },
