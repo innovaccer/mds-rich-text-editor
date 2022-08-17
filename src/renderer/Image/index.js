@@ -24,7 +24,7 @@ const getImageComponent = (config) =>
     };
 
     setEntityAlignmentCenter: Function = (): void => {
-      this.setEntityAlignment('none');
+      this.setEntityAlignment('center');
     };
 
     setEntityAlignment: Function = (alignment): void => {
@@ -93,7 +93,8 @@ const getImageComponent = (config) =>
       const wrapperClass = classNames({
         'd-flex': true,
         'justify-content-end': alignment === 'right',
-        'justify-content-center': !alignment || alignment === 'none',
+        'justify-content-start': !alignment || alignment === 'left',
+        'justify-content-center': alignment === 'center',
       });
 
       return (

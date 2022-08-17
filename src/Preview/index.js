@@ -89,7 +89,7 @@ const defaultEntities = {
   ),
   IMAGE: (children, props) => {
     const { src, alt, height, width, alignment } = props;
-    const imageAlign = alignment ? alignment : 'center';
+    const imageAlign = alignment ? alignment : 'left';
 
     return (
       <p style={{ justifyContent: imageAlign, display: 'flex' }}>

@@ -18,7 +18,7 @@ export const stateToHTML = (editorState) => {
 
   return draftToHtml(json, {}, false, ({ type, data }) => {
     if (type === 'IMAGE') {
-      const alignment = data.alignment ? data.alignment : 'center';
+      const alignment = data.alignment ? data.alignment : 'left';
       return `
         <p style="justify-content:${alignment}; display:flex">
           <img src="${data.src}" alt="${data.alt}" style="height: ${data.height};width: ${data.width}"/>
