@@ -96,8 +96,6 @@ const getImageComponent = (config) =>
 
       return (
         <div 
-          onMouseEnter={this.toggleHovered}
-          onMouseLeave={this.toggleHovered} 
           onClick={this.toggleHovered} 
           className={wrapperClass}
         >
