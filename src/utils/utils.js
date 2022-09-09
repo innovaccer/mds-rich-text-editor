@@ -4,7 +4,8 @@ import { ContentState, EditorState, convertToRaw } from 'draft-js';
 
 export const htmlToState = (html) => {
   // Remove extra newline in html generated from Preview component
-  const htmlContent = html.replaceAll('<br/>', '');
+  const imgContent = html.replaceAll('<p><br/></p><p id="RichTextEditor-Image"','<p id="RichTextEditor-Image"');
+  const htmlContent = imgContent.replaceAll('<br/>', '');
   const contentBlock = htmlToDraft(htmlContent);
   if (contentBlock) {
     const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);

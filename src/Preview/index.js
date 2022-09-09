@@ -92,7 +92,7 @@ const defaultEntities = {
     const imageAlign = alignment ? alignment : 'left';
 
     return (
-      <p style={{ justifyContent: imageAlign, display: 'flex' }}>
+      <p id='RichTextEditor-Image' style={{ justifyContent: imageAlign, display: 'flex' }}>
         <img src={src} alt={alt} height={height} width={width} />
       </p>
     );
