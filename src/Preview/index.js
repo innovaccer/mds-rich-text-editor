@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import redraft, { createStylesRenderer } from 'redraft';
-import { Heading, Text, Link, Chip, Paragraph } from '@innovaccer/design-system';
+import { Heading, Link, Paragraph } from '@innovaccer/design-system';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { defaultColors } from '../config/defaultToolbar';
 
 const listStyle = {
-  padding: '0px',
+  paddingLeft: '1.5em',
   margin: '0px',
 };
 
