@@ -7,7 +7,8 @@ export default function addMention(
   separator: string,
   trigger: string,
   suggestion: Object,
-  mouseSelect: string
+  mouseSelect: string,
+  mentionText: string
 ): void {
   const { label, value, url } = suggestion;
 
@@ -27,7 +28,7 @@ export default function addMention(
     spaceAlreadyPresent = true;
   }
   if (mouseSelect) {
-    focusOffset = mentionIndex + 1;
+    focusOffset = mentionIndex + mentionText.length + 1;
   }
   let updatedSelection = editorState.getSelection().merge({
     anchorOffset: mentionIndex,
