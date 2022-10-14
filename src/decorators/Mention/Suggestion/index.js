@@ -113,7 +113,7 @@ function getSuggestionComponent() {
         showSuggestions: true,
       });
 
-      document.addEventListener('scroll', this.closeSuggestionDropdown, { once: true })
+      document.addEventListener('scroll', this.closeSuggestionDropdown, { once: true });
     }
 
     componentDidUpdate(props) {
@@ -127,24 +127,76 @@ function getSuggestionComponent() {
     }
 
     componentWillUnmount() {
-      document.removeEventListener('scroll', this.closeSuggestionDropdown)
+      document.removeEventListener('scroll', this.closeSuggestionDropdown);
       KeyDownHandler.deregisterCallBack(this.onEditorKeyDown);
       SuggestionHandler.close();
       config.modalHandler.removeSuggestionCallback();
     }
 
+    focusOption = (direction, classes, index) => {
+      const elements = document.querySelectorAll(classes);
+      console.log(index);
+      console.log('before', typeof index);
+      if (typeof index == 'string') {
+        index = parseInt(index);
+      }
+
+      console.log('after', typeof index);
+      const updatedCursor = direction === 'down' ? index + 1 : index - 1;
+      let startIndex = updatedCursor;
+      const endIndex = direction === 'down' ? elements.length : -1;
+
+      console.log(updatedCursor, startIndex, endIndex);
+
+      // while (startIndex !== endIndex) {
+      if (startIndex === endIndex) {
+        startIndex = 0;
+      }
+
+      if (updatedCursor === -1 && endIndex === -1) {
+        startIndex = elements.length - 1;
+      }
+
+      // const node = elements[startIndex];
+
+      // if (node.getAttribute('data-disabled') !== 'true') {
+      //   const element = elements[startIndex];
+      //   console.log(element);
+      //   if (element) element.scrollIntoView({ block: 'end' });
+      //   // if (element !== undefined) setCursor(startIndex);
+      //   break;
+      // }
+
+      console.log(updatedCursor, startIndex, endIndex);
+
+      const element = elements[startIndex];
+      console.log(element);
+      if (element) element.scrollIntoView({ block: 'end' });
+
+      // if (direction === 'down') {
+      //   startIndex++;
+      // } else {
+      //   startIndex--;
+      // }
+      // }
+    };
+
     onEditorKeyDown = (event) => {
       const { activeOption } = this.state;
       const newState = {};
+      const optionClass = '.Editor-dropdown-option';
 
       if (event.key === 'ArrowDown') {
         event.preventDefault();
+        this.focusOption('down', optionClass, activeOption);
         if (activeOption === this.filteredSuggestions.length - 1) {
           newState.activeOption = 0;
         } else {
           newState.activeOption = Number(activeOption) + 1;
         }
       } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.focusOption('up', optionClass, activeOption);
         if (activeOption <= 0) {
           newState.activeOption = this.filteredSuggestions.length - 1;
         } else {
@@ -252,7 +304,7 @@ function getSuggestionComponent() {
           spellCheck: false,
           onClick: (ev) => {
             this.addMention(ev);
-            if(optionRenderer.props.onClick) {
+            if (optionRenderer.props.onClick) {
               optionRenderer.props.onClick();
             }
           },
@@ -267,7 +319,7 @@ function getSuggestionComponent() {
         <span
           key={index}
           spellCheck={false}
-          onClick={() => this.addMention("onMouseSelect")}
+          onClick={() => this.addMention('onMouseSelect')}
           data-index={index}
           onMouseEnter={this.onOptionMouseEnter}
           onMouseLeave={this.onOptionMouseLeave}
