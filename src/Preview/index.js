@@ -109,11 +109,11 @@ const getUnstyledBlock = (children, keys) => (
         const newBlock = text.split('\n');
         return <Paragraph key={keys[i]}>{addBreaklines(newBlock)}</Paragraph>;
       }
-      else if(child && child[1]?.length === 0){
+      else if(child && child[1]?.length === 0) {
         return <p><br></br></p>
       } 
       else {
-        return <Paragraph key={keys[i]}>{addBreaklines(child)}</Paragraph>;
+        return <Paragraph key={keys[i]}>{child.map((entity) => [entity])}</Paragraph>;
       }
     })}
   </>
