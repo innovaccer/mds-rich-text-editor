@@ -4,9 +4,9 @@ import { Button, Text } from '@innovaccer/design-system';
 import { Editor, EditorPreview } from '../../src';
 
 export const All = (args) => {
-
   const [editorState, setEditorState] = React.useState(Editor.utils.EditorState.createEmpty());
   const [html, setHTML] = React.useState();
+  const [raw, setRaw] = React.useState();
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
@@ -14,9 +14,10 @@ export const All = (args) => {
 
   const onClick = () => {
     const raw = Editor.utils.convertToRaw(editorState.getCurrentContent());
+    setRaw(raw);
     const html = EditorPreview.utils.convertToHTML(raw, true);
-    setHTML(html.replaceAll('<br/>',''));
-  }
+    setHTML(html.replaceAll('<br/>', ''));
+  };
 
   return (
     <div>
@@ -39,7 +40,9 @@ export const All = (args) => {
         Get Preview HTML
       </Button>
       <div>{html}</div>
-      <Text dangerouslySetInnerHTML={{ __html: html }}></Text>
+      <div className="pl-7">
+        <EditorPreview {...args} raw={raw} />
+      </div>
     </div>
   );
 };
