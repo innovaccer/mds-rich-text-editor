@@ -78,7 +78,7 @@ class Editor extends Component {
     if (this.props.autoFocus) this.editor.focus();
     this.modalHandler.init(this.wrapperId);
   }
-  // todo: change decorators depending on properties recceived in componentWillReceiveProps.
+  // todo: change decorators depending on properties received in componentWillReceiveProps.
 
   componentDidUpdate(prevProps) {
     if (prevProps === this.props) return;
@@ -395,6 +395,17 @@ class Editor extends Component {
     const { editorState } = this.state;
     const { handlePastedText: handlePastedTextProp } = this.props;
 
+    // To handle pasting of image copied from inside the editor
+    if(html.includes('<figure')){
+      return html;
+    }
+
+    // To handle pasting of content copied from inside the editor
+    if (html.includes('DraftStyle')) {
+      return null;
+    }
+
+    // To handle pasting of external content
     if (handlePastedTextProp) {
       return handlePastedTextProp(text, html, editorState, this.onChange);
     }
@@ -537,6 +548,7 @@ class Editor extends Component {
             handleReturn={this.handleReturn}
             blockRendererFn={this.blockRendererFn}
             handleKeyCommand={this.handleKeyCommand}
+            handlePastedText={this.handlePastedTextFn}
             ariaLabel={ariaLabel}
             blockRenderMap={this.blockRenderMap}
             {...this.editorProps}
