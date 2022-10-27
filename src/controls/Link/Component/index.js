@@ -72,12 +72,11 @@ class LayoutComponent extends Component {
     const { onExpandEvent } = this.props;
 
     const { linkTitle, linkTarget, editing } = this.state;
-    const label = editing ? 'Edit' : 'Insert';
 
     return (
       <div className="px-6 mt-6 mb-5" onClick={stopPropagation}>
         <Text weight="strong" size="large">
-          {label} link
+          {editing ? 'Edit' : 'Insert a'} link
         </Text>
         <Input
           icon="insert_link"
@@ -107,7 +106,7 @@ class LayoutComponent extends Component {
             Cancel
           </Button>
           <Button onClick={this.addLink} disabled={!linkTarget || !linkTitle} appearance="primary">
-            {label}
+            Save
           </Button>
         </div>
       </div>
@@ -123,7 +122,7 @@ class LayoutComponent extends Component {
     } = this.props;
 
     const trigger = !inDropdown ? (
-      <Tooltip tooltip='Link'>
+      <Tooltip tooltip="Link">
         <Option
           value="unordered-list-item"
           onClick={onExpandEvent}
