@@ -95,6 +95,7 @@ function getSuggestionComponent() {
       activeOption: -1,
       showSuggestions: true,
       showLoader: false,
+      keyDown: true,
     };
 
     componentDidMount() {
@@ -113,7 +114,7 @@ function getSuggestionComponent() {
         showSuggestions: true,
       });
 
-      document.addEventListener('scroll', this.closeSuggestionDropdown, { once: true })
+      document.addEventListener('scroll', this.closeSuggestionDropdown, { once: true });
     }
 
     componentDidUpdate(props) {
@@ -127,24 +128,46 @@ function getSuggestionComponent() {
     }
 
     componentWillUnmount() {
-      document.removeEventListener('scroll', this.closeSuggestionDropdown)
+      document.removeEventListener('scroll', this.closeSuggestionDropdown);
       KeyDownHandler.deregisterCallBack(this.onEditorKeyDown);
       SuggestionHandler.close();
       config.modalHandler.removeSuggestionCallback();
     }
 
+    focusOption = (direction, classes, index) => {
+      const elements = document.querySelectorAll(classes);
+      if (typeof index == 'string') {
+        index = parseInt(index);
+      }
+      const updatedCursor = direction === 'down' ? index + 1 : index - 1;
+      let startIndex = updatedCursor;
+      const endIndex = direction === 'down' ? elements.length : -1;
+      if (startIndex === endIndex) {
+        startIndex = 0;
+      }
+      if (updatedCursor === -1 && endIndex === -1) {
+        startIndex = elements.length - 1;
+      }
+      const element = elements[startIndex];
+      if (element) element.scrollIntoView({ block: 'end' });
+    };
+
     onEditorKeyDown = (event) => {
       const { activeOption } = this.state;
       const newState = {};
-
+      const optionClass = '.Editor-dropdown-option';
+      this.disableMouseEvents();
       if (event.key === 'ArrowDown') {
         event.preventDefault();
+        this.focusOption('down', optionClass, activeOption);
         if (activeOption === this.filteredSuggestions.length - 1) {
           newState.activeOption = 0;
         } else {
           newState.activeOption = Number(activeOption) + 1;
         }
       } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.focusOption('up', optionClass, activeOption);
         if (activeOption <= 0) {
           newState.activeOption = this.filteredSuggestions.length - 1;
         } else {
@@ -159,16 +182,25 @@ function getSuggestionComponent() {
       this.setState(newState);
     };
 
-    onOptionMouseEnter = (event) => {
-      const index = event.target.getAttribute('data-index');
+    onOptionMouseOver = (event) => {
+      this.enableMouseEvents();
+      const index = parseInt(event.target.getAttribute('data-index'));
+      if (index >= 0 && index < this.filteredSuggestions.length) {
+        this.setState({
+          activeOption: index,
+        });
+      }
+    };
+
+    disableMouseEvents = () => {
       this.setState({
-        activeOption: index,
+        keyDown: true,
       });
     };
 
-    onOptionMouseLeave = () => {
+    enableMouseEvents = () => {
       this.setState({
-        activeOption: -1,
+        keyDown: false,
       });
     };
 
@@ -235,6 +267,7 @@ function getSuggestionComponent() {
       const OptionClass = classNames({
         ['Editor-dropdown-option']: true,
         ['Editor-dropdown-option--highlight']: index === activeOption,
+        ['Editor-dropdown--keydown']: this.state.keyDown,
       });
 
       return OptionClass;
@@ -252,13 +285,12 @@ function getSuggestionComponent() {
           spellCheck: false,
           onClick: (ev) => {
             this.addMention(ev);
-            if(optionRenderer.props.onClick) {
+            if (optionRenderer.props.onClick) {
               optionRenderer.props.onClick();
             }
           },
           'data-index': index,
-          onMouseEnter: this.onOptionMouseEnter,
-          onMouseLeave: this.onOptionMouseLeave,
+          onMouseOver: this.onOptionMouseOver,
         });
         return CustomOption;
       }
@@ -267,10 +299,9 @@ function getSuggestionComponent() {
         <span
           key={index}
           spellCheck={false}
-          onClick={() => this.addMention("onMouseSelect")}
+          onClick={() => this.addMention('onMouseSelect')}
           data-index={index}
-          onMouseEnter={this.onOptionMouseEnter}
-          onMouseLeave={this.onOptionMouseLeave}
+          onMouseOver={this.onOptionMouseOver}
           className={this.getOptionClass(index)}
         >
           {icon && <Icon name={icon} className="mr-4" />}
@@ -307,6 +338,9 @@ function getSuggestionComponent() {
               contentEditable="false"
               suppressContentEditableWarning
               ref={this.setDropdownReference}
+              onMouseMove={this.enableMouseEvents}
+              onMouseLeave={this.disableMouseEvents}
+              onScroll={this.enableMouseEvents}
             >
               {this.state.showLoader ? (
                 <span className="Editor-dropdown-option">
