@@ -1,7 +1,7 @@
 /* @flow */
 
 /**
- * Utility function to execute callback for eack key->value pair.
+ * Utility function to execute callback for each key->value pair.
  */
 export function forEach(obj: Object, callback: Function) {
   if (obj) {
@@ -44,7 +44,7 @@ export function isMap(obj) {
 }
 
 /**
- * The function will return filter out props fron and return new props.
+ * The function will return filter out props from and return new props.
  */
 export function filter(obj, keys) {
   const filteredKeys = Object.keys(obj).filter((key) => keys.indexOf(key) < 0);
@@ -88,3 +88,12 @@ export function debounce(func, delay = 500) {
     timerId = setTimeout(() => func.apply(this, arguments), delay);
   };
 }
+
+export const getPlatformPrefix = () => {
+  let platformPrefix = 'ctrl';
+  let platform = navigator.userAgentData?.platform.toLowerCase() || 'linux';
+  if (platform.includes('mac')) {
+    platformPrefix = 'cmd';
+  }
+  return platformPrefix;
+};

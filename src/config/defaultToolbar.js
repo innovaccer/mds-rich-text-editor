@@ -1,6 +1,7 @@
 import color from '../../images/color.svg';
 import embedded from '../../images/embedded.svg';
 import image from '../../images/image.svg';
+import { getPlatformPrefix } from '../utils/common';
 
 export const defaultColors = [
   'var(--text)',
@@ -10,6 +11,8 @@ export const defaultColors = [
   'var(--alert)',
   'var(--accent1)',
 ];
+
+const platformPrefix = getPlatformPrefix();
 
 export default {
   options: [
@@ -25,9 +28,9 @@ export default {
   textDecoration: {
     max: 4,
     options: ['bold', 'italic', 'underline', 'strikethrough'],
-    bold: { icon: 'format_bold', title: 'Bold (command B)', label: 'Bold' },
-    italic: { icon: 'format_italic', title: 'Italic (command I)', label: 'Italic' },
-    underline: { icon: 'format_underlined', title: 'Underline (command U)', label: 'Underline' },
+    bold: { icon: 'format_bold', title: `Bold (${platformPrefix}+B)`, label: 'Bold' },
+    italic: { icon: 'format_italic', title: `Italic (${platformPrefix}+I)`, label: 'Italic' },
+    underline: { icon: 'format_underlined', title: `Underline (${platformPrefix}+U)`, label: 'Underline' },
     strikethrough: { icon: 'strikethrough_s', title: 'Strikethrough', label: 'Strikethrough' },
   },
   heading: {
