@@ -52,3 +52,7 @@
 .Editor-dropdown-option--active {
   background-color: var(--primary) !important;
 }
+
+.Editor-dropdown--keydown {
+  pointer-events: none;
+}
