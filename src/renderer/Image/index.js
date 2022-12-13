@@ -30,7 +30,7 @@ const getImageComponent = (config) =>
     setEntityAlignment: Function = (alignment): void => {
       const { block, contentState } = this.props;
       const entityKey = block.getEntityAt(0);
-      contentState.mergeEntityData(entityKey, { alignment });
+      contentState.mergeEntityData(entityKey, { alignment: alignment, alt: alignment});
       config.onChange(EditorState.push(config.getEditorState(), contentState, 'change-block-data'));
     };
 
@@ -86,7 +86,8 @@ const getImageComponent = (config) =>
       const { isImageAlignmentEnabled } = config;
       const entity = contentState.getEntity(block.getEntityAt(0));
       const { src, alignment, height, width, alt } = entity.getData();
-
+      if(alt === 'center' && !alignment) this.setEntityAlignmentCenter();
+      
       const wrapperClass = classNames({
         'd-flex': true,
         'justify-content-end': alignment === 'right',
