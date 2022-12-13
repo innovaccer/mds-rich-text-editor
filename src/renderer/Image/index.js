@@ -3,38 +3,49 @@ import PropTypes from 'prop-types';
 import { EditorState, SelectionState, Modifier } from 'draft-js';
 import classNames from 'classnames';
 import { Icon } from '@innovaccer/design-system';
+import ImageResizer from './ImageResizer';
+import { RichUtils } from 'draft-js';
+import './style.css';
 
 const getImageComponent = (config) =>
   class Image extends Component {
-    static propTypes: Object = {
+    imageRef = null;
+
+    constructor(props) {
+      super(props);
+      this.imageRef = React.createRef();
+      this.onResizeEnd = this.onResizeEnd.bind(this);
+    }
+
+    static propTypes = {
       block: PropTypes.object,
       contentState: PropTypes.object,
     };
 
-    state: Object = {
+    state = {
       hovered: false,
     };
 
-    setEntityAlignmentLeft: Function = (): void => {
+    setEntityAlignmentLeft = () => {
       this.setEntityAlignment('left');
     };
 
-    setEntityAlignmentRight: Function = (): void => {
+    setEntityAlignmentRight = () => {
       this.setEntityAlignment('right');
     };
 
-    setEntityAlignmentCenter: Function = (): void => {
+    setEntityAlignmentCenter = () => {
       this.setEntityAlignment('center');
     };
 
-    setEntityAlignment: Function = (alignment): void => {
+    setEntityAlignment = (alignment) => {
       const { block, contentState } = this.props;
       const entityKey = block.getEntityAt(0);
-      contentState.mergeEntityData(entityKey, { alignment: alignment, alt: alignment});
+      contentState.mergeEntityData(entityKey, { alignment: alignment, alt: alignment });
       config.onChange(EditorState.push(config.getEditorState(), contentState, 'change-block-data'));
     };
 
-    removeEntity: Function = (e): void => {
+    removeEntity = (e) => {
       e.preventDefault();
       e.stopPropagation();
       const { block, contentState } = this.props;
@@ -55,15 +66,21 @@ const getImageComponent = (config) =>
       config.onChange(EditorState.push(config.getEditorState(), newContentState, 'remove-range'));
     };
 
-    toggleHovered: Function = (): void => {
+    toggleHovered = () => {
+      if (this.state.hovered) {
+        const editorState = config.getEditorState();
+        const contentState = editorState.getCurrentContent();
+        config.onChange(EditorState.push(config.getEditorState(), contentState, ''));
+      }
+
       this.setState({
         hovered: !this.state.hovered,
       });
     };
 
-    renderAlignmentOptions(): Object {
+    renderAlignmentOptions(isImageResizeEnabled) {
       return (
-        <div className='Popover d-flex'>
+        <div className={`Popover d-flex ${isImageResizeEnabled ? 'mt-4' : ''}`}>
           <div onClick={this.setEntityAlignmentLeft} className="Editor-image-options">
             <Icon name="format_align_left" size={20} />
           </div>
@@ -80,14 +97,45 @@ const getImageComponent = (config) =>
       );
     }
 
-    render(): Object {
+    updateImageSize(newWidth, newHeight) {
+      const { block } = this.props;
+
+      const entityKey = block.getEntityAt(0);
+      const editorState = config.getEditorState();
+      const contentState = editorState.getCurrentContent();
+      const newContentState = contentState.mergeEntityData(entityKey, {
+        width: `${newWidth}px`,
+        height: `${newHeight}px`,
+      });
+      config.onChange(EditorState.push(config.getEditorState(), newContentState, ''));
+
+      // Insert new line to preserve editor state
+      const EditorStateConfig = config.getEditorState();
+      const newEditorState = RichUtils.insertSoftNewline(EditorStateConfig);
+      config.onChange(newEditorState);
+    }
+
+    onResizeEnd(newWidth, newHeight) {
+      this.setState({
+        hovered: false,
+      });
+
+      this.updateImageSize(newWidth, newHeight);
+    }
+
+    render() {
       const { block, contentState } = this.props;
       const { hovered } = this.state;
-      const { isImageAlignmentEnabled } = config;
+      const { isImageAlignmentEnabled, isImageResizeEnabled } = config;
       const entity = contentState.getEntity(block.getEntityAt(0));
       const { src, alignment, height, width, alt } = entity.getData();
-      if(alt === 'center' && !alignment) this.setEntityAlignmentCenter();
-      
+
+      if (alt === 'center' && !alignment) {
+        this.setEntityAlignmentCenter();
+      }
+
+      const editorRef = document.getElementById('RichTextEditorWrapper');
+
       const wrapperClass = classNames({
         'd-flex': true,
         'justify-content-end': alignment === 'right',
@@ -96,11 +144,11 @@ const getImageComponent = (config) =>
       });
 
       return (
-        <div 
-          onClick={this.toggleHovered} 
-          className={wrapperClass}
-        >
-          <span className="position-relative">
+        <div className={wrapperClass}>
+          <span
+            onClick={this.toggleHovered}
+            className={`position-relative ${hovered && isImageResizeEnabled ? 'Editor-image-container ml-4' : ''} "`}
+          >
             <img
               src={src}
               alt={alt}
@@ -108,8 +156,16 @@ const getImageComponent = (config) =>
                 height,
                 width,
               }}
+              ref={this.imageRef}
             />
-            {hovered && isImageAlignmentEnabled() && this.renderAlignmentOptions(alignment)}
+            {hovered && (
+              <>
+                {isImageAlignmentEnabled() && this.renderAlignmentOptions(isImageResizeEnabled)}
+                {isImageResizeEnabled && (
+                  <ImageResizer editor={editorRef} imageRef={this.imageRef} onResizeEnd={this.onResizeEnd} />
+                )}
+              </>
+            )}
           </span>
         </div>
       );

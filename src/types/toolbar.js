@@ -10,6 +10,7 @@ const imageShape = {
   title: PropTypes.string,
   alt: PropTypes.string,
   uploadCallback: PropTypes.func,
+  resizeEnabled: PropTypes.bool,
   defaultSize: PropTypes.shape({
     height: PropTypes.string,
     width: PropTypes.string,
