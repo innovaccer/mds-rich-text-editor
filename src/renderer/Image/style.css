@@ -1,0 +1,61 @@
+.Editor-image--selected {
+  border: 1px solid var(--primary-lighter);
+}
+
+.Editor-image-resizer {
+  display: block;
+  width: var(--spacing-m);
+  height: var(--spacing-m);
+  position: absolute;
+  background-color: var(--primary);
+  border: 1px solid var(--white);
+}
+
+.Image-resizer--n {
+  top: -6px;
+  left: 48%;
+  cursor: n-resize;
+}
+
+.Image-resizer--ne {
+  top: -6px;
+  right: -6px;
+  cursor: ne-resize;
+}
+
+.Image-resizer--e {
+  bottom: 48%;
+  right: -6px;
+  cursor: e-resize;
+}
+
+.Image-resizer--se {
+  bottom: -2px;
+  right: -6px;
+  cursor: nwse-resize;
+}
+
+.Image-resizer--s {
+  bottom: -2px;
+  left: 48%;
+  cursor: s-resize;
+}
+
+.Image-resizer--sw {
+  bottom: -2px;
+  left: -6px;
+  cursor: sw-resize;
+}
+
+.Image-resizer--w {
+  bottom: 48%;
+  left: -6px;
+  cursor: w-resize;
+}
+
+.Image-resizer--nw {
+  top: -6px;
+  left: -6px;
+  cursor: nw-resize;
+}
+

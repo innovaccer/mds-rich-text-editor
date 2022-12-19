@@ -86,6 +86,13 @@ export const All = (args) => {
                 { label: 'DOB', value: '11-02-1998' },
               ],
             }}
+            toolbar={{
+              insert: {
+                image: {
+                  resizeEnabled: true
+                },
+              },
+            }}
           />
           <div className="d-flex my-5">
             <Button appearance="primary" size="large" onClick={onSave} className="my-4 ">

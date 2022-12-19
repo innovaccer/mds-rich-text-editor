@@ -120,6 +120,7 @@ export default {
     uploadEnabled: true,
     previewImage: false,
     alignmentEnabled: true,
+    resizeEnabled: false,
     uploadCallback: undefined,
     inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
     alt: { present: false, mandatory: false },

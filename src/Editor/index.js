@@ -50,11 +50,13 @@ class Editor extends Component {
     this.wrapperId = `Editor-wrapper-${wrapperId}`;
     this.modalHandler = new ModalHandler();
     this.focusHandler = new FocusHandler();
+    const showImageResizeOption = props.toolbar && props.toolbar.insert && props.toolbar.insert.image?.resizeEnabled;
 
     this.blockRendererFn = getBlockRenderFunc(
       {
         isReadOnly: true,
         isImageAlignmentEnabled: this.isImageAlignmentEnabled,
+        isImageResizeEnabled: showImageResizeOption,
         getEditorState: this.getEditorState,
         onChange: this.onChange,
       }
@@ -161,7 +163,7 @@ class Editor extends Component {
         if (newState) {
           this.onChange(newState);
           this.setState({
-            editorState: EditorState.moveFocusToEnd(EditorState.createEmpty())
+            editorState: EditorState.moveFocusToEnd(EditorState.createEmpty()),
           });
           return true;
         }
@@ -396,7 +398,7 @@ class Editor extends Component {
     const { handlePastedText: handlePastedTextProp } = this.props;
 
     // To handle pasting of image copied from inside the editor
-    if(html.includes('<figure')){
+    if (html.includes('<figure')) {
       return html;
     }
 
@@ -430,7 +432,7 @@ class Editor extends Component {
       }
     }
     return false;
-  }
+  };
 
   blockRenderMap = DefaultDraftBlockRenderMap.merge(
     Map({
@@ -494,10 +496,13 @@ class Editor extends Component {
       wrapperClassName
     );
 
-    const EditorClass = classNames({
-      ['Editor']: true,
-      ['hide-placeholder']: this.isEmptyListBlock()
-    }, editorClassName);
+    const EditorClass = classNames(
+      {
+        ['Editor']: true,
+        ['hide-placeholder']: this.isEmptyListBlock(),
+      },
+      editorClassName
+    );
 
     return (
       <div
@@ -537,6 +542,7 @@ class Editor extends Component {
           onBlur={this.onEditorBlur}
           onKeyDown={KeyDownHandler.onKeyDown}
           onMouseDown={this.onEditorMouseDown}
+          id="RichTextEditorWrapper"
         >
           <RichTextEditor
             ref={this.setEditorReference}
@@ -665,6 +671,7 @@ Editor.propTypes = {
    *       isVisible: boolean,
    *       title: string,
    *       alt: string,
+   *       resizeEnabled: boolean,
    *       defaultSize: { height: string, width: string },
    *       uploadCallback:
    *         (file) => Promise<{ data: { link: <THE_URL>}}>
@@ -681,6 +688,7 @@ Editor.propTypes = {
    * | colors | Array of colors to be shown in color-picker | |
    * | isVisible | Determines if control is visible | true |
    * | alt | Used to enable alt field for images | |
+   * | resizeEnabled | Enable option to resize images | false |
    * | defaultSize | Used to pass default size (height and width) of image | height: '100px', width: '300px' |
    * | uploadCallback | Returns a promise that resolves to give image src.  | |
    */
