@@ -4,7 +4,6 @@ import { EditorState, SelectionState, Modifier } from 'draft-js';
 import classNames from 'classnames';
 import { Icon } from '@innovaccer/design-system';
 import ImageResizer from './ImageResizer';
-import { RichUtils } from 'draft-js';
 import './style.css';
 
 const getImageComponent = (config) =>
@@ -109,10 +108,15 @@ const getImageComponent = (config) =>
       });
       config.onChange(EditorState.push(config.getEditorState(), newContentState, ''));
 
-      // Insert new line to preserve editor state
-      const EditorStateConfig = config.getEditorState();
-      const newEditorState = RichUtils.insertSoftNewline(EditorStateConfig);
-      config.onChange(newEditorState);
+      // Insert extra spaces to preserve editor state
+      const tabCharacter = ' ';
+      const currentState = config.getEditorState();
+      let modifiedContentState = Modifier.replaceText(
+        currentState.getCurrentContent(),
+        currentState.getSelection(),
+        tabCharacter
+      );
+      config.onChange(EditorState.push(currentState, modifiedContentState, 'insert-characters'));
     }
 
     onResizeEnd(newWidth, newHeight) {
@@ -147,7 +151,7 @@ const getImageComponent = (config) =>
         <div className={wrapperClass}>
           <span
             onClick={this.toggleHovered}
-            className={`position-relative ${hovered && isImageResizeEnabled ? 'Editor-image-container ml-4' : ''} "`}
+            className={`position-relative ml-4 ${hovered && isImageResizeEnabled ? 'Editor-image--selected' : ''} "`}
           >
             <img
               src={src}
