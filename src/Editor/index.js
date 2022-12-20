@@ -169,6 +169,13 @@ class Editor extends Component {
         }
       }
     }
+    if (event.key === 'Delete') {
+      const newState = RichUtils.onDelete(this.state.editorState);
+      if (newState) {
+        this.onChange(newState);
+        return true;
+      }
+    }
     return getDefaultKeyBinding(event);
   };
 
