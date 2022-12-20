@@ -107,7 +107,7 @@ export const All = (args) => {
           </div>
           {isPreviewHtml && (
             <code>
-              <Paragraph className="border p-4">{html}</Paragraph>
+              <Paragraph className="Preview-wrapper border p-4">{html}</Paragraph>
             </code>
           )}
         </div>
