@@ -53,6 +53,10 @@
   border-radius: var(--spacing-m);
 }
 
+.Preview-wrapper {
+  white-space: break-spaces;
+}
+
 figure {
   margin: 0;
   padding: 0;

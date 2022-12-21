@@ -203,7 +203,7 @@ export const EditorPreview = ({ raw, entities, headings, list, colors }) => {
     return null;
   }
 
-  return <>{previewComponent}</>;
+  return <div className='Preview-wrapper'>{previewComponent}</div>;
 };
 
 EditorPreview.utils = {

@@ -23,7 +23,7 @@ export const All = (args) => {
       <Button appearance="primary" size="large" onClick={onClick} className="mt-4 mb-5">
         Convert to HTML
       </Button>
-      <Paragraph>{html}</Paragraph>
+      <Paragraph className="Preview-wrapper">{html}</Paragraph>
     </div>
   );
 };
