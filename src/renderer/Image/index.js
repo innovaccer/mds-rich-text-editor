@@ -147,11 +147,18 @@ const getImageComponent = (config) =>
         'justify-content-center': alignment === 'center',
       });
 
+      const imgWrapperClass = classNames({
+        'position-relative': true,
+        'Editor-image--selected': hovered && isImageResizeEnabled,
+        'Editor-image': !hovered && isImageResizeEnabled,
+        'ml-4': isImageResizeEnabled,
+      });
+
       return (
         <div className={wrapperClass}>
           <span
             onClick={this.toggleHovered}
-            className={`position-relative ml-4 ${hovered && isImageResizeEnabled ? 'Editor-image--selected' : ''} "`}
+            className={imgWrapperClass}
           >
             <img
               src={src}
