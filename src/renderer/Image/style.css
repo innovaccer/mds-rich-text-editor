@@ -2,6 +2,10 @@
   border: 1px solid var(--primary-lighter);
 }
 
+.Editor-image {
+  border: 1px solid transparent;
+}
+
 .Editor-image-resizer {
   display: block;
   width: var(--spacing-m);
