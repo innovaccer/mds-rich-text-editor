@@ -14,10 +14,11 @@ export const htmlToState = (html) => {
   }
 };
 
-export const stateToHTML = (editorState) => {
+export const stateToHTML = (editorState, nonFloatingImages = false) => {
   const json = convertToRaw(editorState.getCurrentContent());
 
   return draftToHtml(json, {}, false, ({ type, data }) => {
+
     if (type === 'IMAGE') {
       const alignment = data.alignment ? data.alignment : 'left';
       if(data.alt==="center" || alignment === "center")
@@ -28,10 +29,12 @@ export const stateToHTML = (editorState) => {
         `;
       else
         return `
-          <p>
+          <p style="${nonFloatingImages ? 'display: flow-root;' : ''}">
             <img src="${data.src}" alt="${data.alignment}" style="float:${alignment}; height: ${data.height};width: ${data.width}"/>
           </p>
         `;
     }
+
+    
   });
 };
