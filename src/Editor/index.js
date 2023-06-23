@@ -51,12 +51,13 @@ class Editor extends Component {
     this.modalHandler = new ModalHandler();
     this.focusHandler = new FocusHandler();
     const showImageResizeOption = props.toolbar && props.toolbar.insert && props.toolbar.insert.image?.resizeEnabled;
-
+    const showNonFloatingImageOption = props.toolbar && props.toolbar.insert && props.toolbar.insert.image?.nonFloatingImage;
     this.blockRendererFn = getBlockRenderFunc(
       {
         isReadOnly: true,
         isImageAlignmentEnabled: this.isImageAlignmentEnabled,
         isImageResizeEnabled: showImageResizeOption,
+        nonFloatingImage: showNonFloatingImageOption,
         getEditorState: this.getEditorState,
         onChange: this.onChange,
       }

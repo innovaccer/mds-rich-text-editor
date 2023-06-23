@@ -130,12 +130,16 @@ const getImageComponent = (config) =>
     render() {
       const { block, contentState } = this.props;
       const { hovered } = this.state;
-      const { isImageAlignmentEnabled, isImageResizeEnabled } = config;
+      const { isImageAlignmentEnabled, isImageResizeEnabled, nonFloatingImage } = config;
       const entity = contentState.getEntity(block.getEntityAt(0));
       const { src, alignment, height, width, alt } = entity.getData();
 
       if (alt === 'center' && !alignment) {
         this.setEntityAlignmentCenter();
+      } else if (nonFloatingImage && alt === 'right' && !alignment) {
+        this.setEntityAlignmentRight();
+      } else if (nonFloatingImage && alt === 'left' && !alignment) {
+        this.setEntityAlignmentLeft();
       }
 
       const editorRef = document.getElementById('RichTextEditorWrapper');

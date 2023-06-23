@@ -14,7 +14,7 @@ export const htmlToState = (html) => {
   }
 };
 
-export const stateToHTML = (editorState, nonFloatingImages = false) => {
+export const stateToHTML = (editorState, nonFloatingImage = false) => {
   const json = convertToRaw(editorState.getCurrentContent());
 
   return draftToHtml(json, {}, false, ({ type, data }) => {
@@ -27,14 +27,25 @@ export const stateToHTML = (editorState, nonFloatingImages = false) => {
           <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; margin-left:auto; height: ${data.height};width: ${data.width}"/>
         </p>
         `;
-      else
+      else if(nonFloatingImage && (data.alt ==="left" || alignment === "left"))
         return `
-          <p style="${nonFloatingImages ? 'display: flow-root;' : ''}">
-            <img src="${data.src}" alt="${data.alignment}" style="float:${alignment}; height: ${data.height};width: ${data.width}"/>
+          <p>
+            <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; height: ${data.height};width: ${data.width}"/>
           </p>
         `;
+      else if(nonFloatingImage)
+        return `
+          <p>
+            <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-left:auto; height: ${data.height};width: ${data.width}"/>
+          </p>
+        `;
+      else
+          return `
+            <p>
+              <img src="${data.src}" alt="${data.alignment}" style="float:${alignment}; height: ${data.height};width: ${data.width}"/>
+            </p>
+          `;
     }
-
     
   });
 };
