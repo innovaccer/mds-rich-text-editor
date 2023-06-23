@@ -28,7 +28,7 @@ export const stateToHTML = (editorState, nonFloatingImage = false) => {
           <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; margin-left:auto; height: ${data.height};width: ${data.width}"/>
         </p>
         `;
-      else if(nonFloatingImage && data.alt === "left" || alignment === "left")
+      else if(nonFloatingImage && (data.alt === "left" || alignment === "left"))
         return `
           <p>
             <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; height: ${data.height};width: ${data.width}"/>

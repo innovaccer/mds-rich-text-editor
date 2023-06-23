@@ -138,8 +138,9 @@ const getImageComponent = (config) =>
         this.setEntityAlignmentCenter();
       } else if (nonFloatingImage && alt === 'right' && !alignment) {
         this.setEntityAlignmentRight();
-      } else if (nonFloatingImage && alt === 'left' && !alignment)
+      } else if (nonFloatingImage && alt === 'left' && !alignment) {
         this.setEntityAlignmentLeft();
+      }
 
       const editorRef = document.getElementById('RichTextEditorWrapper');
 
