@@ -14,7 +14,7 @@ export const htmlToState = (html) => {
   }
 };
 
-export const stateToHTML = (editorState) => {
+export const stateToHTML = (editorState, notFloatingImage = false) => {
   const json = convertToRaw(editorState.getCurrentContent());
 
   return draftToHtml(json, {}, false, ({ type, data }) => {
@@ -26,12 +26,25 @@ export const stateToHTML = (editorState) => {
           <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; margin-left:auto; height: ${data.height};width: ${data.width}"/>
         </p>
         `;
-      else
+      else if(notFloatingImage && data.alt ==="left" || alignment === "left")
         return `
           <p>
-            <img src="${data.src}" alt="${data.alignment}" style="float:${alignment}; height: ${data.height};width: ${data.width}"/>
+            <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; height: ${data.height};width: ${data.width}"/>
           </p>
         `;
+      else if(notFloatingImage)
+        return `
+          <p>
+            <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-left:auto; height: ${data.height};width: ${data.width}"/>
+          </p>
+        `;
+      else
+          return `
+            <p>
+              <img src="${data.src}" alt="${data.alignment}" style="float:${alignment}; height: ${data.height};width: ${data.width}"/>
+            </p>
+          `;
     }
+    
   });
 };
