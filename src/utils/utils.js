@@ -14,10 +14,12 @@ export const htmlToState = (html) => {
   }
 };
 
+
 export const stateToHTML = (editorState, notFloatingImage = false) => {
   const json = convertToRaw(editorState.getCurrentContent());
 
   return draftToHtml(json, {}, false, ({ type, data }) => {
+
     if (type === 'IMAGE') {
       const alignment = data.alignment ? data.alignment : 'left';
       if(data.alt==="center" || alignment === "center")
@@ -26,7 +28,7 @@ export const stateToHTML = (editorState, notFloatingImage = false) => {
           <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; margin-left:auto; height: ${data.height};width: ${data.width}"/>
         </p>
         `;
-      else if(notFloatingImage && data.alt ==="left" || alignment === "left")
+      else if(notFloatingImage && data.alt === "left" || alignment === "left")
         return `
           <p>
             <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; height: ${data.height};width: ${data.width}"/>
