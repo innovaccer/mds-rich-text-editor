@@ -178,21 +178,9 @@ export default function ImageResizer({ onResizeEnd, imageRef, maxWidth, editor }
   return (
     <div ref={controlWrapperRef}>
       <div
-        className="Editor-image-resizer Image-resizer--n"
-        onPointerDown={(event) => {
-          handlePointerDown(event, Direction.north);
-        }}
-      />
-      <div
         className="Editor-image-resizer Image-resizer--ne"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.north | Direction.east);
-        }}
-      />
-      <div
-        className="Editor-image-resizer Image-resizer--e"
-        onPointerDown={(event) => {
-          handlePointerDown(event, Direction.east);
         }}
       />
       <div
@@ -202,21 +190,9 @@ export default function ImageResizer({ onResizeEnd, imageRef, maxWidth, editor }
         }}
       />
       <div
-        className="Editor-image-resizer Image-resizer--s"
-        onPointerDown={(event) => {
-          handlePointerDown(event, Direction.south);
-        }}
-      />
-      <div
         className="Editor-image-resizer Image-resizer--sw"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.south | Direction.west);
-        }}
-      />
-      <div
-        className="Editor-image-resizer Image-resizer--w"
-        onPointerDown={(event) => {
-          handlePointerDown(event, Direction.west);
         }}
       />
       <div
