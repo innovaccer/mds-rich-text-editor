@@ -130,7 +130,7 @@ const getImageComponent = (config) =>
     render() {
       const { block, contentState } = this.props;
       const { hovered } = this.state;
-      const { isImageAlignmentEnabled, isImageResizeEnabled, nonFloatingImage } = config;
+      const { isImageAlignmentEnabled, isImageResizeEnabled, isReadOnly, nonFloatingImage } = config;
       const entity = contentState.getEntity(block.getEntityAt(0));
       const { src, alignment, height, width, alt } = entity.getData();
 
@@ -173,7 +173,7 @@ const getImageComponent = (config) =>
               }}
               ref={this.imageRef}
             />
-            {hovered && (
+            {!isReadOnly && hovered && (
               <>
                 {isImageAlignmentEnabled() && this.renderAlignmentOptions(isImageResizeEnabled)}
                 {isImageResizeEnabled && (
