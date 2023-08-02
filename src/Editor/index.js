@@ -54,7 +54,7 @@ class Editor extends Component {
     const showNonFloatingImageOption = props.toolbar && props.toolbar.insert && props.toolbar.insert.image?.nonFloatingImage;
     this.blockRendererFn = getBlockRenderFunc(
       {
-        isReadOnly: true,
+        isReadOnly: props.readOnly,
         isImageAlignmentEnabled: this.isImageAlignmentEnabled,
         isImageResizeEnabled: showImageResizeOption,
         nonFloatingImage: showNonFloatingImageOption,
