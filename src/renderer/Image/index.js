@@ -153,8 +153,8 @@ const getImageComponent = (config) =>
 
       const imgWrapperClass = classNames({
         'position-relative': true,
-        'Editor-image--selected': hovered && isImageResizeEnabled,
-        'Editor-image': !hovered && isImageResizeEnabled,
+        'Editor-image--selected': !isReadOnly && hovered && isImageResizeEnabled,
+        'Editor-image': !isReadOnly && !hovered && isImageResizeEnabled,
         'ml-4': isImageResizeEnabled,
       });
 
