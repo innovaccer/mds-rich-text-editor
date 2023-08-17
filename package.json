@@ -11,7 +11,7 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@babel/register": "^7.7.4",
-    "@innovaccer/design-system": "^2.13.3",
+    "@innovaccer/design-system": "^2.18.0",
     "@storybook/addon-docs": "6.5.10",
     "@storybook/addon-essentials": "6.5.10",
     "@storybook/react": "6.5.10",
@@ -50,7 +50,7 @@
     "prettier": "^2.5.1",
     "react": "^16.12.0",
     "react-addons-test-utils": "^15.6.2",
-    "react-dom": "^16.12.0",
+    "react-dom": "16.14.0",
     "react-test-renderer": "^16.12.0",
     "rimraf": "^3.0.0",
     "sinon": "^7.5.0",
@@ -74,7 +74,7 @@
     "redraft": "^0.10.2"
   },
   "peerDependencies": {
-    "@innovaccer/design-system": "^2.13.3",
+    "@innovaccer/design-system": "^2.18.0",
     "react": "0.13.x || 0.14.x || ^15.0.0-0 || 15.x.x || ^16.0.0-0 || ^16.x.x",
     "react-dom": "0.13.x || 0.14.x || ^15.0.0-0 || 15.x.x || ^16.0.0-0 || ^16.x.x"
   },
@@ -82,18 +82,21 @@
     "build:css": "cp ./node_modules/@innovaccer/design-system/css/dist/* dist/",
     "build-css": "gulp --gulpfile config/gulpfile.js build",
     "clean": "rimraf dist && rimraf public",
-    "build:webpack": "cross-env NODE_ENV=production webpack  --mode production --config config/webpack.config.js",
+    "build:webpack": "NODE_OPTIONS=--openssl-legacy-provider cross-env NODE_ENV=production webpack  --mode production --config config/webpack.config.js",
     "build": "npm run clean && npm run build-css && npm run build:webpack",
     "test": "cross-env BABEL_ENV=test mocha --require config/test-compiler.js config/test-setup.js src/**/*Test.js",
     "lint": "eslint src",
     "lintdocs": "eslint docs/src",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "check": "npm run lint && npm run flow",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages",
     "version": "./scripts/version.sh",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css}\""
+  },
+  "engines": {
+    "node": ">14 <=18"
   },
   "license": "MIT"
 }
