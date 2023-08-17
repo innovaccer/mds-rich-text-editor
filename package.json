@@ -57,7 +57,6 @@
     "style-loader": "^1.0.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^3.0.0",
-    "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^4.0.0",
     "webpack-cli": "^3.3.10",
     "webpack-s3-plugin": "^1.2.0-rc.0"
@@ -90,13 +89,17 @@
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "check": "npm run lint && npm run flow",
     "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages",
+    "build-storybook": " NODE_OPTIONS=--openssl-legacy-provider build-storybook",
+    "deploy-storybook": "NODE_OPTIONS=--openssl-legacy-provider storybook-to-ghpages",
     "version": "./scripts/version.sh",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css}\""
   },
   "engines": {
     "node": ">14 <=18"
+  },
+  "overrides": {
+    "react-dom": "16.14.0",
+    "webpack": "4.46.0"
   },
   "license": "MIT"
 }
