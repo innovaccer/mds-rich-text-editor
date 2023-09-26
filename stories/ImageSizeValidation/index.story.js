@@ -6,14 +6,12 @@ import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 
 export const All = (args) => {
   const uploadCallback = (file) => {
-
     return new Promise((resolve, reject) => {
       var reader = new FileReader();
 
       //Read the contents of Image File.
       reader.readAsDataURL(file);
       reader.onloadend = function (e) {
-
         //Initiate the JavaScript Image object.
         var image = new Image();
 
@@ -25,7 +23,7 @@ export const All = (args) => {
           var height = this.height;
           var width = this.width;
           if (height > 1000 || width > 1000) {
-            alert("Height and Width must not exceed 1000px.");
+            alert('Height and Width must not exceed 1000px.');
             return false;
           }
           resolve({ data: { link: reader.result } });
@@ -33,7 +31,6 @@ export const All = (args) => {
       };
 
       reader.onerror = (e) => reject(e);
-
     });
   };
 

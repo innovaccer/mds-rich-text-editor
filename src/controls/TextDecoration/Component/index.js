@@ -23,7 +23,7 @@ export default class TextDecoration extends Component {
     const len = config.options.length - config.max;
 
     return (
-      <Tooltip tooltip='More formatting'>
+      <Tooltip tooltip="More formatting">
         <Dropdown
           onChange={onChange}
           expanded={expanded}

@@ -22,7 +22,7 @@ export const All = (args) => {
           image: {
             uploadCallback,
             defaultSize: { height: '200px' },
-            resizeEnabled: true
+            resizeEnabled: true,
           },
         },
       }}

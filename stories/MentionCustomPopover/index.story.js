@@ -32,7 +32,6 @@ export const All = (args) => {
   ];
 
   const customPopoverRenderer = (filteredSuggestions, addMention, showLoader, showSuggestions, activeOptionIndex) => {
-
     if (showLoader) {
       return (
         <span className="px-5 py-3-5">
@@ -78,7 +77,6 @@ export const All = (args) => {
       });
     return result;
   }
-
 
   const fetchSuggestions = (searchTerm) => {
     const searchedOptions = searchTerm ? searchElement(suggestionList, searchTerm, false) : suggestionList;

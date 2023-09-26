@@ -34,7 +34,6 @@ class ColorPicker extends Component {
 
     this.state = state;
     modalHandler.registerCallBack(this.expandCollapse);
-
   }
 
   // componentDidUpdate(prevProps) {

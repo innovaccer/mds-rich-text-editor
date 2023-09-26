@@ -99,8 +99,14 @@ class LayoutComponent extends Component {
     const { expanded, onToggle, className } = this.props;
 
     const trigger = (
-      <Tooltip tooltip='Text color'>
-        <Option tabIndex={0} aria-label="Font colors" onClick={onToggle} active={expanded} activeClassName="bg-secondary">
+      <Tooltip tooltip="Text color">
+        <Option
+          tabIndex={0}
+          aria-label="Font colors"
+          onClick={onToggle}
+          active={expanded}
+          activeClassName="bg-secondary"
+        >
           <Icon name="text_format" size={20} />
         </Option>
       </Tooltip>
