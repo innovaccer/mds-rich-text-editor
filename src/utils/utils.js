@@ -5,11 +5,15 @@ import { ContentState, EditorState, convertToRaw } from 'draft-js';
 const replaceAllContent = (data, originalStr, replacedStr) => {
   const regex = new RegExp(originalStr, 'g');
   return data.replace(regex, replacedStr);
-}
+};
 
 export const htmlToState = (html) => {
   // Remove extra newline in html generated from Preview component
-  const imgContent = replaceAllContent(html, '<p><br/></p><p id="RichTextEditor-Image"', '<p id="RichTextEditor-Image"');
+  const imgContent = replaceAllContent(
+    html,
+    '<p><br/></p><p id="RichTextEditor-Image"',
+    '<p id="RichTextEditor-Image"'
+  );
   const htmlContent = replaceAllContent(imgContent, '<br/>', '');
   const trimContent = replaceAllContent(htmlContent, '<p>&nbsp;</p>', '');
   const contentBlock = htmlToDraft(trimContent);

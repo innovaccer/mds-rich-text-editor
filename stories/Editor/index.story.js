@@ -89,7 +89,7 @@ export const All = (args) => {
             toolbar={{
               insert: {
                 image: {
-                  resizeEnabled: true
+                  resizeEnabled: true,
                 },
               },
             }}

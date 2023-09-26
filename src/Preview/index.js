@@ -92,12 +92,16 @@ const defaultEntities = {
     const imageAlign = alignment ? alignment : 'left';
 
     return (
-      <p id='RichTextEditor-Image' style={{ justifyContent: imageAlign, display: 'flex' }}>
+      <p id="RichTextEditor-Image" style={{ justifyContent: imageAlign, display: 'flex' }}>
         <img src={src} alt={alt} height={height} width={width} />
       </p>
     );
   },
-  MENTION: (children, entity, { key }) => <span name={entity.value} className='Chip--input Chip d-inline-flex mt-3' key={key}>{children}</span>,
+  MENTION: (children, entity, { key }) => (
+    <span name={entity.value} className="Chip--input Chip d-inline-flex mt-3" key={key}>
+      {children}
+    </span>
+  ),
 };
 
 const getUnstyledBlock = (children, keys) => (
@@ -108,11 +112,13 @@ const getUnstyledBlock = (children, keys) => (
       if (text && text.includes('\n')) {
         const newBlock = text.split('\n');
         return <Paragraph key={keys[i]}>{addBreaklines(newBlock)}</Paragraph>;
-      }
-      else if(child && child[1]?.length === 0) {
-        return <p><br></br></p>
-      } 
-      else {
+      } else if (child && child[1]?.length === 0) {
+        return (
+          <p>
+            <br></br>
+          </p>
+        );
+      } else {
         return <Paragraph key={keys[i]}>{child.map((entity) => [entity])}</Paragraph>;
       }
     })}
@@ -203,7 +209,7 @@ export const EditorPreview = ({ raw, entities, headings, list, colors }) => {
     return null;
   }
 
-  return <div className='Preview-wrapper'>{previewComponent}</div>;
+  return <div className="Preview-wrapper">{previewComponent}</div>;
 };
 
 EditorPreview.utils = {
