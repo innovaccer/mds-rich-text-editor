@@ -4,8 +4,8 @@ import { ContentState, EditorState, convertToRaw } from 'draft-js';
 
 export const htmlToState = (html) => {
   // Remove extra newline in html generated from Preview component
-  const imgContent = html.replaceAll('<p><br/></p><p id="RichTextEditor-Image"','<p id="RichTextEditor-Image"')
-  const htmlContent = imgContent.replaceAll('<br/>', '').replaceAll('<p>&nbsp;</p>','');
+  const imgContent = html.replaceAll('<p><br/></p><p id="RichTextEditor-Image"', '<p id="RichTextEditor-Image"');
+  const htmlContent = imgContent.replaceAll('<br/>', '').replaceAll('<p>&nbsp;</p>', '');
   const contentBlock = htmlToDraft(htmlContent);
   if (contentBlock) {
     const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
@@ -17,35 +17,34 @@ export const htmlToState = (html) => {
 export const stateToHTML = (editorState, nonFloatingImage = false) => {
   const json = convertToRaw(editorState.getCurrentContent());
 
-  return draftToHtml(json, {}, false, ({ type, data }) => {
-
+  // Set hashConfig to undefined to output hashtags as simple text in the markdown
+  return draftToHtml(json, undefined, false, ({ type, data }) => {
     if (type === 'IMAGE') {
       const alignment = data.alignment ? data.alignment : 'left';
-      if(data.alt==="center" || alignment === "center")
+      if (data.alt === 'center' || alignment === 'center')
         return `
         <p>
           <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; margin-left:auto; height: ${data.height};width: ${data.width}"/>
         </p>
         `;
-      else if(nonFloatingImage && (data.alt ==="left" || alignment === "left"))
+      else if (nonFloatingImage && (data.alt === 'left' || alignment === 'left'))
         return `
           <p>
             <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-right:auto; height: ${data.height};width: ${data.width}"/>
           </p>
         `;
-      else if(nonFloatingImage)
+      else if (nonFloatingImage)
         return `
           <p>
             <img src="${data.src}" alt="${data.alignment}" style="display:block; margin-left:auto; height: ${data.height};width: ${data.width}"/>
           </p>
         `;
       else
-          return `
+        return `
             <p>
               <img src="${data.src}" alt="${data.alignment}" style="float:${alignment}; height: ${data.height};width: ${data.width}"/>
             </p>
           `;
     }
-    
   });
 };
