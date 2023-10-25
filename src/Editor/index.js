@@ -406,12 +406,12 @@ class Editor extends Component {
     const { handlePastedText: handlePastedTextProp } = this.props;
 
     // To handle pasting of image copied from inside the editor
-    if (html.includes('<figure')) {
+    if (html && html.includes('<figure')) {
       return html;
     }
 
     // To handle pasting of content copied from inside the editor
-    if (html.includes('DraftStyle')) {
+    if (html && html.includes('DraftStyle')) {
       return null;
     }
 
