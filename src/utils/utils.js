@@ -2,11 +2,17 @@ import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 import { ContentState, EditorState, convertToRaw } from 'draft-js';
 
+const replaceAllContent = (data, originalStr, replacedStr) => {
+  const regex = new RegExp(originalStr, 'g');
+  return data.replace(regex, replacedStr);
+}
+
 export const htmlToState = (html) => {
   // Remove extra newline in html generated from Preview component
-  const imgContent = html.replaceAll('<p><br/></p><p id="RichTextEditor-Image"', '<p id="RichTextEditor-Image"');
-  const htmlContent = imgContent.replaceAll('<br/>', '').replaceAll('<p>&nbsp;</p>', '');
-  const contentBlock = htmlToDraft(htmlContent);
+  const imgContent = replaceAllContent(html, '<p><br/></p><p id="RichTextEditor-Image"', '<p id="RichTextEditor-Image"');
+  const htmlContent = replaceAllContent(imgContent, '<br/>', '');
+  const trimContent = replaceAllContent(htmlContent, '<p>&nbsp;</p>', '');
+  const contentBlock = htmlToDraft(trimContent);
   if (contentBlock) {
     const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
     const editorState = EditorState.createWithContent(contentState);
