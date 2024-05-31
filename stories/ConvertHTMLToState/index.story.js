@@ -5,7 +5,7 @@ import { Editor } from '../../src';
 import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 
 export const All = (args) => {
-  const html = `<p><a href="https://innovaccer.github.io/design-system/?path=/story/*" target="_self">Innovaccer Design System</a>&nbsp;</p>`;
+  const html = `<p><a href="https://mds.innovaccer.com/?path=/story/*" target="_self">Innovaccer Design System</a>&nbsp;</p>`;
   const [editorState, setEditorState] = React.useState(Editor.utils.htmlToState(html).editorState);
 
   const onEditorStateChange = (eState) => {
