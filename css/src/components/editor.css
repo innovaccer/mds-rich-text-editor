@@ -9,6 +9,7 @@
 .Editor p {
   margin-top: 0;
   margin-bottom: 0;
+  line-height: var(--spacing-xl);
 }
 
 .Editor-wrapper {
@@ -26,7 +27,7 @@
   margin-right: var(--spacing);
   background-color: var(--secondary);
   width: var(--spacing-xs);
-  height: 24px;
+  height: var(--spacing-xl);
 }
 
 .Editor-mention-dropdown {
@@ -41,7 +42,6 @@
 
 .Editor-mention-chip {
   display: inline-flex;
-  margin-top: var(--spacing-m);
 }
 
 .Editor-mention-dropdown::-webkit-scrollbar {
