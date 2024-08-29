@@ -54,5 +54,5 @@
 }
 
 .Editor-dropdown--keydown {
-  pointer-events: none;
+  /* pointer-events: none; */
 }

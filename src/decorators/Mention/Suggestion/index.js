@@ -320,7 +320,6 @@ function getSuggestionComponent() {
         ['Popover']: true,
         [`${dropdownClassName}`]: dropdownClassName !== undefined,
         ['Editor-mention-dropdown']: true,
-        ['position-fixed']: true,
       });
 
       return (
@@ -332,9 +331,11 @@ function getSuggestionComponent() {
         >
           <span>{children}</span>
           {showSuggestions && (
-            <span
+            <Popover
+              position="bottom-start"
+              open={true}
+              appendToBody={true}
               className={DropdownClass}
-              style={this.state.style}
               contentEditable="false"
               suppressContentEditableWarning
               ref={this.setDropdownReference}
@@ -353,7 +354,7 @@ function getSuggestionComponent() {
               ) : (
                 this.filteredSuggestions.map((suggestion, index) => this.renderOption(suggestion, index))
               )}
-            </span>
+            </Popover>
           )}
         </span>
       );
