@@ -10,6 +10,7 @@ import {
   CompositeDecorator,
   getDefaultKeyBinding,
   DefaultDraftBlockRenderMap,
+  Modifier
 } from 'draft-js';
 import {
   changeDepth,
@@ -51,7 +52,8 @@ class Editor extends Component {
     this.modalHandler = new ModalHandler();
     this.focusHandler = new FocusHandler();
     const showImageResizeOption = props.toolbar && props.toolbar.insert && props.toolbar.insert.image?.resizeEnabled;
-    const showNonFloatingImageOption = props.toolbar && props.toolbar.insert && props.toolbar.insert.image?.nonFloatingImage;
+    const showNonFloatingImageOption =
+      props.toolbar && props.toolbar.insert && props.toolbar.insert.image?.nonFloatingImage;
     this.blockRendererFn = getBlockRenderFunc(
       {
         isReadOnly: props.readOnly,
@@ -176,6 +178,20 @@ class Editor extends Component {
         this.onChange(newState);
         return true;
       }
+    }
+    if (event.key === 'Enter') {
+      const currentContent = this.state.editorState.getCurrentContent();
+      const selection = this.state.editorState.getSelection();
+
+      // Insert a newline character at the current selection
+      const newContent = Modifier.insertText(currentContent, selection, '\n');
+
+      // Push the new content with the newline into the EditorState
+      const newEditorState = EditorState.push(this.state.editorState, newContent, 'insert-characters');
+      this.setState({
+        editorState: newEditorState,
+      });
+      return true;
     }
     return getDefaultKeyBinding(event);
   };
