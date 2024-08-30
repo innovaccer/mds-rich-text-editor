@@ -20,7 +20,7 @@ class Mention {
       const { value } = contentState.getEntity(entityKey).getData();
 
       if (this.renderer) {
-        return this.renderer(children);
+        return this.renderer(children, value);
       }
 
       const chipOptions = {
