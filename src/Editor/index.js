@@ -595,7 +595,7 @@ Editor.propTypes = {
    * | fetchSuggestions | Fetch dynamic suggestions list (Either use suggestion or fetchSuggestions option)
    * | chipOptions | [Design System Chip Props](https://mds.innovaccer.com/?path=/docs/components-chip-chip-all--all) | |
    * | dropdownOptions | Properties: dropdownClassName, customOptionRenderer = (suggestion, active, index) => React.ReactNode | |
-   * | renderer | customRenderer = (value) => React.ReactNode | |
+   * | renderer | customRenderer = (children, value) => React.ReactNode | |
    */
   mention: PropTypes.shape({
     separator: PropTypes.string,
