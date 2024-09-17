@@ -108,13 +108,11 @@ function getSuggestionComponent() {
       });
       KeyDownHandler.registerCallBack(this.onEditorKeyDown);
       SuggestionHandler.open();
-      config.modalHandler.setSuggestionCallback(this.closeSuggestionDropdown);
       this.updateSuggestions(this.props);
       this.setState({
         showSuggestions: true,
       });
 
-      document.addEventListener('scroll', this.closeSuggestionDropdown, { once: true });
     }
 
     componentDidUpdate(props) {
@@ -128,14 +126,17 @@ function getSuggestionComponent() {
     }
 
     componentWillUnmount() {
-      document.removeEventListener('scroll', this.closeSuggestionDropdown);
       KeyDownHandler.deregisterCallBack(this.onEditorKeyDown);
       SuggestionHandler.close();
       config.modalHandler.removeSuggestionCallback();
     }
 
-    focusOption = (direction, classes, index) => {
-      const elements = document.querySelectorAll(classes);
+    focusOption = (direction, classes, index, customOptionClass) => {
+      let elements = document.querySelectorAll(classes);
+
+      if (elements.length === 0) {
+        elements = document.querySelectorAll(`.${customOptionClass}`);
+      }
       if (typeof index == 'string') {
         index = parseInt(index);
       }
@@ -149,17 +150,21 @@ function getSuggestionComponent() {
         startIndex = elements.length - 1;
       }
       const element = elements[startIndex];
-      if (element) element.scrollIntoView({ block: 'end' });
+      if (element) {
+        element.scrollIntoView({ block: 'end' });
+      }
     };
 
     onEditorKeyDown = (event) => {
       const { activeOption } = this.state;
       const newState = {};
-      const optionClass = '.Editor-dropdown-option';
+      const customOptionClass = config?.dropdownOptions?.dropdownOptionClassName;
+      const optionClass = '.Editor-dropdown-option' || `.${customOptionClass}`;
+
       this.disableMouseEvents();
       if (event.key === 'ArrowDown') {
         event.preventDefault();
-        this.focusOption('down', optionClass, activeOption);
+        this.focusOption('down', optionClass, activeOption, customOptionClass);
         if (activeOption === this.filteredSuggestions.length - 1) {
           newState.activeOption = 0;
         } else {
@@ -167,7 +172,7 @@ function getSuggestionComponent() {
         }
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        this.focusOption('up', optionClass, activeOption);
+        this.focusOption('up', optionClass, activeOption, customOptionClass);
         if (activeOption <= 0) {
           newState.activeOption = this.filteredSuggestions.length - 1;
         } else {
@@ -212,14 +217,6 @@ function getSuggestionComponent() {
       this.dropdown = ref;
     };
 
-    closeSuggestionDropdown = () => {
-      if (this.state.showSuggestions) {
-        this.setState({
-          showSuggestions: false,
-        });
-      }
-    };
-
     filteredSuggestions = [];
 
     filterSuggestions = (mentionText) => {
@@ -250,11 +247,14 @@ function getSuggestionComponent() {
       }
     };
 
-    addMention = (eventName) => {
+    addMention = (eventName, label, value) => {
       const { activeOption } = this.state;
       const editorState = config.getEditorState();
       const { onChange, separator, trigger } = config;
-      const selectedMention = this.filteredSuggestions[activeOption];
+      const selectedMention = this.filteredSuggestions[activeOption] || {
+        label,
+        value,
+      };
       const mentionText = this.props.children[0].props.text.substr(1);
       if (selectedMention) {
         addMention(editorState, onChange, separator, trigger, selectedMention, eventName, mentionText);
@@ -310,11 +310,39 @@ function getSuggestionComponent() {
       );
     };
 
+    mentionPopover = (popoverRenderer) => {
+      const { showLoader, showSuggestions } = this.state;
+
+      if (popoverRenderer) {
+        return popoverRenderer(
+          this.filteredSuggestions,
+          this.addMention,
+          showLoader,
+          showSuggestions,
+          this.state.activeOption
+        );
+      }
+
+      if (showLoader) {
+        return (
+          <span className="Editor-dropdown-option">
+            <Placeholder withImage={false}>
+              <PlaceholderParagraph length="large" />
+              <PlaceholderParagraph length="large" />
+              <PlaceholderParagraph length="large" />
+            </Placeholder>
+          </span>
+        );
+      }
+
+      return this.filteredSuggestions.map((suggestion, index) => this.renderOption(suggestion, index));
+    };
+
     render() {
       const { children } = this.props;
       const { showSuggestions } = this.state;
       const { dropdownOptions = {} } = config;
-      const { dropdownClassName } = dropdownOptions;
+      const { dropdownClassName, popoverRenderer, appendToBody = true } = dropdownOptions;
 
       const DropdownClass = classNames({
         ['Popover']: true,
@@ -334,7 +362,8 @@ function getSuggestionComponent() {
             <Popover
               position="bottom-start"
               open={true}
-              appendToBody={true}
+              appendToBody={appendToBody}
+              boundaryElement={this.setSuggestionReference}
               className={DropdownClass}
               contentEditable="false"
               suppressContentEditableWarning
@@ -343,17 +372,7 @@ function getSuggestionComponent() {
               onMouseLeave={this.disableMouseEvents}
               onScroll={this.enableMouseEvents}
             >
-              {this.state.showLoader ? (
-                <span className="Editor-dropdown-option">
-                  <Placeholder withImage={false}>
-                    <PlaceholderParagraph length="large" />
-                    <PlaceholderParagraph length="large" />
-                    <PlaceholderParagraph length="large" />
-                  </Placeholder>
-                </span>
-              ) : (
-                this.filteredSuggestions.map((suggestion, index) => this.renderOption(suggestion, index))
-              )}
+              {this.mentionPopover(popoverRenderer)}
             </Popover>
           )}
         </span>
