@@ -605,13 +605,49 @@ Editor.propTypes = {
    *
    * | Name | Description | Default |
    * | --- | --- | --- |
-   * | seperator | Character that separates a mention from word preceding it | '  ' |
+   * | separator | Character that separates a mention from word preceding it | '  ' |
    * | trigger | Character that causes mention suggestions to appear, | '@' |
    * | suggestion | Properties: label, value, icon | |
    * | fetchSuggestions | Fetch dynamic suggestions list (Either use suggestion or fetchSuggestions option)
    * | chipOptions | [Design System Chip Props](https://mds.innovaccer.com/?path=/docs/components-chip-chip-all--all) | |
-   * | dropdownOptions | Properties: dropdownClassName, customOptionRenderer = (suggestion, active, index) => React.ReactNode | |
+   * | dropdownOptions | Properties: dropdownClassName, customOptionRenderer = (suggestion, active, index) => React.ReactNode, popoverRenderer = (suggestions, addMention, showLoader, showSuggestions, activeOptionIndex) => React.ReactNode, appendToBody, dropdownOptionClassName | |
    * | renderer | customRenderer = (children, value) => React.ReactNode | |
+   *
+   * <pre style="font-family: monospace; font-size: 13px; background: #f8f8f8; padding: 16px;">
+   *  dropdownOptions properties:
+   *  
+   *  {
+   *    dropdownClassName: string,
+   *    customOptionRenderer = (suggestion, active, index) => React.ReactNode,
+   *    popoverRenderer,
+   *    appendToBody: boolean, 
+   *    dropdownOptionClassName: string,
+   *  }
+   * </pre>
+   *
+   *
+   * <pre style="font-family: monospace; font-size: 13px; background: #f8f8f8; padding: 16px;">
+   *  popoverRenderer = (
+   *     suggestions,
+   *     addMention,
+   *     showLoader,
+   *     showSuggestions,
+   *     activeOptionIndex
+   *  ) => React.ReactNode
+   *
+   *  suggestions: List of all the suggestions
+   *
+   *  addMention: callback function to add mention option in the
+   *              editor on click of option from suggestion list
+   *
+   *  showLoader: returns true in case of dynamic suggestion loading state
+   *
+   *  showSuggestions: returns whether to show suggestion popover or not
+   *
+   *  activeOptionIndex: returns index of currently active suggestion
+   *                     option in case of keyboard navigation
+   *
+   * </pre>
    */
   mention: PropTypes.shape({
     separator: PropTypes.string,
@@ -620,6 +656,9 @@ Editor.propTypes = {
     dropdownOptions: PropTypes.shape({
       dropdownClassName: PropTypes.string,
       customOptionRenderer: PropTypes.func,
+      popoverRenderer: PropTypes.func,
+      appendToBody: PropTypes.bool,
+      dropdownOptionClassName: PropTypes.string,
     }),
     renderer: PropTypes.func,
     suggestions: PropTypes.shape({

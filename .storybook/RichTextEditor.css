@@ -1,3 +1,17 @@
 .RichTextEditor {
   height: 200px;
 }
+
+.custom-mention-dropdown {
+  height: var(--spacing-9);
+  width: var(--spacing-8);
+}
+
+.custom-suggestion-listbox {
+  overflow: auto;
+  height: var(--spacing-9);
+}
+
+.custom-suggestion-listbox-item {
+  outline: 3px auto var(--secondary-shadow);
+}
