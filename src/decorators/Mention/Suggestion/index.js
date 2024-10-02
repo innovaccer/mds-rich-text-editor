@@ -113,6 +113,16 @@ function getSuggestionComponent() {
       keyDown: true,
     };
 
+    openSuggestionDropdown = () => {
+      SuggestionHandler.open();
+      this.setState({ showSuggestions: true });
+    }
+
+    closeSuggestionDropdown = () => {
+      SuggestionHandler.close();
+      this.setState({ showSuggestions: false });
+    }
+
     componentDidMount() {
       const suggestionRect = this.suggestion.getBoundingClientRect();
       let left = suggestionRect.left;
@@ -122,27 +132,19 @@ function getSuggestionComponent() {
         style: { left, top },
       });
       KeyDownHandler.registerCallBack(this.onEditorKeyDown);
-      SuggestionHandler.open();
-      this.updateSuggestions(this.props);
-      this.setState({
-        showSuggestions: true,
-      });
-
+      this.updateSuggestions();
     }
 
     componentDidUpdate(props) {
       const { children } = this.props;
       if (children !== props.children) {
-        this.updateSuggestions(this.props);
-        this.setState({
-          showSuggestions: true,
-        });
+        this.updateSuggestions();
       }
     }
 
     componentWillUnmount() {
       KeyDownHandler.deregisterCallBack(this.onEditorKeyDown);
-      SuggestionHandler.close();
+      this.closeSuggestionDropdown();
       config.modalHandler.removeSuggestionCallback();
     }
 
@@ -171,7 +173,10 @@ function getSuggestionComponent() {
     };
 
     onEditorKeyDown = (event) => {
-      const { activeOption } = this.state;
+      const { showSuggestions, activeOption } = this.state;
+      if (!showSuggestions) {
+        return;
+      }
       const newState = {};
       const customOptionClass = config?.dropdownOptions?.dropdownOptionClassName;
       const optionClass = '.Editor-dropdown-option' || `.${customOptionClass}`;
@@ -237,6 +242,9 @@ function getSuggestionComponent() {
     filterSuggestions = (mentionText) => {
       const suggestions = config.getSuggestions ? config.getSuggestions() : [];
       this.filteredSuggestions = searchElement(suggestions, mentionText, config.caseSensitive);
+      if (this.filteredSuggestions.length === 0) {
+        this.closeSuggestionDropdown();
+      }
     };
 
     debouncedFetchSuggestion = debounce((mentionText) => {
@@ -246,18 +254,24 @@ function getSuggestionComponent() {
           showSuggestions: result.length > 0,
           showLoader: false,
         });
+        if (result.length === 0) {
+          this.closeSuggestionDropdown();
+        }
       });
     });
 
-    updateSuggestions = (props) => {
-      const mentionText = props.children[0].props.text.substr(1);
-
+    updateSuggestions = () => {
+      const mentionText = this.props.children[0].props.text.substr(1);
       if (config.fetchSuggestions) {
-        this.setState({
-          showLoader: true,
-        });
-        this.debouncedFetchSuggestion(mentionText);
+        if (mentionText === '' || this.state.showSuggestions) {
+          this.openSuggestionDropdown();
+          this.setState({
+            showLoader: true,
+          });
+          this.debouncedFetchSuggestion(mentionText);
+        }
       } else {
+        this.openSuggestionDropdown();
         this.filterSuggestions(mentionText);
       }
     };
@@ -270,6 +284,8 @@ function getSuggestionComponent() {
       const { onChange, trigger } = config;
 
       const selectedMention = this.filteredSuggestions[activeOption] || { label, value }
+
+      if (!selectedMention.label) return;
 
       const suggestion = this.suggestion;
       const blockKey = findBlockKey(this.suggestion);
@@ -311,10 +327,8 @@ function getSuggestionComponent() {
         focusOffset: endOffset,
       });
 
-      // Check if space exists after mention, if not, insert a space
       newEditorState = ensureSpaceAfterMention(newEditorState, blockKey, endOffset, updatedSelection);
 
-      // Update the editor state
       onChange(newEditorState);
     };
 
