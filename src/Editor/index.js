@@ -164,10 +164,7 @@ class Editor extends Component {
         const newState = RichUtils.toggleBlockType(this.state.editorState);
 
         if (newState) {
-          this.onChange(newState);
-          this.setState({
-            editorState: EditorState.moveFocusToEnd(EditorState.createEmpty()),
-          });
+          this.onChange(EditorState.moveFocusToEnd(newState));
           return true;
         }
       }
