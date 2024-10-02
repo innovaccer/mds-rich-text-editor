@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import addMention from '../addMention';
+import { EditorState, Modifier } from 'draft-js';
 import KeyDownHandler from '../../../event-handler/keyDown';
 import SuggestionHandler from '../../../event-handler/suggestions';
 import { Icon, Text, Popover, Placeholder, PlaceholderParagraph } from '@innovaccer/design-system';
 import { searchElement, debounce } from '../../../utils/common';
+import {
+  createSelection, findBlockKey, getMentionIndex,
+  createMentionEntity, ensureSpaceAfterMention
+} from './helpers';
 
 class Suggestion {
   constructor(config) {
@@ -258,18 +262,60 @@ function getSuggestionComponent() {
       }
     };
 
-    addMention = (eventName, label, value) => {
+    getMentionText = () => this.props.children[0].props.text.substr(1);
+
+    addMention = (event, label, value) => {
       const { activeOption } = this.state;
       const editorState = config.getEditorState();
-      const { onChange, separator, trigger } = config;
-      const selectedMention = this.filteredSuggestions[activeOption] || {
-        label,
-        value,
-      };
-      const mentionText = this.props.children[0].props.text.substr(1);
-      if (selectedMention) {
-        addMention(editorState, onChange, separator, trigger, selectedMention, eventName, mentionText);
-      }
+      const { onChange, trigger } = config;
+
+      const selectedMention = this.filteredSuggestions[activeOption] || { label, value }
+
+      const suggestion = this.suggestion;
+      const blockKey = findBlockKey(this.suggestion);
+      if (!blockKey) return;
+
+      let contentState = editorState.getCurrentContent();
+      const block = contentState.getBlockForKey(blockKey);
+      if (!block) return;
+
+      // Traverse block text to find the suggestion start offset
+      let mentionIndex = getMentionIndex(suggestion);
+
+      const mentionText = this.getMentionText();
+
+      // Calculate the end position where the cursor should move
+      const focusOffset = mentionIndex + trigger.length + mentionText.length;
+
+      // Create selection for replacing the text with the mention
+      let updatedSelection = createSelection(blockKey, mentionIndex, focusOffset);
+
+      // Create entity for the mention
+      const mentionEntityKey = createMentionEntity(contentState, `${trigger}${selectedMention.value}`, selectedMention.value, '');
+
+      // Replace text with mention and update the editor state
+      contentState = Modifier.replaceText(
+        contentState,
+        updatedSelection,
+        selectedMention.label,
+        null,
+        mentionEntityKey
+      );
+
+      let newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
+
+      // Calculate the position of the cursor after mention insertion
+      const endOffset = mentionIndex + selectedMention.label.length;
+      updatedSelection = updatedSelection.merge({
+        anchorOffset: endOffset,
+        focusOffset: endOffset,
+      });
+
+      // Check if space exists after mention, if not, insert a space
+      newEditorState = ensureSpaceAfterMention(newEditorState, blockKey, endOffset, updatedSelection);
+
+      // Update the editor state
+      onChange(newEditorState);
     };
 
     getOptionClass = (index) => {
