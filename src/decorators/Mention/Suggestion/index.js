@@ -51,23 +51,34 @@ class Suggestion {
           0,
           selection.get('focusOffset') === text.length - 1 ? text.length : selection.get('focusOffset') + 1
         );
-        let index = text.lastIndexOf(separator + trigger);
-        let preText = separator + trigger;
-        if ((index === undefined || index < 0) && text[0] === trigger) {
-          index = 0;
-          preText = trigger;
+
+        const separatorList = [separator, '\n'];
+        let separatorIndex = -1;
+        let separatorWithTrigger = '';
+
+        separatorList.forEach(sep => {
+          const sepIndex = text.lastIndexOf(sep + trigger);
+          if (sepIndex > separatorIndex) {
+            separatorIndex = sepIndex;
+            separatorWithTrigger = sep + trigger;
+          }
+        });
+
+        if ((separatorIndex === undefined || separatorIndex < 0) && text[0] === trigger) {
+          separatorIndex = 0;
+          separatorWithTrigger = trigger;
         }
 
-        if (index >= 0) {
+        if (separatorIndex >= 0) {
           if (fetchSuggestions) {
-            callback(index === 0 ? 0 : index + 1, text.length);
+            callback(separatorIndex === 0 && text[0] === trigger ? 0 : separatorIndex + 1, text.length);
           } else {
             const staticSuggestionList = getSuggestions();
-            const mentionText = text.substr(index + preText.length, text.length);
+            const mentionText = text.substr(separatorIndex + separatorWithTrigger.length, text.length);
             const suggestionPresent = searchElement(staticSuggestionList, mentionText, this.config.caseSensitive);
 
             if (suggestionPresent.length > 0) {
-              callback(index === 0 ? 0 : index + 1, text.length);
+              callback(separatorIndex === 0 && text[0] === trigger ? 0 : separatorIndex + 1, text.length);
             }
           }
         }

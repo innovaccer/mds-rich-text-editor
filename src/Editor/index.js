@@ -179,20 +179,6 @@ class Editor extends Component {
         return true;
       }
     }
-    if (event.key === 'Enter') {
-      const currentContent = this.state.editorState.getCurrentContent();
-      const selection = this.state.editorState.getSelection();
-
-      // Insert a newline character at the current selection
-      const newContent = Modifier.insertText(currentContent, selection, '\n');
-
-      // Push the new content with the newline into the EditorState
-      const newEditorState = EditorState.push(this.state.editorState, newContent, 'insert-characters');
-      this.setState({
-        editorState: newEditorState,
-      });
-      return true;
-    }
     return getDefaultKeyBinding(event);
   };
 
