@@ -79,6 +79,9 @@ class Editor extends Component {
     };
   }
 
+  // keep track of the last key pressed by the user
+  lastKeyPressed = '';
+
   componentDidMount() {
     if (this.props.autoFocus) this.editor.focus();
     this.modalHandler.init(this.wrapperId);
@@ -140,7 +143,10 @@ class Editor extends Component {
     this.focusHandler.onEditorMouseDown();
   };
 
+  getLastKeyPressed = () => this.lastKeyPressed;
+
   keyBindingFn = (event) => {
+    this.lastKeyPressed = event.key;
     if (event.key === 'Tab') {
       const { onTab } = this.props;
       // if (!onTab || !onTab(event)) {
@@ -251,6 +257,7 @@ class Editor extends Component {
           getSuggestions: this.getSuggestions,
           getWrapperRef: this.getWrapperRef,
           modalHandler: this.modalHandler,
+          getLastKeyPressed: this.getLastKeyPressed,
         })
       );
     }

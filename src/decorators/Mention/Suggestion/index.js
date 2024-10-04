@@ -25,6 +25,7 @@ class Suggestion {
       modalHandler,
       dropdownOptions,
       fetchSuggestions,
+      getLastKeyPressed,
     } = config;
     this.config = {
       separator,
@@ -38,22 +39,32 @@ class Suggestion {
       optionClassName,
       modalHandler,
       fetchSuggestions,
+      getLastKeyPressed,
     };
   }
 
   findSuggestionEntities = (contentBlock, callback) => {
     if (this.config.getEditorState()) {
-      const { separator, trigger, getSuggestions, getEditorState, fetchSuggestions } = this.config;
+      const {
+        separator,
+        trigger,
+        getSuggestions,
+        getEditorState,
+        fetchSuggestions,
+        getLastKeyPressed
+      } = this.config;
       const selection = getEditorState().getSelection();
+
       if (
         selection.get('anchorKey') === contentBlock.get('key') &&
         selection.get('anchorKey') === selection.get('focusKey')
       ) {
-        let text = contentBlock.getText();
+        const blockText = contentBlock.getText();
+        const focusOffset = selection.getFocusOffset();
 
-        text = text.substr(
+        const textUntilCursor = blockText.substr(
           0,
-          selection.get('focusOffset') === text.length - 1 ? text.length : selection.get('focusOffset') + 1
+          getLastKeyPressed() === 'Backspace' ? focusOffset - 1 : focusOffset + 1
         );
 
         const separatorList = [separator, '\n'];
@@ -61,28 +72,31 @@ class Suggestion {
         let separatorWithTrigger = '';
 
         separatorList.forEach(sep => {
-          const sepIndex = text.lastIndexOf(sep + trigger);
+          const sepIndex = textUntilCursor.lastIndexOf(sep + trigger);
           if (sepIndex > separatorIndex) {
             separatorIndex = sepIndex;
             separatorWithTrigger = sep + trigger;
           }
         });
 
-        if ((separatorIndex === undefined || separatorIndex < 0) && text[0] === trigger) {
+        if ((separatorIndex === undefined || separatorIndex < 0) && textUntilCursor[0] === trigger) {
           separatorIndex = 0;
           separatorWithTrigger = trigger;
         }
 
         if (separatorIndex >= 0) {
+          const mentionText = textUntilCursor.substr(separatorIndex + separatorWithTrigger.length, textUntilCursor.length);
           if (fetchSuggestions) {
-            callback(separatorIndex === 0 && text[0] === trigger ? 0 : separatorIndex + 1, text.length);
+            // Call the callback function only if the mention text contains fewer than 3 words
+            if (mentionText.trim().split(/\s+/).length < 3) {
+              callback(separatorIndex === 0 && textUntilCursor[0] === trigger ? 0 : separatorIndex + 1, textUntilCursor.length);
+            }
           } else {
             const staticSuggestionList = getSuggestions();
-            const mentionText = text.substr(separatorIndex + separatorWithTrigger.length, text.length);
             const suggestionPresent = searchElement(staticSuggestionList, mentionText, this.config.caseSensitive);
 
             if (suggestionPresent.length > 0) {
-              callback(separatorIndex === 0 && text[0] === trigger ? 0 : separatorIndex + 1, text.length);
+              callback(separatorIndex === 0 && textUntilCursor[0] === trigger ? 0 : separatorIndex + 1, textUntilCursor.length);
             }
           }
         }
@@ -111,6 +125,7 @@ function getSuggestionComponent() {
       showSuggestions: true,
       showLoader: false,
       keyDown: true,
+      lastFetchedMentionText: ''
     };
 
     openSuggestionDropdown = () => {
@@ -251,6 +266,7 @@ function getSuggestionComponent() {
       config.fetchSuggestions(mentionText).then((result) => {
         this.filteredSuggestions = result;
         this.setState({
+          lastFetchedMentionText: mentionText,
           showSuggestions: result.length > 0,
           showLoader: false,
         });
@@ -261,18 +277,25 @@ function getSuggestionComponent() {
     });
 
     updateSuggestions = () => {
-      const mentionText = this.props.children[0].props.text.substr(1);
+      const { showSuggestions, lastFetchedMentionText } = this.state;
+      const currentMentionText = this.getMentionText();
+
+      // For dynamic suggestions
       if (config.fetchSuggestions) {
-        if (mentionText === '' || this.state.showSuggestions) {
+        if (!showSuggestions && currentMentionText.startsWith(lastFetchedMentionText)) {
+          return;
+        }
+        if (showSuggestions || currentMentionText !== lastFetchedMentionText) {
           this.openSuggestionDropdown();
           this.setState({
-            showLoader: true,
+            showLoader: true
           });
-          this.debouncedFetchSuggestion(mentionText);
+          this.debouncedFetchSuggestion(currentMentionText);
         }
       } else {
+        // For static suggestions
         this.openSuggestionDropdown();
-        this.filterSuggestions(mentionText);
+        this.filterSuggestions(currentMentionText);
       }
     };
 
@@ -330,6 +353,12 @@ function getSuggestionComponent() {
       newEditorState = ensureSpaceAfterMention(newEditorState, blockKey, endOffset, updatedSelection);
 
       onChange(newEditorState);
+    };
+
+    toggleSuggestionDropdownHandler = (open) => {
+      if (!open) {
+        this.closeSuggestionDropdown();
+      }
     };
 
     getOptionClass = (index) => {
@@ -442,6 +471,7 @@ function getSuggestionComponent() {
               onMouseMove={this.enableMouseEvents}
               onMouseLeave={this.disableMouseEvents}
               onScroll={this.enableMouseEvents}
+              onToggle={this.toggleSuggestionDropdownHandler}
             >
               {this.mentionPopover(popoverRenderer)}
             </Popover>
