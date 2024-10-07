@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import addMention from '../addMention';
+import { EditorState, Modifier } from 'draft-js';
 import KeyDownHandler from '../../../event-handler/keyDown';
 import SuggestionHandler from '../../../event-handler/suggestions';
 import { Icon, Text, Popover, Placeholder, PlaceholderParagraph } from '@innovaccer/design-system';
 import { searchElement, debounce } from '../../../utils/common';
+import {
+  createSelection, findBlockKey, getMentionIndex,
+  createMentionEntity, ensureSpaceAfterMention
+} from './helpers';
 
 class Suggestion {
   constructor(config) {
@@ -21,6 +25,7 @@ class Suggestion {
       modalHandler,
       dropdownOptions,
       fetchSuggestions,
+      getLastKeyPressed,
     } = config;
     this.config = {
       separator,
@@ -34,40 +39,64 @@ class Suggestion {
       optionClassName,
       modalHandler,
       fetchSuggestions,
+      getLastKeyPressed,
     };
   }
 
   findSuggestionEntities = (contentBlock, callback) => {
     if (this.config.getEditorState()) {
-      const { separator, trigger, getSuggestions, getEditorState, fetchSuggestions } = this.config;
+      const {
+        separator,
+        trigger,
+        getSuggestions,
+        getEditorState,
+        fetchSuggestions,
+        getLastKeyPressed
+      } = this.config;
       const selection = getEditorState().getSelection();
+
       if (
         selection.get('anchorKey') === contentBlock.get('key') &&
         selection.get('anchorKey') === selection.get('focusKey')
       ) {
-        let text = contentBlock.getText();
+        const blockText = contentBlock.getText();
+        const focusOffset = selection.getFocusOffset();
 
-        text = text.substr(
+        const textUntilCursor = blockText.substr(
           0,
-          selection.get('focusOffset') === text.length - 1 ? text.length : selection.get('focusOffset') + 1
+          getLastKeyPressed() === 'Backspace' ? focusOffset - 1 : focusOffset + 1
         );
-        let index = text.lastIndexOf(separator + trigger);
-        let preText = separator + trigger;
-        if ((index === undefined || index < 0) && text[0] === trigger) {
-          index = 0;
-          preText = trigger;
+
+        const separatorList = [separator, '\n'];
+        let separatorIndex = -1;
+        let separatorWithTrigger = '';
+
+        separatorList.forEach(sep => {
+          const sepIndex = textUntilCursor.lastIndexOf(sep + trigger);
+          if (sepIndex > separatorIndex) {
+            separatorIndex = sepIndex;
+            separatorWithTrigger = sep + trigger;
+          }
+        });
+
+        if ((separatorIndex === undefined || separatorIndex < 0) && textUntilCursor[0] === trigger) {
+          separatorIndex = 0;
+          separatorWithTrigger = trigger;
         }
 
-        if (index >= 0) {
+        if (separatorIndex >= 0) {
+          const mentionText = textUntilCursor.substr(separatorIndex + separatorWithTrigger.length, textUntilCursor.length);
           if (fetchSuggestions) {
-            callback(index === 0 ? 0 : index + 1, text.length);
+            // Call the callback function only if the mention text contains fewer than 3 words
+            if (mentionText.trim().split(/\s+/).length < 3) {
+              callback(separatorIndex === 0 && textUntilCursor[0] === trigger ? 0 : separatorIndex + 1, textUntilCursor.length);
+            }
           } else {
             const staticSuggestionList = getSuggestions();
-            const mentionText = text.substr(index + preText.length, text.length);
             const suggestionPresent = searchElement(staticSuggestionList, mentionText, this.config.caseSensitive);
 
             if (suggestionPresent.length > 0) {
-              callback(index === 0 ? 0 : index + 1, text.length);
+              callback(separatorIndex === 0 && textUntilCursor[0] === trigger ? 0 : separatorIndex + 1, textUntilCursor.length);
             }
           }
         }
@@ -96,7 +125,18 @@ function getSuggestionComponent() {
       showSuggestions: true,
       showLoader: false,
       keyDown: true,
+      lastFetchedMentionText: ''
     };
+
+    openSuggestionDropdown = () => {
+      SuggestionHandler.open();
+      this.setState({ showSuggestions: true });
+    }
+
+    closeSuggestionDropdown = () => {
+      SuggestionHandler.close();
+      this.setState({ showSuggestions: false });
+    }
 
     componentDidMount() {
       const suggestionRect = this.suggestion.getBoundingClientRect();
@@ -107,27 +147,19 @@ function getSuggestionComponent() {
         style: { left, top },
       });
       KeyDownHandler.registerCallBack(this.onEditorKeyDown);
-      SuggestionHandler.open();
-      this.updateSuggestions(this.props);
-      this.setState({
-        showSuggestions: true,
-      });
-
+      this.updateSuggestions();
     }
 
     componentDidUpdate(props) {
       const { children } = this.props;
       if (children !== props.children) {
-        this.updateSuggestions(this.props);
-        this.setState({
-          showSuggestions: true,
-        });
+        this.updateSuggestions();
       }
     }
 
     componentWillUnmount() {
       KeyDownHandler.deregisterCallBack(this.onEditorKeyDown);
-      SuggestionHandler.close();
+      this.closeSuggestionDropdown();
       config.modalHandler.removeSuggestionCallback();
     }
 
@@ -156,7 +188,10 @@ function getSuggestionComponent() {
     };
 
     onEditorKeyDown = (event) => {
-      const { activeOption } = this.state;
+      const { showSuggestions, activeOption } = this.state;
+      if (!showSuggestions) {
+        return;
+      }
       const newState = {};
       const customOptionClass = config?.dropdownOptions?.dropdownOptionClassName;
       const optionClass = '.Editor-dropdown-option' || `.${customOptionClass}`;
@@ -222,42 +257,107 @@ function getSuggestionComponent() {
     filterSuggestions = (mentionText) => {
       const suggestions = config.getSuggestions ? config.getSuggestions() : [];
       this.filteredSuggestions = searchElement(suggestions, mentionText, config.caseSensitive);
+      if (this.filteredSuggestions.length === 0) {
+        this.closeSuggestionDropdown();
+      }
     };
 
     debouncedFetchSuggestion = debounce((mentionText) => {
       config.fetchSuggestions(mentionText).then((result) => {
         this.filteredSuggestions = result;
         this.setState({
+          lastFetchedMentionText: mentionText,
           showSuggestions: result.length > 0,
           showLoader: false,
         });
+        if (result.length === 0) {
+          this.closeSuggestionDropdown();
+        }
       });
     });
 
-    updateSuggestions = (props) => {
-      const mentionText = props.children[0].props.text.substr(1);
+    updateSuggestions = () => {
+      const { showSuggestions, lastFetchedMentionText } = this.state;
+      const currentMentionText = this.getMentionText();
 
+      // For dynamic suggestions
       if (config.fetchSuggestions) {
-        this.setState({
-          showLoader: true,
-        });
-        this.debouncedFetchSuggestion(mentionText);
+        if (!showSuggestions && currentMentionText.startsWith(lastFetchedMentionText)) {
+          return;
+        }
+        if (showSuggestions || currentMentionText !== lastFetchedMentionText) {
+          this.openSuggestionDropdown();
+          this.setState({
+            showLoader: true
+          });
+          this.debouncedFetchSuggestion(currentMentionText);
+        }
       } else {
-        this.filterSuggestions(mentionText);
+        // For static suggestions
+        this.openSuggestionDropdown();
+        this.filterSuggestions(currentMentionText);
       }
     };
 
-    addMention = (eventName, label, value) => {
+    getMentionText = () => this.props.children[0].props.text.substr(1);
+
+    addMention = (event, label, value) => {
       const { activeOption } = this.state;
       const editorState = config.getEditorState();
-      const { onChange, separator, trigger } = config;
-      const selectedMention = this.filteredSuggestions[activeOption] || {
-        label,
-        value,
-      };
-      const mentionText = this.props.children[0].props.text.substr(1);
-      if (selectedMention) {
-        addMention(editorState, onChange, separator, trigger, selectedMention, eventName, mentionText);
+      const { onChange, trigger } = config;
+
+      const selectedMention = this.filteredSuggestions[activeOption] || { label, value }
+
+      if (!selectedMention.label) return;
+
+      const suggestion = this.suggestion;
+      const blockKey = findBlockKey(this.suggestion);
+      if (!blockKey) return;
+
+      let contentState = editorState.getCurrentContent();
+      const block = contentState.getBlockForKey(blockKey);
+      if (!block) return;
+
+      // Traverse block text to find the suggestion start offset
+      let mentionIndex = getMentionIndex(suggestion);
+
+      const mentionText = this.getMentionText();
+
+      // Calculate the end position where the cursor should move
+      const focusOffset = mentionIndex + trigger.length + mentionText.length;
+
+      // Create selection for replacing the text with the mention
+      let updatedSelection = createSelection(blockKey, mentionIndex, focusOffset);
+
+      // Create entity for the mention
+      const mentionEntityKey = createMentionEntity(contentState, `${trigger}${selectedMention.value}`, selectedMention.value, '');
+
+      // Replace text with mention and update the editor state
+      contentState = Modifier.replaceText(
+        contentState,
+        updatedSelection,
+        selectedMention.label,
+        null,
+        mentionEntityKey
+      );
+
+      let newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
+
+      // Calculate the position of the cursor after mention insertion
+      const endOffset = mentionIndex + selectedMention.label.length;
+      updatedSelection = updatedSelection.merge({
+        anchorOffset: endOffset,
+        focusOffset: endOffset,
+      });
+
+      newEditorState = ensureSpaceAfterMention(newEditorState, blockKey, endOffset, updatedSelection);
+
+      onChange(newEditorState);
+    };
+
+    toggleSuggestionDropdownHandler = (open) => {
+      if (!open) {
+        this.closeSuggestionDropdown();
       }
     };
 
@@ -371,6 +471,7 @@ function getSuggestionComponent() {
               onMouseMove={this.enableMouseEvents}
               onMouseLeave={this.disableMouseEvents}
               onScroll={this.enableMouseEvents}
+              onToggle={this.toggleSuggestionDropdownHandler}
             >
               {this.mentionPopover(popoverRenderer)}
             </Popover>

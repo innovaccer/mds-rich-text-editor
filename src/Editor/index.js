@@ -79,6 +79,9 @@ class Editor extends Component {
     };
   }
 
+  // keep track of the last key pressed by the user
+  lastKeyPressed = '';
+
   componentDidMount() {
     if (this.props.autoFocus) this.editor.focus();
     this.modalHandler.init(this.wrapperId);
@@ -140,7 +143,10 @@ class Editor extends Component {
     this.focusHandler.onEditorMouseDown();
   };
 
+  getLastKeyPressed = () => this.lastKeyPressed;
+
   keyBindingFn = (event) => {
+    this.lastKeyPressed = event.key;
     if (event.key === 'Tab') {
       const { onTab } = this.props;
       // if (!onTab || !onTab(event)) {
@@ -164,10 +170,7 @@ class Editor extends Component {
         const newState = RichUtils.toggleBlockType(this.state.editorState);
 
         if (newState) {
-          this.onChange(newState);
-          this.setState({
-            editorState: EditorState.moveFocusToEnd(EditorState.createEmpty()),
-          });
+          this.onChange(EditorState.moveFocusToEnd(newState));
           return true;
         }
       }
@@ -178,20 +181,6 @@ class Editor extends Component {
         this.onChange(newState);
         return true;
       }
-    }
-    if (event.key === 'Enter') {
-      const currentContent = this.state.editorState.getCurrentContent();
-      const selection = this.state.editorState.getSelection();
-
-      // Insert a newline character at the current selection
-      const newContent = Modifier.insertText(currentContent, selection, '\n');
-
-      // Push the new content with the newline into the EditorState
-      const newEditorState = EditorState.push(this.state.editorState, newContent, 'insert-characters');
-      this.setState({
-        editorState: newEditorState,
-      });
-      return true;
     }
     return getDefaultKeyBinding(event);
   };
@@ -268,6 +257,7 @@ class Editor extends Component {
           getSuggestions: this.getSuggestions,
           getWrapperRef: this.getWrapperRef,
           modalHandler: this.modalHandler,
+          getLastKeyPressed: this.getLastKeyPressed,
         })
       );
     }

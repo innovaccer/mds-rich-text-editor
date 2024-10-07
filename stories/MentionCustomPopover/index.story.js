@@ -99,16 +99,9 @@ export const All = (args) => {
         dropdownOptions: {
           dropdownClassName: 'custom-mention-dropdown',
           popoverRenderer: customPopoverRenderer,
-          appendToBody: false,
+          appendToBody: true,
           dropdownOptionClassName: 'Listbox-item--option',
         },
-        suggestions: [
-          { label: 'First Name', value: 'First Name' },
-          { label: 'Last Name', value: 'Last Name' },
-          { label: 'PCP', value: 'PCP' },
-          { label: 'Address', value: 'Address' },
-          { label: 'DOB', value: 'DOB' },
-        ],
       }}
     />
   );
