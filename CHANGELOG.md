@@ -1,6 +1,21 @@
 
 # Changelog
 
+# 07/10/2024 (2.3.0)
+
+- feat(mention): add support for composable mention suggestion popover (5090ffb4)
+- fix: mention dropdown fails to open on new line input (d749c40e)
+- fix: mention selection not functioning on second line (29cba99c)
+- fix: keep showing loading state when hits space (cc4ee97a)
+- fix: mention not working after clearing empty list item (58238955)
+- fix: deleting char not refreshing mention list (f56a3691)
+
+# 05/09/2024 (2.2.0)
+
+- feat(text): update line height of text for alignment with mention chips
+- fix(mention): update mention position and overlapping with other page content
+- feat(mention): pass mention value in custom renderer callback
+
 ## 22/11/2016 (1.0.0)
 Initial stable release
 
