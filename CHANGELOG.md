@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 08/10/2024 (2.3.1-0)
+
+- fix: updating selected mention text based on passed param (222fde29)
+
 # 07/10/2024 (2.3.0)
 
 - feat(mention): add support for composable mention suggestion popover (5090ffb4)
