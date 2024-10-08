@@ -306,9 +306,12 @@ function getSuggestionComponent() {
       const editorState = config.getEditorState();
       const { onChange, trigger } = config;
 
-      const selectedMention = this.filteredSuggestions[activeOption] || { label, value }
+      const selectedMention =
+        label !== undefined && value !== undefined ?
+          { label, value } :
+          this.filteredSuggestions[activeOption];
 
-      if (!selectedMention.label) return;
+      if (!selectedMention || !selectedMention.label) return;
 
       const suggestion = this.suggestion;
       const blockKey = findBlockKey(this.suggestion);
