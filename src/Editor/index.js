@@ -79,7 +79,7 @@ class Editor extends Component {
     };
   }
 
-  // keep track of the last key pressed by the user
+  // keep track of the last key pressed by the user in RTE
   lastKeyPressed = '';
 
   componentDidMount() {
@@ -144,6 +144,10 @@ class Editor extends Component {
   };
 
   getLastKeyPressed = () => this.lastKeyPressed;
+
+  resetLastKeyPressed = () => {
+    this.lastKeyPressed = null;
+  }
 
   keyBindingFn = (event) => {
     this.lastKeyPressed = event.key;
@@ -528,7 +532,10 @@ class Editor extends Component {
         {this.props.showToolbar && (
           <div
             className={ToolbarClass}
-            onMouseDown={this.preventDefault}
+            onMouseDown={(ev) => {
+              this.resetLastKeyPressed();
+              this.preventDefault(ev);
+            }}
             aria-label="Editor-toolbar"
             onFocus={this.onToolbarFocus}
           >
