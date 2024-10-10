@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 10/10/2024 (2.3.1-1)
+
+- fix: resolve intermittent issue with toolbar mention not working #93
+
 # 08/10/2024 (2.3.1-0)
 
 - fix: updating selected mention text based on passed param (222fde29)

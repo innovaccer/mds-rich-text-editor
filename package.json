@@ -1,6 +1,6 @@
 {
   "name": "@innovaccer/rich-text-editor",
-  "version": "2.3.1-0",
+  "version": "2.3.1-1",
   "description": "A rich text on top of DraftJS.",
   "main": "dist/rich-text-editor.js",
   "module": "dist/rich-text-editor.js",
