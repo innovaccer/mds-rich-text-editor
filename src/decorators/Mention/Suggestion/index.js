@@ -282,7 +282,9 @@ function getSuggestionComponent() {
 
       // For dynamic suggestions
       if (config.fetchSuggestions) {
-        if (!showSuggestions && currentMentionText.startsWith(lastFetchedMentionText)) {
+        if (!showSuggestions
+          && currentMentionText.length > 0
+          && currentMentionText.startsWith(lastFetchedMentionText)) {
           return;
         }
         if (showSuggestions || currentMentionText !== lastFetchedMentionText) {
