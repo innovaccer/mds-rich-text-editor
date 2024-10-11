@@ -1,9 +1,14 @@
 
 # Changelog
 
+# 11/10/2024 (2.3.1)
+
+- fix: resolve intermittent issue with toolbar mention not working (b46b47eb)
+- fix: updating selected mention text based on passed param (222fde29)
+
 # 10/10/2024 (2.3.1-1)
 
-- fix: resolve intermittent issue with toolbar mention not working #93
+- fix: resolve intermittent issue with toolbar mention not working (b46b47eb)
 
 # 08/10/2024 (2.3.1-0)
 
