@@ -6,13 +6,12 @@ import { Heading, Chip } from '@innovaccer/design-system';
 import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 
 export const All = (args) => {
-
   const [users, setUsersList] = React.useState([]);
 
   const onEditorStateChange = (editorState) => {
     const contentState = Editor.utils.convertToRaw(editorState.getCurrentContent());
     const entityMap = contentState.entityMap;
-    const mentionList = Object.values(entityMap).map(entity => entity.data.value);
+    const mentionList = Object.values(entityMap).map((entity) => entity.data.value);
     setUsersList(mentionList);
   };
 
@@ -34,7 +33,9 @@ export const All = (args) => {
       />
       <br />
       <Heading size="s">List of all Mentions:</Heading>
-      {users.map((item) => <Chip className="my-4" label={item} type="action" />)}
+      {users.map((item) => (
+        <Chip className="my-4" label={item} type="action" />
+      ))}
     </div>
   );
 };

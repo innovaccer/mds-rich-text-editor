@@ -89,21 +89,11 @@ function getLinkComponent(config) {
             </DesignSystemLink>
             <span className="Editor-seperator" />
 
-            <Button
-              aria-label="Edit"
-              onClick={this.onEditLink}
-              appearance="transparent"
-              icon="edit"
-            />
+            <Button aria-label="Edit" onClick={this.onEditLink} appearance="transparent" icon="edit" />
 
             <span className="Editor-seperator" />
 
-            <Button
-              aria-label="Delete"
-              onClick={this.onDeleteLink}
-              appearance="transparent"
-              icon="delete"
-            />
+            <Button aria-label="Delete" onClick={this.onDeleteLink} appearance="transparent" icon="delete" />
           </div>
         </Popover>
       );

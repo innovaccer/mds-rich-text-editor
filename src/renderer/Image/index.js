@@ -160,10 +160,7 @@ const getImageComponent = (config) =>
 
       return (
         <div className={wrapperClass}>
-          <span
-            onClick={this.toggleHovered}
-            className={imgWrapperClass}
-          >
+          <span onClick={this.toggleHovered} className={imgWrapperClass}>
             <img
               src={src}
               alt={alt}

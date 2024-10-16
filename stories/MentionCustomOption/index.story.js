@@ -7,9 +7,12 @@ import { disabledArgtypes, commonArgs } from '../__common__/argTypes';
 
 export const All = (args) => {
   const customOptionRenderer = (suggestion, active, index) => (
-    <div className="d-flex justify-content-between Editor-dropdown-option" onClick={() => {
-      console.log(suggestion);
-    }}>
+    <div
+      className="d-flex justify-content-between Editor-dropdown-option"
+      onClick={() => {
+        console.log(suggestion);
+      }}
+    >
       {suggestion.label}
       {active === index && <Icon name="check" />}
     </div>

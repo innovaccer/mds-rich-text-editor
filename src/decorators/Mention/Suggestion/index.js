@@ -7,8 +7,11 @@ import SuggestionHandler from '../../../event-handler/suggestions';
 import { Icon, Text, Popover, Placeholder, PlaceholderParagraph } from '@innovaccer/design-system';
 import { searchElement, debounce } from '../../../utils/common';
 import {
-  createSelection, findBlockKey, getMentionIndex,
-  createMentionEntity, ensureSpaceAfterMention
+  createSelection,
+  findBlockKey,
+  getMentionIndex,
+  createMentionEntity,
+  ensureSpaceAfterMention,
 } from './helpers';
 
 class Suggestion {
@@ -45,14 +48,7 @@ class Suggestion {
 
   findSuggestionEntities = (contentBlock, callback) => {
     if (this.config.getEditorState()) {
-      const {
-        separator,
-        trigger,
-        getSuggestions,
-        getEditorState,
-        fetchSuggestions,
-        getLastKeyPressed
-      } = this.config;
+      const { separator, trigger, getSuggestions, getEditorState, fetchSuggestions, getLastKeyPressed } = this.config;
       const selection = getEditorState().getSelection();
 
       if (
@@ -71,7 +67,7 @@ class Suggestion {
         let separatorIndex = -1;
         let separatorWithTrigger = '';
 
-        separatorList.forEach(sep => {
+        separatorList.forEach((sep) => {
           const sepIndex = textUntilCursor.lastIndexOf(sep + trigger);
           if (sepIndex > separatorIndex) {
             separatorIndex = sepIndex;
@@ -85,18 +81,27 @@ class Suggestion {
         }
 
         if (separatorIndex >= 0) {
-          const mentionText = textUntilCursor.substr(separatorIndex + separatorWithTrigger.length, textUntilCursor.length);
+          const mentionText = textUntilCursor.substr(
+            separatorIndex + separatorWithTrigger.length,
+            textUntilCursor.length
+          );
           if (fetchSuggestions) {
             // Call the callback function only if the mention text contains fewer than 3 words
             if (mentionText.trim().split(/\s+/).length < 3) {
-              callback(separatorIndex === 0 && textUntilCursor[0] === trigger ? 0 : separatorIndex + 1, textUntilCursor.length);
+              callback(
+                separatorIndex === 0 && textUntilCursor[0] === trigger ? 0 : separatorIndex + 1,
+                textUntilCursor.length
+              );
             }
           } else {
             const staticSuggestionList = getSuggestions();
             const suggestionPresent = searchElement(staticSuggestionList, mentionText, this.config.caseSensitive);
 
             if (suggestionPresent.length > 0) {
-              callback(separatorIndex === 0 && textUntilCursor[0] === trigger ? 0 : separatorIndex + 1, textUntilCursor.length);
+              callback(
+                separatorIndex === 0 && textUntilCursor[0] === trigger ? 0 : separatorIndex + 1,
+                textUntilCursor.length
+              );
             }
           }
         }
@@ -125,18 +130,18 @@ function getSuggestionComponent() {
       showSuggestions: true,
       showLoader: false,
       keyDown: true,
-      lastFetchedMentionText: ''
+      lastFetchedMentionText: '',
     };
 
     openSuggestionDropdown = () => {
       SuggestionHandler.open();
       this.setState({ showSuggestions: true });
-    }
+    };
 
     closeSuggestionDropdown = () => {
       SuggestionHandler.close();
       this.setState({ showSuggestions: false });
-    }
+    };
 
     componentDidMount() {
       const suggestionRect = this.suggestion.getBoundingClientRect();
@@ -282,15 +287,17 @@ function getSuggestionComponent() {
 
       // For dynamic suggestions
       if (config.fetchSuggestions) {
-        if (!showSuggestions
-          && currentMentionText.length > 0
-          && currentMentionText.startsWith(lastFetchedMentionText)) {
+        if (
+          !showSuggestions &&
+          currentMentionText.length > 0 &&
+          currentMentionText.startsWith(lastFetchedMentionText)
+        ) {
           return;
         }
         if (showSuggestions || currentMentionText !== lastFetchedMentionText) {
           this.openSuggestionDropdown();
           this.setState({
-            showLoader: true
+            showLoader: true,
           });
           this.debouncedFetchSuggestion(currentMentionText);
         }
@@ -309,9 +316,7 @@ function getSuggestionComponent() {
       const { onChange, trigger } = config;
 
       const selectedMention =
-        label !== undefined && value !== undefined ?
-          { label, value } :
-          this.filteredSuggestions[activeOption];
+        label !== undefined && value !== undefined ? { label, value } : this.filteredSuggestions[activeOption];
 
       if (!selectedMention || !selectedMention.label) return;
 
@@ -335,7 +340,12 @@ function getSuggestionComponent() {
       let updatedSelection = createSelection(blockKey, mentionIndex, focusOffset);
 
       // Create entity for the mention
-      const mentionEntityKey = createMentionEntity(contentState, `${trigger}${selectedMention.value}`, selectedMention.value, '');
+      const mentionEntityKey = createMentionEntity(
+        contentState,
+        `${trigger}${selectedMention.value}`,
+        selectedMention.value,
+        ''
+      );
 
       // Replace text with mention and update the editor state
       contentState = Modifier.replaceText(

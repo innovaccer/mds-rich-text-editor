@@ -10,7 +10,7 @@ import {
   CompositeDecorator,
   getDefaultKeyBinding,
   DefaultDraftBlockRenderMap,
-  Modifier
+  Modifier,
 } from 'draft-js';
 import {
   changeDepth,
@@ -147,7 +147,7 @@ class Editor extends Component {
 
   resetLastKeyPressed = () => {
     this.lastKeyPressed = null;
-  }
+  };
 
   keyBindingFn = (event) => {
     this.lastKeyPressed = event.key;
@@ -441,7 +441,6 @@ class Editor extends Component {
   };
 
   isEmptyListBlock = () => {
-
     // If the user changes block type before entering any text, we can hide the placeholder
     var contentState = this.state.editorState.getCurrentContent();
     if (!contentState.hasText()) {
@@ -612,12 +611,12 @@ Editor.propTypes = {
    *
    * <pre style="font-family: monospace; font-size: 13px; background: #f8f8f8; padding: 16px;">
    *  dropdownOptions properties:
-   *  
+   *
    *  {
    *    dropdownClassName: string,
    *    customOptionRenderer = (suggestion, active, index) => React.ReactNode,
    *    popoverRenderer,
-   *    appendToBody: boolean, 
+   *    appendToBody: boolean,
    *    dropdownOptionClassName: string,
    *  }
    * </pre>

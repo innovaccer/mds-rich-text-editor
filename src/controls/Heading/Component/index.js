@@ -68,7 +68,7 @@ class LayoutComponent extends Component {
             onExpandEvent={onExpandEvent}
             triggerClassName={'Editor-heading-trigger'}
           >
-            <Icon name={icon} size={20} /> 
+            <Icon name={icon} size={20} />
             {blocks.map((block, index) => (
               <DropdownOption index={index} active={blockType === block.label} value={block.label} key={index}>
                 <Heading

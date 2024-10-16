@@ -81,7 +81,6 @@ export default function ImageResizer({ onResizeEnd, imageRef, maxWidth, editor }
   };
 
   const handlePointerDown = (event, direction) => {
-
     const image = imageRef.current;
     const controlWrapper = controlWrapperRef.current;
 
@@ -104,13 +103,11 @@ export default function ImageResizer({ onResizeEnd, imageRef, maxWidth, editor }
       image.style.height = `${height}px`;
       image.style.width = `${width}px`;
 
-        document.addEventListener('pointermove', handlePointerMove);
-        document.addEventListener('pointerup', handlePointerUp);
-      
+      document.addEventListener('pointermove', handlePointerMove);
+      document.addEventListener('pointerup', handlePointerUp);
     }
   };
   const handlePointerMove = (event) => {
-
     const image = imageRef.current;
     const positioning = positioningRef.current;
 

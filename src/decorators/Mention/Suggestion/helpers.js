@@ -38,7 +38,12 @@ export const ensureSpaceAfterMention = (editorState, blockKey, endOffset, select
   const blockText = editorState.getCurrentContent().getBlockForKey(blockKey).getText();
 
   if (blockText[endOffset] !== ' ') {
-    let contentState = Modifier.insertText(editorState.getCurrentContent(), selection, ' ', editorState.getCurrentInlineStyle());
+    let contentState = Modifier.insertText(
+      editorState.getCurrentContent(),
+      selection,
+      ' ',
+      editorState.getCurrentInlineStyle()
+    );
     editorState = EditorState.push(editorState, contentState, 'insert-characters');
 
     const updatedSelection = selection.merge({ anchorOffset: endOffset + 1, focusOffset: endOffset + 1 });
