@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 22/10/2024 (3.0.0)
+
+- chore: migrate to node 20 and fix security vulnerability (31fe651e)
+
 # 11/10/2024 (2.3.1)
 
 - fix: resolve intermittent issue with toolbar mention not working (b46b47eb)
