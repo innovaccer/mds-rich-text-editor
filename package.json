@@ -101,7 +101,7 @@
   },
   "overrides": {
     "react-dom": "16.14.0",
-    "webpack": "$webpack"
+    "webpack": "4.46.0"
   },
   "license": "MIT"
 }
