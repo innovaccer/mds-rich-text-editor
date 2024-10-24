@@ -16,5 +16,4 @@ node_modules
 .gitignore
 postcss.config.js
 .npmignore
-yarn.lock
 CHANGELOG.md

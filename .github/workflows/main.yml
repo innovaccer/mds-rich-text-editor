@@ -34,10 +34,6 @@ jobs:
         if: steps.is_release_commit.outputs.result == 1
         run: git status
 
-      - name: stage changes
-        if: steps.is_release_commit.outputs.result == 1
-        run: git add yarn.lock
-
       - name: bump module version
         if: steps.is_release_commit.outputs.result == 1
         env:
