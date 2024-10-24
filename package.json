@@ -42,7 +42,7 @@
     "gulp-sourcemaps": "2.6.5",
     "install": "^0.13.0",
     "jsdom": "^16.4.0",
-    "mini-css-extract-plugin": "^2.9.1",
+    "mini-css-extract-plugin": "^0.8.0",
     "mocha": "^10.7.3",
     "postcss-color-mod-function": "^3.0.3",
     "postcss-loader": "^8.1.1",
@@ -57,8 +57,9 @@
     "style-loader": "^1.0.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^3.0.0",
+    "webpack": "4.46.0",
     "webpack-bundle-analyzer": "^4.0.0",
-    "webpack-cli": "^5.1.4",
+    "webpack-cli": "^3.3.10",
     "webpack-s3-plugin": "^1.2.0-rc.0"
   },
   "dependencies": {
@@ -82,7 +83,7 @@
     "build-css": "gulp --gulpfile config/gulpfile.js build",
     "clean": "rimraf dist && rimraf public",
     "build:webpack": "NODE_OPTIONS=--openssl-legacy-provider cross-env NODE_ENV=production webpack  --mode production --config config/webpack.config.js",
-    "build": "npm run clean && npm run build-css && npm run build:webpack",
+    "build": "npm run build-css && npm run build:webpack",
     "test": "cross-env BABEL_ENV=test mocha --require config/test-compiler.js config/test-setup.js src/**/*Test.js",
     "lint": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css}\"",
     "lintdocs": "eslint docs/src",
@@ -100,7 +101,7 @@
   },
   "overrides": {
     "react-dom": "16.14.0",
-    "webpack": "4.46.0"
+    "webpack": "$webpack"
   },
   "license": "MIT"
 }

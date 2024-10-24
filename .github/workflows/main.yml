@@ -41,6 +41,7 @@ jobs:
       - name: commit changes
         if: steps.is_release_commit.outputs.result == 1
         run: |
+          echo $(git log -1 --pretty=format:%s)
           git commit -m $(git log -1 --pretty=format:%s)
 
       - name: bump module version
