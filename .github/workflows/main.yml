@@ -25,7 +25,10 @@ jobs:
         
       - name: setup git
         if: steps.is_release_commit.outputs.result == 1
-        run: git checkout -b preparing-module-for-npm-publish && git config --global user.email "release-bot@innovaccer.com" && git config --global user.name "release-bot"
+        run: |
+          git checkout -b preparing-module-for-npm-publish
+          git config --global user.email "release-bot@innovaccer.com"
+          git config --global user.name "release-bot"
       
       - name: check git status
         if: steps.is_release_commit.outputs.result == 1
@@ -48,7 +51,7 @@ jobs:
           CDN_BUCKET: ${{ secrets.CDN_BUCKET }}
         run: RELEASE_COMMIT=true npm version --allow-same-version --no-commit-hooks $(git log -1 --pretty=format:%s) -m "Released %s"
 
-      - name: gnerate .npmrc
+      - name: generate .npmrc
         if: steps.is_release_commit.outputs.result == 1
         run: cp .npmrc.stub .npmrc
 
@@ -86,4 +89,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         if: steps.is_release_commit.outputs.result == 1
         run: npm run deploy-storybook -- --ci
-      
