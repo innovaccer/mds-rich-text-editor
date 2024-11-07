@@ -37,7 +37,7 @@
   padding-bottom: var(--spacing-m);
   min-width: var(--spacing-7);
   max-height: 150px;
-  overflow: auto;
+  overflow: auto !important;
 }
 
 .Editor-mention-chip {
