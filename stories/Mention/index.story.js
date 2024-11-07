@@ -19,6 +19,7 @@ All.args = {
       { label: 'PCP', value: 'PCP' },
       { label: 'Address', value: 'Address' },
       { label: 'DOB', value: 'DOB' },
+      { label: 'Mobile Number', value: 'Mobile Number' },
     ],
   },
   ...commonArgs,
