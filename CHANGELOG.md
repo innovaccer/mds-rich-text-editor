@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 21/11/2024 (3.0.1)
+
+- fix(mention): update mention popover scrollbar (9ac43df3)
+
 # 22/10/2024 (3.0.0)
 
 - chore: migrate to node 20 and fix security vulnerability (31fe651e)
