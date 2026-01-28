@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 28/01/2026 (3.0.2)
+
+- fix(link): add URL validation to prevent XSS attacks
+
 # 21/11/2024 (3.0.1)
 
 - fix(mention): update mention popover scrollbar (9ac43df3)
