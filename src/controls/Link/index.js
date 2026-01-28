@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { RichUtils, EditorState, Modifier } from 'draft-js';
 import { getSelectionText, getEntityRange, getSelectionEntity } from 'draftjs-utils';
 import linkifyIt from 'linkify-it';
+import { isValidUrl, sanitizeUrl } from '../../utils/common';
 
 import LayoutComponent from './Component';
 
@@ -35,6 +36,7 @@ class Link extends Component {
       selectionText: undefined,
       link: undefined,
       currentEntity: editorState ? getSelectionEntity(editorState) : undefined,
+      errorMessage: null,
     };
   }
 
@@ -71,10 +73,24 @@ class Link extends Component {
     if (action === 'link') {
       const linkifyCallback = linkCallback || linkifyLink;
       const linkified = linkifyCallback({ title, target, targetOption });
-      this.addLink(linkified.title, linkified.target, linkified.targetOption);
+      
+      // Sanitize the URL after linkify processing
+      const sanitizedTarget = sanitizeUrl(linkified.target);
+      
+      // Only proceed if sanitized URL is still valid
+      if (sanitizedTarget === '#' || !isValidUrl(sanitizedTarget)) {
+        this.setState({ errorMessage: 'Invalid URL' });
+        return;
+      }
+      
+      this.addLink(linkified.title, sanitizedTarget, linkified.targetOption);
     } else {
       this.removeLink();
     }
+  };
+
+  onErrorClear = () => {
+    this.setState({ errorMessage: null });
   };
 
   getCurrentValues = () => {
@@ -187,13 +203,14 @@ class Link extends Component {
       undefined
     );
     onChange(EditorState.push(newEditorState, contentState, 'insert-characters'));
+    this.setState({ errorMessage: null });
     this.props.onCloseLinkPopover();
     this.doCollapse();
   };
 
   render() {
     const { config, inDropdown } = this.props;
-    const { expanded } = this.state;
+    const { expanded, errorMessage } = this.state;
     const { link, selectionText } = this.getCurrentValues();
 
     return (
@@ -209,6 +226,8 @@ class Link extends Component {
           selectionText,
         }}
         onChange={this.onChange}
+        errorMessage={errorMessage}
+        onErrorClear={this.onErrorClear}
       />
     );
   }
