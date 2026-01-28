@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { stopPropagation } from '../../../utils/common';
 import Option from '../../../components/Option';
 import { DropdownOption } from '../../../components/Dropdown';
-import { Popover, Icon, Text, Input, Button, Tooltip } from '@innovaccer/design-system';
+import { Popover, Icon, Text, Input, Button, Tooltip, HelpText } from '@innovaccer/design-system';
 
 class LayoutComponent extends Component {
   static propTypes = {
@@ -15,6 +15,8 @@ class LayoutComponent extends Component {
     onChange: PropTypes.func,
     currentState: PropTypes.object,
     inDropdown: PropTypes.boolean,
+    errorMessage: PropTypes.string,
+    onErrorClear: PropTypes.func,
   };
 
   state = {
@@ -37,6 +39,9 @@ class LayoutComponent extends Component {
         linkTitle: '',
         linkTargetOption: this.props.config.defaultTargetOption,
       });
+      if (this.props.onErrorClear) {
+        this.props.onErrorClear();
+      }
     }
 
     if (!prevProps.expanded && this.props.expanded) {
@@ -47,6 +52,9 @@ class LayoutComponent extends Component {
         linkTargetOption: this.props.config.defaultTargetOption,
         editing: link !== undefined,
       });
+      if (this.props.onErrorClear) {
+        this.props.onErrorClear();
+      }
     }
   }
 
@@ -60,6 +68,9 @@ class LayoutComponent extends Component {
     this.setState({
       [`${event.target.name}`]: event.target.value,
     });
+    if (event.target.name === 'linkTarget' && this.props.onErrorClear) {
+      this.props.onErrorClear();
+    }
   };
 
   updateTargetOption = (event) => {
@@ -69,7 +80,7 @@ class LayoutComponent extends Component {
   };
 
   renderAddLinkModal() {
-    const { onExpandEvent } = this.props;
+    const { onExpandEvent, errorMessage } = this.props;
 
     const { linkTitle, linkTarget, editing } = this.state;
 
@@ -89,7 +100,11 @@ class LayoutComponent extends Component {
           autoComplete="off"
           autoFocus={true}
           onClick={stopPropagation}
+          error={!!errorMessage}
         />
+        {errorMessage && (
+          <HelpText message={errorMessage} error={true} className="mt-2" />
+        )}
         <Input
           icon="text_fields"
           className="my-5"

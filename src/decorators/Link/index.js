@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Popover, Text, Button, Link as DesignSystemLink } from '@innovaccer/design-system';
 import { Modifier, EditorState } from 'draft-js';
 import { getEntityRange } from 'draftjs-utils';
+import { sanitizeUrl } from '../../utils/common';
 
 function findLinkEntities(contentBlock, callback, contentState) {
   contentBlock.findEntityRanges((character) => {
@@ -70,6 +71,7 @@ function getLinkComponent(config) {
       const { children, entityKey, contentState } = this.props;
       const { url } = contentState.getEntity(entityKey).getData();
       const { open } = this.state;
+      const sanitizedUrl = sanitizeUrl(url);
 
       const trigger = (
         <span contentEditable="false" suppressContentEditableWarning>
@@ -84,8 +86,8 @@ function getLinkComponent(config) {
             suppressContentEditableWarning
             className="d-flex pl-5 py-5 pr-4 align-items-center"
           >
-            <DesignSystemLink href={url} target="_new" className="Editor-link">
-              {url}
+            <DesignSystemLink href={sanitizedUrl} target="_new" className="Editor-link">
+              {sanitizedUrl}
             </DesignSystemLink>
             <span className="Editor-seperator" />
 
