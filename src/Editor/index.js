@@ -466,10 +466,6 @@ class Editor extends Component {
       'header-four': {
         wrapper: <Heading size="m">{this.props.children}</Heading>,
       },
-      unstyled: {
-        element: 'p',
-        wrapper: <div>{this.props.children}</div>,
-      },
     })
   );
 
