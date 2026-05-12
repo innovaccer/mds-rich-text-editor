@@ -1,6 +1,14 @@
 
 # Changelog
 
+# 12/05/2026 (3.0.3)
+
+- chore: fix security vulnerability
+
+# 29/04/2026 (2.3.1-2)
+
+- fix(editor): remove unstyled wrapper from editor component
+
 # 28/01/2026 (3.0.2)
 
 - fix(link): add URL validation to prevent XSS attacks
