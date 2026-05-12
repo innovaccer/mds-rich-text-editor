@@ -101,7 +101,13 @@
   },
   "overrides": {
     "react-dom": "16.14.0",
-    "webpack": "4.46.0"
+    "webpack": "4.46.0",
+    "draft-js": {
+      "immutable": "3.8.3"
+    }
+  },
+  "resolutions": {
+    "draft-js/immutable": "3.8.3"
   },
   "license": "MIT"
 }
