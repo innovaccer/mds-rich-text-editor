@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 13/05/2026 (3.0.4)
+
+- refactor(editor): remove unstyled wrapper from editor component
+
 # 12/05/2026 (3.0.3)
 
 - chore: fix security vulnerability
