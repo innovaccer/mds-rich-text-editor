@@ -7591,7 +7591,7 @@ immutable@^4.0.0-rc.12, "immutable@3.x.x || 4.x.x":
   resolved "https://registry.npmjs.org/immutable/-/immutable-4.3.7.tgz"
   integrity sha512-1hqclzwYwjRDFLjcFxOM5AYkkG0rpFPpr1RLPMEuGczoS7YA8gLhy8SWXYRAA/XwfEHpfo3cw5JGioS32fnMRw==
 
-immutable@~3.7.4:
+immutable@3.8.3:
   version "3.8.3"
   resolved "https://registry.npmjs.org/immutable/-/immutable-3.8.3.tgz"
   integrity sha512-AUY/VyX0E5XlibOmWt10uabJzam1zlYjwiEgQSDc5+UIkFNaF9WM0JxXKaNMGf+F/ffUF+7kRKXM9A7C0xXqMg==
