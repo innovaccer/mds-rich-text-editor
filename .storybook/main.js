@@ -22,6 +22,17 @@ module.exports = {
 
     // Return the altered config
     const newRules = [...config.module.rules, ...customRules];
-    return { ...config, module: { ...config.module, rules: newRules } };
+    return {
+      ...config,
+      module: { ...config.module, rules: newRules },
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve.alias,
+          'linkify-it$': require.resolve('linkify-it/build/index.cjs.js'),
+          'uc.micro$': require.resolve('uc.micro/build/index.cjs.js'),
+        },
+      },
+    };
   },
 };

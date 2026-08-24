@@ -96,5 +96,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.json'],
+    alias: {
+      'linkify-it$': require.resolve('linkify-it/build/index.cjs.js'),
+      'uc.micro$': require.resolve('uc.micro/build/index.cjs.js'),
+    },
   },
 };
