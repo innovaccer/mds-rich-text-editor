@@ -69,7 +69,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "draftjs-to-html": "^0.9.0",
-    "linkify-it": "^2.2.0",
+    "linkify-it": "^5.0.2",
     "prop-types": "^15.7.2",
     "redraft": "^0.10.2"
   },
