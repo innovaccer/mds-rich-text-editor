@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 24/08/2026 (3.0.6)
+
+- chore: fix linkify-it js security vulnerability
+
 # 14/05/2026 (3.0.5)
 
 - chore: fix draft js security vulnerability
