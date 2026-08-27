@@ -19,21 +19,35 @@ class LayoutComponent extends Component {
     this.state = {
       currentStyle: 'color',
     };
-    this.ref = React.createRef();
+    this.swatchRefs = [];
   }
 
   componentDidUpdate(prevProps) {
     const { expanded } = this.props;
     if (expanded && !prevProps.expanded) {
-      if (this.ref.current) {
-        // Todo
-        // this.ref.current.focus();
-      }
+      const {
+        config: { colors },
+        currentState: { color, bgColor },
+      } = this.props;
+      const currentSelectedColor = this.state.currentStyle === 'color' ? color : bgColor;
+      const selectedIndex = colors.indexOf(currentSelectedColor);
+      const focusIndex = selectedIndex === -1 ? 0 : selectedIndex;
       this.setState({
         currentStyle: 'color',
       });
+      this.focusSwatch(focusIndex);
     }
   }
+
+  focusSwatch = (index, retriesLeft = 5) => {
+    if (this.swatchRefs[index]) {
+      this.swatchRefs[index].focus();
+      return;
+    }
+    if (retriesLeft > 0) {
+      setTimeout(() => this.focusSwatch(index, retriesLeft - 1), 16);
+    }
+  };
 
   onChange = (color) => {
     const { onChange, expanded } = this.props;
@@ -57,11 +71,17 @@ class LayoutComponent extends Component {
     if (!color) {
       return;
     }
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
       event.preventDefault();
       event.stopPropagation();
       this.onChange(color);
     }
+  };
+
+  getColorLabel = (colorValue) => {
+    const match = /^var\(--([a-zA-Z0-9]+)\)$/.exec(colorValue);
+    const name = match ? match[1] : colorValue;
+    return name.charAt(0).toUpperCase() + name.slice(1);
   };
 
   renderModal = () => {
@@ -74,23 +94,33 @@ class LayoutComponent extends Component {
     const currentSelectedColor = currentStyle === 'color' ? color : bgColor;
 
     return (
-      <div className={'Editor-colorPicker'} onClick={this.handleClick} onKeyDown={this.handleKeyDown}>
-        {colors.map((c, index) => (
-          <div className="Editor-colorPicker-circleWrapper">
-            <div
-              ref={index === 0 ? this.ref : null}
-              data-color={c}
-              tabIndex={0}
-              key={index}
-              style={{ backgroundColor: c }}
-              className="Editor-colorPicker-circle"
-              aria-selected={currentSelectedColor === c}
-            />
-            {currentSelectedColor === c && (
-              <Icon name="check" appearance="white" className={'Editor-colorPicker-selectedCircle'} />
-            )}
-          </div>
-        ))}
+      <div
+        className={'Editor-colorPicker'}
+        role="radiogroup"
+        aria-label="Text color"
+        onClick={this.handleClick}
+        onKeyDown={this.handleKeyDown}
+      >
+        {colors.map((c, index) => {
+          const isSelected = currentSelectedColor === c;
+          return (
+            <div className="Editor-colorPicker-circleWrapper" key={index}>
+              <div
+                ref={(el) => {
+                  this.swatchRefs[index] = el;
+                }}
+                data-color={c}
+                tabIndex={0}
+                style={{ backgroundColor: c }}
+                className="Editor-colorPicker-circle"
+                role="radio"
+                aria-checked={isSelected}
+                aria-label={this.getColorLabel(c)}
+              />
+              {isSelected && <Icon name="check" appearance="white" className={'Editor-colorPicker-selectedCircle'} />}
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -106,6 +136,8 @@ class LayoutComponent extends Component {
           onClick={onToggle}
           active={expanded}
           activeClassName="bg-secondary"
+          aria-expanded={expanded}
+          aria-haspopup="true"
         >
           <Icon name="text_format" size={20} />
         </Option>
@@ -113,7 +145,7 @@ class LayoutComponent extends Component {
     );
 
     return (
-      <div className={className} aria-haspopup="true" aria-expanded={expanded}>
+      <div className={className}>
         <Popover trigger={trigger} position="bottom-start" open={expanded}>
           {this.renderModal()}
         </Popover>

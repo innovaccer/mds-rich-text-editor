@@ -11,6 +11,7 @@ class Mention extends Component {
     onChange: PropTypes.func.isRequired,
     config: PropTypes.object,
     inDropdown: PropTypes.boolean,
+    toolbarContext: PropTypes.string,
   };
 
   constructor(props) {
@@ -70,11 +71,15 @@ class Mention extends Component {
       config: { icon, title },
       mention: { label },
       inDropdown,
+      toolbarContext,
     } = this.props;
 
+    const baseLabel = label || title;
+    const ariaLabel = toolbarContext ? `${baseLabel} ${toolbarContext}` : baseLabel;
+
     return (
-      <Tooltip tooltip={label || title}>
-        <Option value="unordered-list-item" onClick={this.addLink} className="mr-2">
+      <Tooltip tooltip={baseLabel}>
+        <Option aria-label={ariaLabel} value="unordered-list-item" onClick={this.addLink} className="mr-2">
           <Icon name={icon} size={20} />
         </Option>
       </Tooltip>

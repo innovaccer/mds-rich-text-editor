@@ -75,6 +75,8 @@ export default class DropDownOption extends Component {
     return (
       <li
         tabIndex={1}
+        role="option"
+        aria-selected={active}
         className={OptionClass}
         onMouseEnter={this.setHighlighted}
         onMouseLeave={this.resetHighlighted}

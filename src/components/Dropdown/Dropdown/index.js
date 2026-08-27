@@ -155,6 +155,7 @@ export default class Dropdown extends Component {
         {expanded && (
           <ul
             tabIndex={1}
+            role="listbox"
             ref={this.listRef}
             onKeyDown={this.handleListKeyDown}
             className={classNames('Editor-dropdown-optionWrapper', optionWrapperClassName)}

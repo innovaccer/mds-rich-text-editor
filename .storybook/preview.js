@@ -1,7 +1,20 @@
+import React, { useContext } from 'react';
 import { addParameters, configure } from '@storybook/react';
+import { Title, Subtitle, Description, Primary, ArgsTable, PRIMARY_STORY, DocsContext } from '@storybook/addon-docs/blocks';
 import { primary } from './themes';
+import AccessibilityPropTable from '../stories/__common__/AccessibilityPropTable';
+import { getAccessibilityProps } from '../stories/__common__/accessibilityProps';
 import '@innovaccer/design-system/css';
 import './RichTextEditor.css';
+import './AccessibilityPropTable.css';
+
+const AccessibilitySection = () => {
+  const context = useContext(DocsContext);
+  const story = context.id && context.storyById(context.id);
+  const component = story && story.component;
+  const componentName = component && (component.displayName || component.name);
+  return <AccessibilityPropTable props={getAccessibilityProps(componentName)} />;
+};
 
 addParameters({
   options: {
@@ -83,18 +96,16 @@ addParameters({
   //   viewports: INITIAL_VIEWPORTS
   // },
   docs: {
-    //container: DocsContainer,
-    // page: () => (
-    //   <>
-    //     <Title />
-    //     <Subtitle />
-    //     <Description />
-    //     <Primary />
-    //     <ArgsTable story={PRIMARY_STORY} />
-    //     {/* <Stories /> */}
-    //   </>
-    // ),
-    //docPage: {}
+    page: () => (
+      <>
+        <Title />
+        <Subtitle />
+        <Description />
+        <Primary />
+        <AccessibilitySection />
+        <ArgsTable story={PRIMARY_STORY} />
+      </>
+    ),
   },
 });
 

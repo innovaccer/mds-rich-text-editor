@@ -18,6 +18,7 @@ export default class LayoutComponent extends Component {
     // indentDisabled: PropTypes.bool,
     // outdentDisabled: PropTypes.bool,
     className: PropTypes.string,
+    toolbarContext: PropTypes.string,
   };
 
   options = ['unordered', 'ordered'];
@@ -32,6 +33,7 @@ export default class LayoutComponent extends Component {
       config,
       currentState: { listType },
       className,
+      toolbarContext,
     } = this.props;
 
     const { options, unordered, ordered } = config;
@@ -43,17 +45,24 @@ export default class LayoutComponent extends Component {
       className
     );
 
-    // todo
+    const unorderedLabel = toolbarContext ? `${unordered.title} ${toolbarContext}` : unordered.title;
+    const orderedLabel = toolbarContext ? `${ordered.title} ${toolbarContext}` : ordered.title;
 
     return (
       <div className={ListClass}>
         <Tooltip tooltip={unordered.title}>
-          <Option value="unordered" onClick={this.toggleBlockType} active={listType === 'unordered'} className="mr-2">
+          <Option
+            aria-label={unorderedLabel}
+            value="unordered"
+            onClick={this.toggleBlockType}
+            active={listType === 'unordered'}
+            className="mr-2"
+          >
             <Icon appearance={listType === 'unordered' ? 'info' : 'default'} name={unordered.icon} size={20} />
           </Option>
         </Tooltip>
         <Tooltip tooltip={ordered.title}>
-          <Option value="ordered" onClick={this.toggleBlockType} active={listType === 'ordered'}>
+          <Option aria-label={orderedLabel} value="ordered" onClick={this.toggleBlockType} active={listType === 'ordered'}>
             <Icon appearance={listType === 'ordered' ? 'info' : 'default'} name={ordered.icon} size={20} />
           </Option>
         </Tooltip>
