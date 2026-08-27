@@ -14,6 +14,9 @@ export default class Option extends Component {
     disabled: PropTypes.bool,
     title: PropTypes.string,
     tabIndex: PropTypes.number,
+    role: PropTypes.string,
+    'aria-expanded': PropTypes.bool,
+    'aria-haspopup': PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   };
 
   static defaultProps = {
@@ -42,7 +45,17 @@ export default class Option extends Component {
   };
 
   render() {
-    const { children, className, activeClassName, active, disabled, 'aria-label': ariaLabel } = this.props;
+    const {
+      children,
+      className,
+      activeClassName,
+      active,
+      disabled,
+      'aria-label': ariaLabel,
+      'aria-expanded': ariaExpanded,
+      'aria-haspopup': ariaHaspopup,
+      role,
+    } = this.props;
 
     const OptionClass = classNames(
       {
@@ -54,6 +67,10 @@ export default class Option extends Component {
       className
     );
 
+    const computedRole = role || 'button';
+    const isDisclosureTrigger = ariaExpanded !== undefined || ariaHaspopup !== undefined;
+    const ariaPressed = !isDisclosureTrigger && active !== undefined ? active : undefined;
+
     return (
       <div
         aria-label={ariaLabel}
@@ -61,7 +78,10 @@ export default class Option extends Component {
         tabIndex={0}
         className={OptionClass}
         onClick={this.onClick}
-        aria-selected={active}
+        role={computedRole}
+        aria-pressed={ariaPressed}
+        aria-expanded={ariaExpanded}
+        aria-haspopup={ariaHaspopup}
       >
         {children}
       </div>

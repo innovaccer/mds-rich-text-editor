@@ -67,6 +67,7 @@ class LayoutComponent extends Component {
             doCollapse={doCollapse}
             onExpandEvent={onExpandEvent}
             triggerClassName={'Editor-heading-trigger'}
+            ariaLabel="Text style"
           >
             <Icon name={icon} size={20} />
             {blocks.map((block, index) => (

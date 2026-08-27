@@ -481,6 +481,7 @@ class Editor extends Component {
       editorStyle,
       ariaLabel,
       mention,
+      toolbarContext,
     } = this.props;
 
     const controlProps = {
@@ -489,6 +490,7 @@ class Editor extends Component {
       modalHandler: this.modalHandler,
       editorState,
       onChange: this.onChange,
+      toolbarContext,
       // translations: {
       //   ...localeTranslations[locale || newLocale],
       //   ...translations,
@@ -809,7 +811,60 @@ Editor.propTypes = {
    * Used in cases where a text label is not visible on the screen.
    */
   ariaLabel: PropTypes.string,
-  //ariaOwneeID: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+  /**
+   * References the ID of element(s) that label the editable content region.
+   */
+  ariaLabelledBy: PropTypes.string,
+  /**
+   * References the ID of element(s) describing the editable content region.
+   * Default value contains a placeholder token that resolves to the
+   * placeholder text's own element when present.
+   */
+  ariaDescribedBy: PropTypes.string,
+  /**
+   * Overrides the editable content region's implicit role. Defaults to
+   * `'textbox'`. Not rendered when `readOnly` is true.
+   */
+  role: PropTypes.string,
+  /**
+   * Sets `aria-expanded` on the editable content region. Only rendered when
+   * `role` is `'combobox'`; ignored when `readOnly` is true.
+   */
+  ariaExpanded: PropTypes.bool,
+  /**
+   * References the active descendant element (`aria-activedescendant`).
+   * Ignored when `readOnly` is true.
+   */
+  ariaActiveDescendantID: PropTypes.string,
+  /**
+   * Sets `aria-autocomplete` on the editable content region. Ignored when
+   * `readOnly` is true.
+   */
+  ariaAutoComplete: PropTypes.string,
+  /**
+   * References the element(s) controlled by the editable content region
+   * (`aria-controls`). Ignored when `readOnly` is true.
+   */
+  ariaControls: PropTypes.string,
+  /**
+   * Sets `aria-multiline` on the editable content region.
+   */
+  ariaMultiline: PropTypes.bool,
+  /**
+   * References owned element(s) (`aria-owns`). Ignored when `readOnly` is true.
+   */
+  ariaOwneeID: PropTypes.string,
+  /**
+   * Controls focus order of the editable content region.
+   */
+  tabIndex: PropTypes.number,
+  /**
+   * Distinguishing context appended to every toolbar button's accessible name
+   * (e.g. "Chart Review"), for pages that render more than one Editor instance
+   * so identically-labelled buttons (Bold, Bullet list, ...) don't collide.
+   * Omit when only one Editor instance is on the page.
+   */
+  toolbarContext: PropTypes.string,
   // customBlockRenderFunc: PropTypes.func,
   /**
    * Custom id added to wrapper around the editor.

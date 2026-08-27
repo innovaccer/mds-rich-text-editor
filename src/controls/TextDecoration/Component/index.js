@@ -15,6 +15,7 @@ export default class TextDecoration extends Component {
     onChange: PropTypes.func,
     currentState: PropTypes.object,
     className: PropTypes.string,
+    toolbarContext: PropTypes.string,
   };
 
   renderInDropdown() {
@@ -57,7 +58,7 @@ export default class TextDecoration extends Component {
   }
 
   render() {
-    const { config, currentState, onChange, className } = this.props;
+    const { config, currentState, onChange, className, toolbarContext } = this.props;
     const hiddenOptions = config.options.length - config.max;
     const visibleOptions = config.max;
 
@@ -77,7 +78,7 @@ export default class TextDecoration extends Component {
           return (
             <Tooltip tooltip={title}>
               <Option
-                aria-label={`${style} button`}
+                aria-label={toolbarContext ? `${style} button ${toolbarContext}` : `${style} button`}
                 role="button"
                 tabIndex={0}
                 key={index}
