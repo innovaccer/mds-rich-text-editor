@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 27/08/2026 (3.0.7)
+
+- chore: add accessibility support in RTE- #104
+
 # 24/08/2026 (3.0.6)
 
 - chore: fix linkify-it js security vulnerability
