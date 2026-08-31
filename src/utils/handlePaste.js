@@ -1,7 +1,6 @@
 import { getSelectedBlock } from 'draftjs-utils';
-import { Modifier, EditorState, ContentState } from 'draft-js';
-import htmlToDraft from 'html-to-draftjs';
-import { OrderedMap, List } from 'immutable';
+import { Modifier, EditorState, convertFromHTML, convertToRaw } from 'draft-js';
+import { List } from 'immutable';
 
 export const handlePastedText = (text, html, editorState, onChange) => {
   const selectedBlock = getSelectedBlock(editorState);
@@ -15,15 +14,12 @@ export const handlePastedText = (text, html, editorState, onChange) => {
     onChange(EditorState.push(editorState, contentState, 'insert-characters'));
     return true;
   } else if (html) {
-    const contentBlock = htmlToDraft(html);
+    const htmlBlocks = convertFromHTML(html);
     let contentState = editorState.getCurrentContent();
-    contentBlock.entityMap.forEach((value, key) => {
-      contentState = contentState.mergeEntityData(key, value);
-    });
     contentState = Modifier.replaceWithFragment(
       contentState,
       editorState.getSelection(),
-      new List(contentBlock.contentBlocks)
+      new List(htmlBlocks.contentBlocks)
     );
     onChange(EditorState.push(editorState, contentState, 'insert-characters'));
     return true;
