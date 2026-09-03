@@ -32,6 +32,7 @@ export default class TextDecoration extends Component {
           doCollapse={doCollapse}
           onExpandEvent={onExpandEvent}
           triggerClassName="Editor-textDecoration-moreIcon"
+          ariaLabel="More formatting"
           menu={true}
         >
           <Icon name="more_horizon" size={20} />

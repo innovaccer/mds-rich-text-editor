@@ -17,6 +17,7 @@ class LayoutComponent extends Component {
     inDropdown: PropTypes.boolean,
     errorMessage: PropTypes.string,
     onErrorClear: PropTypes.func,
+    toolbarContext: PropTypes.string,
   };
 
   state = {
@@ -134,13 +135,17 @@ class LayoutComponent extends Component {
       inDropdown,
       onExpandEvent,
       expanded,
+      toolbarContext,
     } = this.props;
+
+    const ariaLabel = toolbarContext ? `Link ${toolbarContext}` : 'Link';
 
     const trigger = !inDropdown ? (
       <Tooltip tooltip="Link">
         <Option
           value="unordered-list-item"
           onClick={onExpandEvent}
+          aria-label={ariaLabel}
           aria-haspopup="true"
           aria-expanded={expanded}
           active={expanded}
