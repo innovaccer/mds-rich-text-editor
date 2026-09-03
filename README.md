@@ -20,5 +20,9 @@ import '@innovaccer/rich-text-editor/dist/rich-text-editor.css';
   editorClassName="RichTextEditor"
   placeholder="Begin typing.."
   textAlignment="left"
+  // Pass toolbarContext when rendering more than one Editor on the same page,
+  // so identically-labelled toolbar buttons (Bold, Bullet list, ...) get a
+  // distinguishing accessible name for screen reader users, e.g. "Bold Chart Review".
+  toolbarContext="Chart Review"
 />;
 ```

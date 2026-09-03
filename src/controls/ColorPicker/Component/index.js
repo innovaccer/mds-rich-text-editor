@@ -12,6 +12,7 @@ class LayoutComponent extends Component {
     config: PropTypes.object,
     currentState: PropTypes.object,
     className: PropTypes.className,
+    toolbarContext: PropTypes.string,
   };
 
   constructor(props) {
@@ -126,13 +127,15 @@ class LayoutComponent extends Component {
   };
 
   render() {
-    const { expanded, onToggle, className } = this.props;
+    const { expanded, onToggle, className, toolbarContext } = this.props;
+
+    const ariaLabel = toolbarContext ? `Font colors ${toolbarContext}` : 'Font colors';
 
     const trigger = (
       <Tooltip tooltip="Text color">
         <Option
           tabIndex={0}
-          aria-label="Font colors"
+          aria-label={ariaLabel}
           onClick={onToggle}
           active={expanded}
           activeClassName="bg-secondary"

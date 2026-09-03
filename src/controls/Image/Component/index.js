@@ -14,6 +14,7 @@ class LayoutComponent extends Component {
     config: PropTypes.object,
     translations: PropTypes.object,
     inDropdown: PropTypes.bool,
+    toolbarContext: PropTypes.string,
   };
   inputRef = null;
 
@@ -186,7 +187,10 @@ class LayoutComponent extends Component {
       config: { icon, className, title, inputAccept },
       expanded,
       inDropdown,
+      toolbarContext,
     } = this.props;
+
+    const ariaLabel = toolbarContext ? `add image ${toolbarContext}` : 'add image';
 
     if (inDropdown) {
       return (
@@ -210,7 +214,7 @@ class LayoutComponent extends Component {
     return (
       <div aria-haspopup="true" aria-expanded={expanded}>
         <Tooltip tooltip={title}>
-          <Option aria-label="add image" className={'mr-2'} value="unordered-list-item" onClick={this.fileUploadClick}>
+          <Option aria-label={ariaLabel} className={'mr-2'} value="unordered-list-item" onClick={this.fileUploadClick}>
             <span>
               <label htmlFor="file" className="Editor-insert-imageLabel">
                 <Icon name={icon} size={20} />

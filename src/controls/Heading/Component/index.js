@@ -13,6 +13,7 @@ class LayoutComponent extends Component {
     config: PropTypes.object,
     currentState: PropTypes.object,
     className: PropTypes.string,
+    toolbarContext: PropTypes.string,
   };
 
   constructor(props) {
@@ -55,7 +56,10 @@ class LayoutComponent extends Component {
       doCollapse,
       onChange,
       className,
+      toolbarContext,
     } = this.props;
+
+    const ariaLabel = toolbarContext ? `Text style ${toolbarContext}` : 'Text style';
 
     return (
       <div className={className} aria-label="Editor-block-control">
@@ -67,7 +71,7 @@ class LayoutComponent extends Component {
             doCollapse={doCollapse}
             onExpandEvent={onExpandEvent}
             triggerClassName={'Editor-heading-trigger'}
-            ariaLabel="Text style"
+            ariaLabel={ariaLabel}
           >
             <Icon name={icon} size={20} />
             {blocks.map((block, index) => (
