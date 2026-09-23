@@ -1,6 +1,14 @@
 
 # Changelog
 
+# 23/09/2026 (3.0.9)
+
+- fix(color-picker): trap Tab/Shift+Tab focus within the palette - #106
+
+# 02/09/2026 (3.0.8)
+
+- chore: fix a11y issues - #105
+
 # 27/08/2026 (3.0.7)
 
 - chore: add accessibility support in RTE- #104
