@@ -533,7 +533,8 @@ class Editor extends Component {
               this.resetLastKeyPressed();
               this.preventDefault(ev);
             }}
-            aria-label="Editor-toolbar"
+            role="group"
+            aria-label={toolbarContext ? `Editor-toolbar ${toolbarContext}` : 'Editor-toolbar'}
             onFocus={this.onToolbarFocus}
           >
             {toolbar.options.map((opt, index) => {

@@ -49,23 +49,32 @@ export default class LayoutComponent extends Component {
     const orderedLabel = toolbarContext ? `${ordered.title} ${toolbarContext}` : ordered.title;
 
     return (
-      <div className={ListClass}>
-        <Tooltip tooltip={unordered.title}>
-          <Option
-            aria-label={unorderedLabel}
-            value="unordered"
-            onClick={this.toggleBlockType}
-            active={listType === 'unordered'}
-            className="mr-2"
-          >
-            <Icon appearance={listType === 'unordered' ? 'info' : 'default'} name={unordered.icon} size={20} />
-          </Option>
-        </Tooltip>
-        <Tooltip tooltip={ordered.title}>
-          <Option aria-label={orderedLabel} value="ordered" onClick={this.toggleBlockType} active={listType === 'ordered'}>
-            <Icon appearance={listType === 'ordered' ? 'info' : 'default'} name={ordered.icon} size={20} />
-          </Option>
-        </Tooltip>
+      <div className={ListClass} role="list">
+        <div role="listitem" className="d-flex">
+          <Tooltip tooltip={unordered.title}>
+            <Option
+              aria-label={unorderedLabel}
+              value="unordered"
+              onClick={this.toggleBlockType}
+              active={listType === 'unordered'}
+              className="mr-2"
+            >
+              <Icon appearance={listType === 'unordered' ? 'info' : 'default'} name={unordered.icon} size={20} />
+            </Option>
+          </Tooltip>
+        </div>
+        <div role="listitem" className="d-flex">
+          <Tooltip tooltip={ordered.title}>
+            <Option
+              aria-label={orderedLabel}
+              value="ordered"
+              onClick={this.toggleBlockType}
+              active={listType === 'ordered'}
+            >
+              <Icon appearance={listType === 'ordered' ? 'info' : 'default'} name={ordered.icon} size={20} />
+            </Option>
+          </Tooltip>
+        </div>
       </div>
     );
   }

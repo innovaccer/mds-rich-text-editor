@@ -71,29 +71,34 @@ export default class TextDecoration extends Component {
     );
 
     return (
-      <div className={ComponentClass}>
+      <div className={ComponentClass} role="list">
         {config.options.slice(0, visibleOptions).map((style, index) => {
           const active = currentState[style] === true || (style === 'MONOSPACE' && currentState.CODE);
           const { title, icon } = config[style];
 
           return (
-            <Tooltip tooltip={title}>
-              <Option
-                aria-label={toolbarContext ? `${style} button ${toolbarContext}` : `${style} button`}
-                role="button"
-                tabIndex={0}
-                key={index}
-                value={style}
-                onClick={onChange}
-                active={active}
-                className="mr-2"
-              >
-                <Icon name={icon} size={20} appearance={active ? 'info' : 'default'} />
-              </Option>
-            </Tooltip>
+            <div role="listitem" className="d-flex" key={index}>
+              <Tooltip tooltip={title}>
+                <Option
+                  aria-label={toolbarContext ? `${style} button ${toolbarContext}` : `${style} button`}
+                  role="button"
+                  tabIndex={0}
+                  value={style}
+                  onClick={onChange}
+                  active={active}
+                  className="mr-2"
+                >
+                  <Icon name={icon} size={20} appearance={active ? 'info' : 'default'} />
+                </Option>
+              </Tooltip>
+            </div>
           );
         })}
-        {hiddenOptions > 0 && this.renderInDropdown()}
+        {hiddenOptions > 0 && (
+          <div role="listitem" className="d-flex">
+            {this.renderInDropdown()}
+          </div>
+        )}
       </div>
     );
   }
