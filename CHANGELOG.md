@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 09/10/2026 (3.0.10)
+
+- fix(toolbar): mark related toolbar buttons up as lists - #107
+
 # 23/09/2026 (3.0.9)
 
 - fix(color-picker): trap Tab/Shift+Tab focus within the palette - #106
