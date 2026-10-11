@@ -10,7 +10,6 @@ import {
   CompositeDecorator,
   getDefaultKeyBinding,
   DefaultDraftBlockRenderMap,
-  Modifier,
 } from 'draft-js';
 import {
   changeDepth,
@@ -415,21 +414,16 @@ class Editor extends Component {
     const { editorState } = this.state;
     const { handlePastedText: handlePastedTextProp } = this.props;
 
-    // To handle pasting of image copied from inside the editor
     if (html && html.includes('<figure')) {
       return html;
     }
 
-    // To handle pasting of content copied from inside the editor
-    if (html && html.includes('DraftStyle')) {
-      return null;
-    }
+    const getClipboard = () => this.editor && this.editor.getClipboard && this.editor.getClipboard();
 
-    // To handle pasting of external content
     if (handlePastedTextProp) {
-      return handlePastedTextProp(text, html, editorState, this.onChange);
+      return handlePastedTextProp(text, html, editorState, this.onChange, getClipboard);
     }
-    return handlePastedText(text, html, editorState, this.onChange);
+    return handlePastedText(text, html, editorState, this.onChange, getClipboard);
   };
 
   preventDefault = (event) => {
