@@ -162,7 +162,7 @@ class LayoutComponent extends Component {
     );
 
     return (
-      <div aria-haspopup="true" aria-expanded={expanded}>
+      <div>
         <Popover trigger={trigger} position={inDropdown ? 'right' : 'bottom'} open={expanded} onToggle={onExpandEvent}>
           {this.renderAddLinkModal()}
         </Popover>
