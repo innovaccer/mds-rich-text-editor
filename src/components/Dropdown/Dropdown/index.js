@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Icon, Button } from '@innovaccer/design-system';
+import { Icon, Button, Tooltip } from '@innovaccer/design-system';
 
 import { stopPropagation } from '../../../utils/common';
+
+let dropdownListCount = 0;
 
 export default class Dropdown extends Component {
   static propTypes = {
@@ -19,6 +21,7 @@ export default class Dropdown extends Component {
     triggerClassName: PropTypes.string,
     ariaLabel: PropTypes.string,
     title: PropTypes.string,
+    tooltip: PropTypes.string,
   };
 
   buttonRef = null;
@@ -28,10 +31,18 @@ export default class Dropdown extends Component {
     super(props);
     this.buttonRef = React.createRef();
     this.listRef = React.createRef();
+    this.listId = `Editor-dropdown-list-${dropdownListCount++}`;
     this.state = {
       highlighted: -1,
     };
   }
+
+  getOptionId = (index) => `${this.listId}-option-${index}`;
+
+  getActiveIndex = () => {
+    const options = React.Children.toArray(this.props.children.slice(1));
+    return options.findIndex((option) => option && option.props && option.props.active);
+  };
 
   componentDidUpdate(prevProps) {
     const { expanded } = this.props;
@@ -46,7 +57,7 @@ export default class Dropdown extends Component {
       document.addEventListener('keydown', this.focusTriggerOnClose);
       document.addEventListener('click', this.handleOutsideClick);
       this.setState({
-        highlighted: 0,
+        highlighted: Math.max(this.getActiveIndex(), 0),
       });
       this.listRef.current.focus();
     }
@@ -121,8 +132,17 @@ export default class Dropdown extends Component {
   };
 
   render() {
-    const { expanded, children, className, optionWrapperClassName, triggerClassName, ariaLabel, onExpandEvent, menu } =
-      this.props;
+    const {
+      expanded,
+      children,
+      className,
+      optionWrapperClassName,
+      triggerClassName,
+      ariaLabel,
+      onExpandEvent,
+      menu,
+      tooltip,
+    } = this.props;
 
     const { highlighted } = this.state;
     const options = children.slice(1, children.length);
@@ -135,27 +155,34 @@ export default class Dropdown extends Component {
       className
     );
 
+    const trigger = (
+      <Button
+        ref={this.buttonRef}
+        appearance="transparent"
+        aria-expanded={expanded}
+        aria-label={ariaLabel || 'Editor-dropdown'}
+        className={triggerClassName}
+        onClick={this.handleExpand}
+      >
+        {children[0]}
+        {!menu && <Icon name="keyboard_arrow_down" />}
+      </Button>
+    );
+
     return (
       <div className={DropdownWrapperClass}>
-        <Button
-          ref={this.buttonRef}
-          appearance="transparent"
-          aria-expanded={expanded}
-          aria-label={ariaLabel || 'Editor-dropdown'}
-          className={triggerClassName}
-          onClick={this.handleExpand}
-        >
-          {children[0]}
-          {!menu && <Icon name="keyboard_arrow_down" />}
-        </Button>
+        {tooltip ? <Tooltip tooltip={tooltip}>{trigger}</Tooltip> : trigger}
         {/* <a className={triggerClassName} onClick={onExpandEvent}>
           {children[0]}
           {!menu && <Icon name="keyboard_arrow_down" />}
         </a> */}
         {expanded && (
           <ul
-            tabIndex={1}
+            id={this.listId}
+            tabIndex={-1}
             role="listbox"
+            aria-label={ariaLabel || 'Editor-dropdown'}
+            aria-activedescendant={highlighted >= 0 ? this.getOptionId(highlighted) : undefined}
             ref={this.listRef}
             onKeyDown={this.handleListKeyDown}
             className={classNames('Editor-dropdown-optionWrapper', optionWrapperClassName)}
@@ -165,6 +192,7 @@ export default class Dropdown extends Component {
               const temp =
                 option &&
                 React.cloneElement(option, {
+                  id: this.getOptionId(index),
                   onSelect: this.onChange,
                   highlighted: highlighted === index,
                   setHighlighted: this.setHighlighted,

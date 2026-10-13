@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 export default class DropDownOption extends Component {
   static propTypes = {
+    id: PropTypes.string,
     children: PropTypes.any,
     value: PropTypes.any,
     onClick: PropTypes.func,
@@ -51,6 +52,7 @@ export default class DropDownOption extends Component {
 
   render() {
     const {
+      id,
       children,
       active,
       disabled,
@@ -74,7 +76,7 @@ export default class DropDownOption extends Component {
 
     return (
       <li
-        tabIndex={1}
+        id={id}
         role="option"
         aria-selected={active}
         className={OptionClass}
