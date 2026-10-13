@@ -1,6 +1,11 @@
 
 # Changelog
 
+# 13/10/2026 (3.0.11)
+
+- fix(dropdown): announce the active option, show a focus ring, and limit the tooltip to the trigger - #108
+- fix(link): remove invalid ARIA attributes from the link control wrapper - #108
+
 # 09/10/2026 (3.0.10)
 
 - fix(toolbar): mark related toolbar buttons up as lists - #107
