@@ -49,8 +49,17 @@
   outline: none;
 }
 
+.Editor-dropdown-option--highlight {
+  outline: var(--border-width-05, 2px) solid var(--primary-focus, #003e85);
+  outline-offset: calc(-1 * var(--border-width-05, 2px));
+}
+
 .Editor-dropdown-option--active {
   background-color: var(--primary) !important;
+}
+
+.Editor-dropdown-option--active.Editor-dropdown-option--highlight {
+  outline-color: var(--white, #ffffff);
 }
 
 .Editor-dropdown--keydown {

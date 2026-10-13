@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownOption } from '../../../components/Dropdown';
-import { Icon, Heading, Tooltip } from '@innovaccer/design-system';
+import { Icon, Heading } from '@innovaccer/design-system';
 
 class LayoutComponent extends Component {
   static propTypes = {
@@ -63,30 +63,29 @@ class LayoutComponent extends Component {
 
     return (
       <div className={className} aria-label="Editor-block-control">
-        <Tooltip tooltip="Text style">
-          <Dropdown
-            onChange={onChange}
-            expanded={expanded}
-            doExpand={doExpand}
-            doCollapse={doCollapse}
-            onExpandEvent={onExpandEvent}
-            triggerClassName={'Editor-heading-trigger'}
-            ariaLabel={ariaLabel}
-          >
-            <Icon name={icon} size={20} />
-            {blocks.map((block, index) => (
-              <DropdownOption index={index} active={blockType === block.label} value={block.label} key={index}>
-                <Heading
-                  size={block.size}
-                  className="Editor-heading-option"
-                  appearance={blockType === block.label ? 'white' : 'default'}
-                >
-                  {block.displayName}
-                </Heading>
-              </DropdownOption>
-            ))}
-          </Dropdown>
-        </Tooltip>
+        <Dropdown
+          onChange={onChange}
+          expanded={expanded}
+          doExpand={doExpand}
+          doCollapse={doCollapse}
+          onExpandEvent={onExpandEvent}
+          triggerClassName={'Editor-heading-trigger'}
+          ariaLabel={ariaLabel}
+          tooltip="Text style"
+        >
+          <Icon name={icon} size={20} />
+          {blocks.map((block, index) => (
+            <DropdownOption index={index} active={blockType === block.label} value={block.label} key={index}>
+              <Heading
+                size={block.size}
+                className="Editor-heading-option"
+                appearance={blockType === block.label ? 'white' : 'default'}
+              >
+                {block.displayName}
+              </Heading>
+            </DropdownOption>
+          ))}
+        </Dropdown>
       </div>
     );
   }
