@@ -57,12 +57,12 @@
   text-align: right;
 }
 .public-DraftEditorPlaceholder-root {
-  color: #9197a3;
+  color: var(--text-subtle, #636363);
   position: absolute;
   z-index: 0;
 }
 .public-DraftEditorPlaceholder-hasFocus {
-  color: #bdc1c9;
+  color: var(--text-subtle, #636363);
 }
 .DraftEditorPlaceholder-hidden {
   display: none;
