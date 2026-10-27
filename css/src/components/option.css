@@ -17,7 +17,7 @@
 
 .Editor-option:focus-visible {
   outline: var(--border-width-05, 2px) solid var(--primary-focus, #003e85);
-  outline-offset: calc(-1 * var(--border-width-05, 2px));
+  outline-offset: var(--spacing-05, 2px);
 }
 
 .Editor-option--active {
