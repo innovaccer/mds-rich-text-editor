@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 28/10/2026 (3.0.12)
+
+- fix(toolbar): show a visible focus ring on the toolbar options 
+
 # 13/10/2026 (3.0.11)
 
 - fix(dropdown): announce the active option, show a focus ring, and limit the tooltip to the trigger - #108
