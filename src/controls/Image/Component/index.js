@@ -224,6 +224,7 @@ class LayoutComponent extends Component {
               ref={this.inputRef}
               type="file"
               id="file"
+              tabIndex={-1}
               accept={inputAccept}
               onChange={this.selectImage}
               className="Editor-insert-imageInput"
