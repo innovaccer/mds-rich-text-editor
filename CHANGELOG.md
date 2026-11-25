@@ -1,6 +1,10 @@
 
 # Changelog
 
+# 25/11/2026 (3.0.13)
+
+- fix(toolbar): name the text decoration buttons with their tooltip text
+
 # 28/10/2026 (3.0.12)
 
 - fix(toolbar): show a visible focus ring on the toolbar options 
