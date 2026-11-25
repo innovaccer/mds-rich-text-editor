@@ -74,12 +74,13 @@ export default class TextDecoration extends Component {
         {config.options.slice(0, visibleOptions).map((style, index) => {
           const active = currentState[style] === true || (style === 'MONOSPACE' && currentState.CODE);
           const { title, icon } = config[style];
+          const baseLabel = title || style;
 
           return (
             <div role="listitem" className="d-flex" key={index}>
               <Tooltip tooltip={title}>
                 <Option
-                  aria-label={toolbarContext ? `${style} button ${toolbarContext}` : `${style} button`}
+                  aria-label={toolbarContext ? `${baseLabel} ${toolbarContext}` : baseLabel}
                   role="button"
                   tabIndex={0}
                   value={style}
